@@ -1,0 +1,200 @@
+{
+  "header": {
+    "logo": "SAIGONTOURIST",
+    "tagline": "Công ty du lịch hàng đầu",
+    "phone": "1900 1808 (từ 8:00 - 22:00)",
+    "email": "Mail to: info@saigontourist.net",
+    "language": "Chọn điểm khởi hành",
+    "contact": "Liên hệ",
+    "navigation": {
+      "travel": "Du lịch",
+      "services": "Dịch vụ",
+      "promotion": "Thuê xe",
+      "study": "Du học",
+      "work": "Việc làm ngoài nước",
+      "favorite": "Tour theo yêu cầu"
+    }
+  },
+  "hero": {
+    "searchPlaceholder": "Tìm theo điểm đến hoặt động",
+    "searchButton": "Tìm kiếm"
+  },
+  "specialTours": {
+    "title": "CHÚM TOUR SỰ KIỆN ĐẶC BIỆT",
+    "tours": [
+      "TOUR ĐÔNG GIÁ THU ĐÔNG",
+      "TOUR TẾT NGUYÊN ĐÁN 2026",
+      "TOUR TẾT DƯƠNG LỊCH 2026",
+      "TOUR VIỆT KIỀU"
+    ]
+  },
+  "popularTours": {
+    "title": "CHÚM TOUR ƯU ĐÃI",
+    "domestic": "Tour trong nước",
+    "international": "Tour nước ngoài",
+    "tours": {
+      "domestic": [
+        {
+          "title": "NHA TRANG XƯA – LĂNG YÊN MAI SINH – ĐỐC LẾT – 1 RESORT",
+          "location": "Xuất phát: TP Hồ Chí Minh",
+          "date": "Ngày khởi hành: 06/12/2025",
+          "duration": "Thời gian: 4 ngày 3 đêm",
+          "transport": "Phương tiện di chuyển: Đường bộ",
+          "price": "3.990.000 đ",
+          "badge": "Khả hãnh thứ 7 hàng tuần",
+          "viewDetails": "Xem chi tiết"
+        },
+        {
+          "title": "BUÔN MA THUỘT - BUÔN ĐÔN - PLEIKU - KONTUM MĂNG DEN - ĐÀ LẠT",
+          "location": "Xuất phát: TP Hồ Chí Minh",
+          "date": "Ngày khởi hành: 17/12/2025",
+          "duration": "Thời gian: 5 ngày 4 đêm",
+          "transport": "Phương tiện di chuyển: Đường bộ",
+          "price": "5.979.000 đ",
+          "viewDetails": "Xem chi tiết"
+        },
+        {
+          "title": "HẢ GIANG - ĐỒNG VĂN - SÔNG NHO QUÉ - CAO BANG - BAN GIỐC - NÔNG LÂM",
+          "location": "Xuất phát: TP Hồ Chí Minh",
+          "date": "Ngày khởi hành: 14/01/2026",
+          "duration": "Thời gian: 5 ngày 4 đêm",
+          "transport": "Phương tiện di chuyển: Đường hàng không",
+          "airline": "Hãng hàng không: Vietnam Airlines",
+          "price": "11.179.000 đ",
+          "viewDetails": "Xem chi tiết"
+        }
+      ],
+      "international": [
+        {
+          "title": "ĐÀI LOAN (Cao Hùng - Đài Trung - Đài Bắc)",
+          "location": "Xuất phát: TP Hồ Chí Minh",
+          "date": "Ngày khởi hành: 10/12/2025",
+          "duration": "Thời gian: 5 ngày 4 đêm",
+          "transport": "Phương tiện di chuyển: Đường hàng không",
+          "airline": "Hãng hàng không: Vietnam Airlines",
+          "price": "13.999.000 đ",
+          "specialPrice": "ĐỘNG GIÁ 13.999.000/KHÁCH",
+          "viewDetails": "Xem chi tiết"
+        },
+        {
+          "title": "TRUNG QUỐC (Côn Minh - Đại Lý - Lệ Giang)",
+          "location": "Xuất phát: Đà Nẵng",
+          "date": "Ngày khởi hành: 12/12/2025",
+          "duration": "Thời gian: 7 ngày 6 đêm",
+          "transport": "Phương tiện di chuyển: Đường hàng không",
+          "airline": "Hãng hàng không: Bamboo Airways",
+          "price": "16.699.000 đ",
+          "originalPrice": "18.999.000 đ",
+          "badge": "TOUR CHARTER",
+          "viewDetails": "Xem chi tiết"
+        },
+        {
+          "title": "TRUNG QUỐC (Cáp Nhĩ Tân - Lạng Tuyết Hướng - Trường Xuân)",
+          "location": "Xuất phát: TP Hồ Chí Minh",
+          "date": "Ngày khởi hành: 31/12/2025",
+          "duration": "Thời gian: 6 ngày 5 đêm",
+          "transport": "Phương tiện di chuyển: Đường hàng không",
+          "airline": "Hãng hàng không: China Southern Airlines",
+          "price": "42.999.000 đ",
+          "viewDetails": "Xem chi tiết"
+        }
+      ]
+    }
+  },
+  "destinations": {
+    "title": "ĐIỂM DU LỊCH HẤP DẪN",
+    "description": "Saigontourist luôn có những sản phẩm đến các điểm du lịch hấp dẫn trải dài khắp chiều dài đất nước. Du khách có thể chọn một điểm đến du lịch hấp dẫn để khám phá và trải nghiệm với mức giá vô cùng hợp lý.",
+    "tabs": {
+      "domestic": "Điểm đến trong nước",
+      "international": "Điểm đến ngoài nước"
+    },
+    "regions": [
+      "Miền Bắc",
+      "Miền Trung",
+      "Tây Nguyên",
+      "Miền Đông Nam Bộ",
+      "Miền Tây Nam Bộ"
+    ],
+    "places": [
+      { "name": "Hà Nội", "image": "hanoi.jpg" },
+      { "name": "Hạ Long", "image": "halong.jpg" },
+      { "name": "Sa Pa", "image": "sapa.jpg" },
+      { "name": "Cao Bằng", "image": "caobang.jpg" },
+      { "name": "Ninh Bình", "image": "ninhbinh.jpg" },
+      { "name": "Hạ Giang", "image": "hagiang.jpg" },
+      { "name": "Mộc Châu", "image": "mocchau.jpg" },
+      { "name": "Điện Biên", "image": "dienbien.jpg" }
+    ]
+  },
+  "footer": {
+    "awards": [
+      "Thương Hiệu Quốc gia (Từ Năm 2008)",
+      "Thương Hiệu Lữ Hành Hàng Đầu Việt Nam",
+      "Travelife Partner - Sustainability In Tourism"
+    ],
+    "email": "Email: info@saigontourist.net",
+    "services": {
+      "title": "DỊCH VỤ",
+      "items": [
+        "Tour trong nước",
+        "Tour nước ngoài",
+        "Dịch vụ du lịch",
+        "Vé máy bay",
+        "Travel Voucher",
+        "Bảo hiểm Du lịch",
+        "Thuê xe",
+        "Du học",
+        "Việc làm ngoài nước"
+      ]
+    },
+    "customerCare": {
+      "title": "CHĂM SÓC KHÁCH HÀNG",
+      "items": [
+        "Thẻ khách hàng",
+        "Đối tác Hoa Mai Vàng",
+        "Tra cứu thông tin Đoàn",
+        "Giải quyết khiếu nại"
+      ]
+    },
+    "aboutUs": {
+      "title": "LỮ HÀNH SAIGONTOURIST",
+      "items": [
+        "Giới thiệu",
+        "Liên hệ",
+        "Tuyển dụng",
+        "Bản tin"
+      ]
+    },
+    "policies": {
+      "title": "QUY ĐỊNH",
+      "items": [
+        "Quy định bảo vệ",
+        "Điều khoản chung",
+        "Hướng dẫn mua tour online",
+        "Quy định thanh toán",
+        "Chính sách giao nhận",
+        "Chính sách hủy phát",
+        "Chính sách bảo mật",
+        "Chính sách chất lượng"
+      ]
+    },
+    "company": {
+      "name": "Công ty TNHH MTV Dịch vụ Lữ hành Saigontourist (Saigontourist Travel) - trực thuộc Tổng Công ty Du lịch Sài Gòn (Saigontourist Group)",
+      "address": "45 Lê Thánh Tôn, Phường Sài Gòn, Thành phố Hồ Chí Minh.",
+      "phone": "ĐT: (84-28) 38 279 279 - Fax: (84-28) 38 254 987.",
+      "businessLicense": "Số đăng ký kinh doanh: 0310891532 do Sở kế hoạch & Đầu tư TP.HCM cấp lần thứ 12, ngày 26/12/2023",
+      "tourLicense": "Giấy phép kinh doanh Dịch vụ Lữ hành Quốc tế: 79-2006/2018 / TCDL-GP-LHQT",
+      "representative": "Người đại diện Ông Nguyễn Thành Lưu.",
+      "copyright": "© Ghi rõ nguồn \"SAIGONTOURIST.NET\" khi sử dụng lại thông tin từ website này.",
+      "hotline": "Tư vấn & đặt dịch vụ: 1900 1808",
+      "website": "Website SAIGONTOURIST.NET đã được đăng ký với Bộ Công Thương"
+    }
+  },
+  "common": {
+    "viewDetails": "Xem chi tiết",
+    "search": "Tìm kiếm",
+    "currency": "đ",
+    "days": "ngày",
+    "nights": "đêm"
+  }
+}
