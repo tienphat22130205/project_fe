@@ -1,5 +1,4 @@
 import React from 'react';
-import './SpecialTours.css';
 import viTexts from '../../locales/vi.json';
 import { FaSnowflake, FaGift, FaPlane, FaStar } from 'react-icons/fa';
 import { GiMountains } from 'react-icons/gi';
@@ -15,19 +14,22 @@ const SpecialTours: React.FC = () => {
     }
   };
 
+  const iconColors = ['text-blue-500', 'text-red-500', 'text-yellow-500', 'text-green-500'];
+  const bgColors = ['bg-blue-50', 'bg-red-50', 'bg-yellow-50', 'bg-green-50'];
+
   return (
-    <section className="special-tours">
-      <div className="container">
-        <h2 className="section-title">{viTexts.specialTours.title}</h2>
-        <div className="tours-grid">
+    <section className="py-12 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">{viTexts.specialTours.title}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {viTexts.specialTours.tours.map((tour, index) => (
-            <div key={index} className="tour-card">
-              <div className="tour-icon">
-                <div className={`icon icon-${['winter', 'tet', 'new-year', 'overseas'][index]}`}>
+            <div key={index} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer p-6 text-center">
+              <div className="flex justify-center mb-4">
+                <div className={`${bgColors[index]} ${iconColors[index]} text-4xl p-4 rounded-full`}>
                   {getIcon(index)}
                 </div>
               </div>
-              <h3 className="tour-title">{tour}</h3>
+              <h3 className="text-sm md:text-base font-semibold text-gray-700">{tour}</h3>
             </div>
           ))}
         </div>

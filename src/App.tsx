@@ -4,11 +4,10 @@ import SpecialTours from './components/SpecialTours'
 import PopularTours from './components/PopularTours'
 import Destinations from './components/Destinations'
 import Footer from './components/Footer'
-import './App.css'
 
 function App() {
   return (
-    <div className="App">
+    <div className="min-h-screen bg-gray-50">
       <Header />
       <HeroBanner />
       <SpecialTours />
