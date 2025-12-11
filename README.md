@@ -1,6 +1,70 @@
 # Saigontourist - Tour Travel Website
 
-Một trang web thương mại điện tử về tour du lịch được xây dựng bằng React TypeScript, được thiết kế dựa trên giao diện của Saigontourist.
+Một trang web thương mại điện tử về tour du lịch được xây dựng bằng React TypeScript với Tailwind CSS.
+
+## 📁 Cấu trúc Project
+
+```
+src/
+├── app/                      # Application routes
+│   └── (main)/              # Main route group
+│       └── [lang]/          # Language-based routing (i18n ready)
+│           ├── layout.tsx   # Root layout (Header + Footer wrapper)
+│           ├── page.tsx     # Home page (composition only)
+│           ├── about/       # About page route
+│           │   └── page.tsx
+│           └── tours/       # Tours page route
+│               └── page.tsx
+├── features/                # Business logic & UI components
+│   ├── Header/             # Header feature component
+│   ├── Footer/             # Footer feature component
+│   ├── HeroBanner/         # Hero banner feature
+│   ├── SpecialTours/       # Special tours feature
+│   ├── PopularTours/       # Popular tours feature
+│   ├── Destinations/       # Destinations feature
+│   └── index.ts            # Barrel exports
+├── assets/                  # Static assets
+│   └── locales/            # Internationalization
+│       └── vi.json         # Vietnamese translations
+├── types/                   # TypeScript type definitions
+│   └── index.ts            # Common interfaces & types
+├── utils/                   # Utility functions
+│   └── index.ts            # Helper functions
+├── hooks/                   # Custom React hooks (future)
+├── integrations/            # Third-party integrations (future)
+├── App.tsx                 # Root app component
+├── main.tsx                # Entry point
+└── index.css               # Global Tailwind styles
+```
+
+## 🏗️ Architecture Pattern
+
+### Page-Feature Separation
+- **Pages** (`app/[lang]/**/page.tsx`): Chỉ import và compose components từ features
+- **Features** (`features/`): Chứa toàn bộ business logic và UI components
+- **Layouts** (`app/**/layout.tsx`): Shared layouts cho các routes
+
+### Example Structure:
+```tsx
+// Page - chỉ composition
+import { HeroBanner, SpecialTours } from '../../../../features';
+
+export default function HomePage() {
+  return (
+    <>
+      <HeroBanner />
+      <SpecialTours />
+    </>
+  );
+}
+
+// Feature - full logic & UI
+export default function HeroBanner() {
+  const [search, setSearch] = useState('');
+  // ... business logic
+  return <section>...</section>;
+}
+```
 
 ## 🌟 Tính năng
 
