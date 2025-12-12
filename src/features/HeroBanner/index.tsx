@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import viTexts from '../../assets/locales/vi.json';
-import { FaSearch, FaCalendarAlt, FaUser, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaSearch, FaCalendarAlt, FaUser, FaChevronLeft, FaChevronRight, FaPlane, FaStar } from 'react-icons/fa';
 
 const HeroBanner: React.FC = () => {
   // Slide carousel state
@@ -200,10 +200,40 @@ const HeroBanner: React.FC = () => {
       
       <div className="relative container mx-auto px-4 z-20">
         <div className="max-w-6xl mx-auto ml-0 md:ml-8 lg:ml-16">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold text-left mb-3 drop-shadow-2xl">
-            Khám phá vẻ đẹp Việt Nam
-          </h1>
-          <p className="text-white text-base md:text-lg mb-6 text-left drop-shadow-lg">
+          <div className="mb-8">
+            {/* Main Heading - Simple and Elegant */}
+            <h1 
+              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white text-left leading-tight mb-4"
+              style={{ 
+                fontFamily: 'Montserrat, Poppins, sans-serif',
+                letterSpacing: '0.02em',
+                textShadow: '2px 4px 12px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.5)'
+              }}
+            >
+              Easy Trip
+            </h1>
+            
+            {/* Subtitle - Clean and Readable */}
+            <p 
+              className="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-3 flex items-center gap-3"
+              style={{ 
+                fontFamily: 'Quicksand, sans-serif',
+                textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
+              }}
+            >
+              <FaPlane className="text-white" />
+              Đồng hành cùng bạn trên mọi chuyến
+            </p>
+          </div>
+          
+          <p 
+            className="text-white/95 text-base md:text-lg font-normal mb-6 flex items-center gap-2"
+            style={{ 
+              fontFamily: 'Inter, sans-serif',
+              textShadow: '1px 1px 4px rgba(0,0,0,0.7)'
+            }}
+          >
+            <FaStar className="text-yellow-400" />
             Combo khách sạn - vé máy bay - đưa đón sân bay giá tốt nhất
           </p>
           

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUser, FaPhone, FaSearch, FaEnvelope, FaGlobe, FaChevronDown, FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import { MdFlight } from 'react-icons/md';
+import Login from '../Login';
+import Register from '../Register';
 
 interface TravelDestination {
   id: number;
@@ -13,6 +15,8 @@ const Header: React.FC = () => {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showTravelMenu, setShowTravelMenu] = useState(false);
   const [showServicesMenu, setShowServicesMenu] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'domestic' | 'international' | 'types'>('international');
   const [domesticDestinations, setDomesticDestinations] = useState<TravelDestination[]>([]);
   const [internationalDestinations, setInternationalDestinations] = useState<Record<string, string[]>>({});
@@ -362,14 +366,26 @@ const Header: React.FC = () => {
               {/* Account Dropdown */}
               {showAccountMenu && (
                 <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
-                  <button className="w-full px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-600 transition-all mb-2 focus:outline-none">
+                  <button 
+                    onClick={() => {
+                      setShowRegisterModal(true);
+                      setShowAccountMenu(false);
+                    }}
+                    className="w-full px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-600 transition-all mb-2 focus:outline-none"
+                  >
                     Đăng ký
                   </button>
                   <div className="px-4 py-2 text-sm text-gray-600 border-t border-gray-100">
                     <span>Quý khách đã có tài khoản?</span>
-                    <a href="#login" className="text-blue-500 hover:text-blue-600 font-medium ml-1">
+                    <button 
+                      onClick={() => {
+                        setShowLoginModal(true);
+                        setShowAccountMenu(false);
+                      }}
+                      className="text-blue-500 hover:text-blue-600 font-medium ml-1 focus:outline-none"
+                    >
                       Đăng nhập ngay
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -377,6 +393,28 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Login Modal */}
+      {showLoginModal && (
+        <Login 
+          onClose={() => setShowLoginModal(false)} 
+          onSwitchToRegister={() => {
+            setShowLoginModal(false);
+            setShowRegisterModal(true);
+          }}
+        />
+      )}
+      
+      {/* Register Modal */}
+      {showRegisterModal && (
+        <Register 
+          onClose={() => setShowRegisterModal(false)} 
+          onSwitchToLogin={() => {
+            setShowRegisterModal(false);
+            setShowLoginModal(true);
+          }}
+        />
+      )}
     </header>
   );
 };
