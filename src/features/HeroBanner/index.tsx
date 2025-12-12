@@ -114,7 +114,7 @@ const HeroBanner: React.FC = () => {
               }
             }}
             disabled={!!(isPast || isDisabled)}
-            className={`h-10 flex items-center justify-center rounded-lg font-medium transition-all
+            className={`h-10 flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none
               ${isDepart ? 'bg-blue-500 text-white font-bold' : ''}
               ${isReturn ? 'bg-blue-500 text-white font-bold' : ''}
               ${isBetween ? 'bg-blue-100' : ''}
@@ -151,7 +151,7 @@ const HeroBanner: React.FC = () => {
   const nightCount = getDaysBetween();
 
   return (
-    <section className="relative w-full pt-16 md:pt-24 lg:pt-32 pb-96 md:pb-[500px] overflow-visible">
+    <section className="relative w-full min-h-[66vh] py-12 md:py-20 lg:py-24 flex items-center overflow-visible">
       {/* Slide Images */}
       {slides.map((slide, index) => (
         <div
@@ -169,7 +169,7 @@ const HeroBanner: React.FC = () => {
       {/* Previous Button */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
         aria-label="Previous slide"
       >
         <FaChevronLeft className="text-2xl" />
@@ -178,7 +178,7 @@ const HeroBanner: React.FC = () => {
       {/* Next Button */}
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
         aria-label="Next slide"
       >
         <FaChevronRight className="text-2xl" />
@@ -190,7 +190,7 @@ const HeroBanner: React.FC = () => {
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-3 h-3 rounded-full transition-all focus:outline-none ${
               index === currentSlide ? 'bg-white w-8' : 'bg-white/50'
             }`}
             aria-label={`Go to slide ${index + 1}`}
@@ -200,14 +200,14 @@ const HeroBanner: React.FC = () => {
       
       <div className="relative container mx-auto px-4 z-20">
         <div className="max-w-6xl mx-auto ml-0 md:ml-8 lg:ml-16">
-          <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-bold text-left mb-4 drop-shadow-2xl">
+          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold text-left mb-3 drop-shadow-2xl">
             Khám phá vẻ đẹp Việt Nam
           </h1>
-          <p className="text-white text-lg md:text-xl mb-6 text-left drop-shadow-lg">
+          <p className="text-white text-base md:text-lg mb-6 text-left drop-shadow-lg">
             Combo khách sạn - vé máy bay - đưa đón sân bay giá tốt nhất
           </p>
           
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 mb-8">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
             {/* Search Input Row */}
             <div className="mb-4 relative">
               <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
@@ -229,7 +229,7 @@ const HeroBanner: React.FC = () => {
                       setShowDatePicker(true);
                       setSelectingDepart(true);
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left
+                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left focus:outline-none
                       ${selectingDepart && showDatePicker ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'}
                     `}
                   >
@@ -258,7 +258,7 @@ const HeroBanner: React.FC = () => {
                         setSelectingDepart(false);
                       }
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left
+                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left focus:outline-none
                       ${!selectingDepart && showDatePicker ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'}
                       ${!departDate ? 'opacity-50 cursor-not-allowed' : ''}
                     `}
@@ -289,7 +289,7 @@ const HeroBanner: React.FC = () => {
                     <div className="mt-4 flex justify-between items-center pt-4 border-t">
                       <button 
                         onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                        className="text-orange-500 hover:text-orange-600 font-semibold"
+                        className="text-orange-500 hover:text-orange-600 font-semibold focus:outline-none"
                       >
                         ← Tháng trước
                       </button>
@@ -298,13 +298,13 @@ const HeroBanner: React.FC = () => {
                           setShowDatePicker(false);
                           setSelectingDepart(true);
                         }}
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold"
+                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold focus:outline-none"
                       >
                         Đóng
                       </button>
                       <button 
                         onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                        className="text-orange-500 hover:text-orange-600 font-semibold"
+                        className="text-orange-500 hover:text-orange-600 font-semibold focus:outline-none"
                       >
                         Tháng sau →
                       </button>
@@ -317,7 +317,7 @@ const HeroBanner: React.FC = () => {
               <div className="md:col-span-3 relative">
                 <button 
                   onClick={() => setShowGuestPicker(!showGuestPicker)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-left hover:border-orange-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-left hover:border-orange-500 transition-all focus:outline-none"
                 >
                   <div className="text-xs text-gray-500 mb-1">1 Phòng</div>
                   <div className="flex items-center gap-2">
@@ -338,14 +338,14 @@ const HeroBanner: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <button 
                             onClick={() => setAdults(Math.max(1, adults - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
                           >
                             −
                           </button>
                           <span className="w-8 text-center font-semibold">{adults}</span>
                           <button 
                             onClick={() => setAdults(adults + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
                           >
                             +
                           </button>
@@ -361,14 +361,14 @@ const HeroBanner: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <button 
                             onClick={() => setChildren(Math.max(0, children - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
                           >
                             −
                           </button>
                           <span className="w-8 text-center font-semibold">{children}</span>
                           <button 
                             onClick={() => setChildren(children + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
                           >
                             +
                           </button>
@@ -381,7 +381,7 @@ const HeroBanner: React.FC = () => {
 
               {/* Search Button */}
               <div className="md:col-span-2">
-                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
+                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none">
                   <FaSearch className="text-xl" /> Tìm
                 </button>
               </div>

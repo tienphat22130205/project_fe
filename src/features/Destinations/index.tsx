@@ -14,7 +14,7 @@ const Destinations: React.FC = () => {
         {/* Tabs */}
         <div className="flex justify-center gap-4 mb-6">
           <button 
-            className={`px-6 py-2 rounded-full font-semibold transition-all ${
+            className={`px-6 py-2 rounded-full font-semibold transition-all focus:outline-none ${
               activeTab === 'domestic' 
                 ? 'bg-blue-500 text-white shadow-md' 
                 : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -24,7 +24,7 @@ const Destinations: React.FC = () => {
             {viTexts.destinations.tabs.domestic}
           </button>
           <button 
-            className={`px-6 py-2 rounded-full font-semibold transition-all ${
+            className={`px-6 py-2 rounded-full font-semibold transition-all focus:outline-none ${
               activeTab === 'international' 
                 ? 'bg-blue-500 text-white shadow-md' 
                 : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -42,7 +42,7 @@ const Destinations: React.FC = () => {
               {viTexts.destinations.regions.map((region: string, index: number) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none ${
                     activeRegion === index 
                       ? 'bg-orange-500 text-white shadow-md' 
                       : 'bg-white text-gray-700 hover:bg-orange-50'
