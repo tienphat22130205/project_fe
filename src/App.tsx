@@ -7,6 +7,7 @@ import CarRentalPage from './app/(main)/[lang]/thue-xe/page';
 import StudyAbroadPage from './app/(main)/[lang]/du-hoc/page';
 import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
+import DestinationPage from './app/(main)/[lang]/travel/domestic/[destination]/page';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/travel" element={<TravelPage />} />
+        <Route path="/travel/domestic/:destination" element={<DestinationPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/car-rental" element={<CarRentalPage />} />
         <Route path="/study-abroad" element={<StudyAbroadPage />} />

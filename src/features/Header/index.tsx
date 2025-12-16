@@ -176,17 +176,16 @@ const Header: React.FC = () => {
               onMouseEnter={handleTravelMouseEnter}
               onMouseLeave={handleTravelMouseLeave}
             >
-              <Link 
-                to="/travel" 
+              <div 
                 className="flex items-center gap-1 text-blue-600 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none"
               >
                 Du lịch
                 <FaChevronDown className="text-xs" />
-              </Link>
+              </div>
               
               {/* Travel Dropdown */}
               {showTravelMenu && (
-                <div className="absolute top-full left-[-200px] mt-2 bg-white rounded-lg shadow-2xl border border-gray-100 z-50 w-[1400px] min-h-[500px] overflow-hidden transition-all duration-300">
+                <div className="fixed left-1/2 -translate-x-1/2 top-[120px] bg-white rounded-lg shadow-2xl border border-gray-100 z-50 w-[1200px] max-w-[90vw] min-h-[500px] overflow-hidden transition-all duration-300">
                   <div className="flex">
                     {/* Left sidebar */}
                     <div className="w-60 bg-blue-600 text-white p-5 min-h-[500px]">
