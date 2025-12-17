@@ -3,9 +3,12 @@ import { FaPhone, FaEnvelope, FaCheck, FaStar } from 'react-icons/fa';
 
 interface SidebarProps {
   price: number;
+  tourCode?: string;
+  rating?: number;
+  ratingsQuantity?: number;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ price }) => {
+const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuantity }) => {
   return (
     <div className="space-y-4">
       {/* Giá */}
@@ -14,6 +17,18 @@ const Sidebar: React.FC<SidebarProps> = ({ price }) => {
         <div className="text-3xl font-bold text-red-600">
           {price.toLocaleString('vi-VN')} đ
         </div>
+        {tourCode && (
+          <div className="text-sm text-gray-500 mt-2">Mã tour: {tourCode}</div>
+        )}
+        {rating && ratingsQuantity && (
+          <div className="flex items-center gap-2 mt-3">
+            <div className="flex items-center">
+              <FaStar className="text-yellow-400" size={16} />
+              <span className="ml-1 font-semibold">{rating}</span>
+            </div>
+            <span className="text-gray-500 text-sm">({ratingsQuantity} đánh giá)</span>
+          </div>
+        )}
       </div>
 
       {/* Hỗ trợ đặt tour */}
