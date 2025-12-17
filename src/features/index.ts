@@ -3,8 +3,14 @@ export { default as Footer } from './Footer';
 export { default as HeroBanner } from './HeroBanner';
 export { default as SpecialTours } from './SpecialTours';
 export { default as PopularTours } from './PopularTours';
-export { default as Destinations } from './Destinations';
 export { default as CarRental } from './CarRental';
-export { default as HaNoiDetail } from './HaNoiDetail';
-export { default as HaLongDetail } from './HaLongDetail';
-export { default as ThaiLanDetail } from './ThaiLanDetail';
+
+// DestinationsHome - imported separately to avoid naming conflicts
+import DestinationsHomeComponent from './DestinationsHome';
+export { DestinationsHomeComponent as Destinations };
+
+// Destination Details
+export { default as HaNoiDetail } from './DestinationDetails/Domestic/HaNoi';
+export { default as HaLongDetail } from './DestinationDetails/Domestic/HaLong';
+export { default as ThaiLanDetail } from './DestinationDetails/International/ThaiLan';
+

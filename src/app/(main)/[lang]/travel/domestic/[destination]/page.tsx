@@ -13,7 +13,7 @@ export default function DestinationPage() {
     case 'ha-long':
       return <HaLongDetail />;
     default:
-      // Temporary fallback for other destinations
+      // Temporary fallback
       return <HaNoiDetail />;
   }
 }

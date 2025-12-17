@@ -1,7 +1,4 @@
-import HeroBanner from '../../../features/HeroBanner';
-import SpecialTours from '../../../features/SpecialTours';
-import PopularTours from '../../../features/PopularTours';
-import Destinations from '../../../features/Destinations';
+import { HeroBanner, SpecialTours, PopularTours, Destinations } from '@/features';
 
 export default function HomePage() {
   return (
