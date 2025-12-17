@@ -408,10 +408,6 @@ const Header: React.FC = () => {
             <Link to="/work-abroad" onClick={(e) => handleLinkClick(e, '/work-abroad')} className="text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none">
               Việc làm ngoài nước
             </Link>
-            <Link to="/custom-tour" onClick={(e) => handleLinkClick(e, '/custom-tour')} className="flex items-center gap-1 text-orange-500 hover:text-orange-600 transition-colors font-medium cursor-pointer focus:outline-none">
-              <span>🎁</span>
-              <span>Tour theo yêu cầu</span>
-            </Link>
           </nav>
 
           {/* Right Section */}
