@@ -5,4 +5,6 @@ export { default as SpecialTours } from './SpecialTours';
 export { default as PopularTours } from './PopularTours';
 export { default as Destinations } from './Destinations';
 export { default as CarRental } from './CarRental';
-export { default as DestinationDetail } from './DestinationDetail';
+export { default as HaNoiDetail } from './HaNoiDetail';
+export { default as HaLongDetail } from './HaLongDetail';
+export { default as ThaiLanDetail } from './ThaiLanDetail';

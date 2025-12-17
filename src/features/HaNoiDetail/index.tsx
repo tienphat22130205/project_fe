@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FaSearch, FaCalendarAlt, FaStar, FaMapMarkerAlt, FaClock, FaPlane, FaTag, FaPercent, FaGift } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaSearch, FaCalendarAlt, FaStar, FaMapMarkerAlt, FaClock, FaPlane, FaPercent, FaGift } from 'react-icons/fa';
 import { MdCategory } from 'react-icons/md';
 
 interface Tour {
@@ -29,16 +29,41 @@ interface Service {
   image: string;
 }
 
-const DestinationDetail = () => {
-  const { destination } = useParams<{ destination: string }>();
-  const [searchDestination, setSearchDestination] = useState(destination || '');
+const HaNoiDetail = () => {
+  const [searchDestination, setSearchDestination] = useState('Hà Nội');
   const [searchDate, setSearchDate] = useState('');
 
-  // Mock data cho tours
+  // Tours đặc trưng của Hà Nội
   const tours: Tour[] = [
     {
       id: 1,
-      title: 'TẾT BÍNH NGỌ 2026: HÀ NỘI – NINH BÌNH – TRÀNG AN – HẠ LONG – SAPA – FANSIPAN – LÀO CAI',
+      title: 'HÀ NỘI – HẠ LONG – YÊN TỬ – CHÙA BA VÀNG',
+      code: 'STN084-2025-03301',
+      region: 'Miền Bắc, Hà Nội, Hạ Long',
+      departure: 'TP Hồ Chí Minh',
+      departureDate: '20/12/2025',
+      duration: '4 ngày 3 đêm',
+      transport: 'Đường Hàng Không - Vietnam Airlines',
+      price: 11590000,
+      image: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=500&h=300&fit=crop',
+      category: 'Tour định kỳ (Regular tour)'
+    },
+    {
+      id: 2,
+      title: 'HÀ NỘI - SAPA - FANSIPAN - BẢN CÁT CÁT - THÁC TÌNH YÊU',
+      code: 'STN084-2025-03302',
+      region: 'Miền Bắc, Hà Nội, Sa Pa, Lào Cai',
+      departure: 'TP Hồ Chí Minh',
+      departureDate: '22/12/2025',
+      duration: '3 ngày 2 đêm',
+      transport: 'Đường Hàng Không - Vietjet Air',
+      price: 7890000,
+      image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500&h=300&fit=crop',
+      category: 'Tour định kỳ (Regular tour)'
+    },
+    {
+      id: 3,
+      title: 'TẾT BÍNH NGỌ 2026: HÀ NỘI – NINH BÌNH – TRÀNG AN – HẠ LONG – SAPA – FANSIPAN',
       code: 'STN084-2026-01010',
       region: 'Miền Bắc, Hà Nội, Hạ Long, Sa Pa, Ninh Bình',
       departure: 'TP Hồ Chí Minh',
@@ -46,64 +71,11 @@ const DestinationDetail = () => {
       duration: '6 ngày 5 đêm',
       transport: 'Đường Hàng Không - Vietnam Airlines',
       price: 17279000,
-      image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500&h=300&fit=crop',
+      image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=500&h=300&fit=crop',
       category: 'Chùm tour sự kiện, Tour Tết Âm Lịch 2026'
     },
     {
-      id: 2,
-      title: 'HÀ NỘI - YÊN TỬ - DU THUYỀN CAO CẤP HẠ LONG - QUẢNG YÊN',
-      code: 'STN084-2026-00142',
-      region: 'Miền Bắc, Hà Nội, Hạ Long',
-      departure: 'TP Hồ Chí Minh',
-      departureDate: '03/01/2026',
-      duration: '4 ngày 3 đêm',
-      transport: 'Đường Hàng Không - Vietnam Airlines',
-      price: 13379000,
-      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=500&h=300&fit=crop',
-      category: 'Tour định kỳ (Regular tour)'
-    },
-    {
-      id: 3,
-      title: 'HÀ NỘI - NINH BÌNH - TRÀNG AN - BÁI ĐÍNH - HẠ LONG - SAPA - FANSIPAN - LÀO CAI',
-      code: 'STN084-2025-03217',
-      region: 'Miền Bắc, Hà Nội, Hạ Long, Sa Pa, Ninh Bình, Lào Cai',
-      departure: 'TP Hồ Chí Minh',
-      departureDate: '22/12/2025',
-      duration: '6 ngày 5 đêm',
-      transport: 'Đường Hàng Không - Vietnam Airlines',
-      price: 12720000,
-      oldPrice: 13179000,
-      image: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=500&h=300&fit=crop',
-      category: 'Tour định kỳ (Regular tour)'
-    },
-    {
       id: 4,
-      title: 'HẠ LONG – VỊNH LAN HẠ – DU THUYỀN CAO CẤP – CÁT BÀ',
-      code: 'STN084-2026-00138',
-      region: 'Miền Bắc, Hà Nội, Hạ Long, Hải Phòng',
-      departure: 'TP Hồ Chí Minh',
-      departureDate: '15/01/2026',
-      duration: '4 ngày 3 đêm',
-      transport: 'Đường Hàng Không - Vietnam Airlines',
-      price: 14779000,
-      image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=500&h=300&fit=crop',
-      category: 'Tour cao cấp (Premium tour), Tour du thuyền'
-    },
-    {
-      id: 5,
-      title: 'HÀ NỘI - SAPA - LAI CHÂU - LÀO CAI',
-      code: 'STN084-2025-03303',
-      region: 'Miền Bắc, Hà Nội, Sa Pa, Lào Cai',
-      departure: 'TP Hồ Chí Minh',
-      departureDate: '25/12/2025',
-      duration: '4 ngày 3 đêm',
-      transport: 'Đường Hàng Không - Vietnam Airlines',
-      price: 9679000,
-      image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500&h=300&fit=crop',
-      category: 'Tour định kỳ (Regular tour)'
-    },
-    {
-      id: 6,
       title: 'HÀ NỘI – NINH BÌNH – TRÀNG AN – MỘC CHÂU – TÂY YÊN TỬ – HẠ LONG',
       code: 'STN084-2026-00126',
       region: 'Miền Bắc, Hà Nội, Hạ Long, Ninh Bình, Mộc Châu',
@@ -112,44 +84,103 @@ const DestinationDetail = () => {
       duration: '5 ngày 4 đêm',
       transport: 'Đường Hàng Không - Vietnam Airlines',
       price: 12679000,
-      image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=500&h=300&fit=crop',
+      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=500&h=300&fit=crop',
+      category: 'Tour định kỳ (Regular tour)'
+    },
+    {
+      id: 5,
+      title: 'HÀ NỘI - MÙA XUÂN MAI CHÂU - HÒA BÌNH - BẢN LÁC',
+      code: 'STN084-2026-00127',
+      region: 'Miền Bắc, Hà Nội, Hòa Bình',
+      departure: 'TP Hồ Chí Minh',
+      departureDate: '18/01/2026',
+      duration: '3 ngày 2 đêm',
+      transport: 'Đường Hàng Không - Bamboo Airways',
+      price: 6590000,
+      image: 'https://images.unsplash.com/photo-1598520106830-8c45c2035460?w=500&h=300&fit=crop',
+      category: 'Tour định kỳ (Regular tour)'
+    },
+    {
+      id: 6,
+      title: 'HÀ NỘI – HẠ LONG – ĐỘNG THIÊN CUNG – VỊNH LAN HẠ',
+      code: 'STN084-2026-00128',
+      region: 'Miền Bắc, Hà Nội, Hạ Long',
+      departure: 'TP Hồ Chí Minh',
+      departureDate: '25/01/2026',
+      duration: '4 ngày 3 đêm',
+      transport: 'Đường Hàng Không - Vietnam Airlines',
+      price: 10290000,
+      oldPrice: 11990000,
+      image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=500&h=300&fit=crop',
       category: 'Tour định kỳ (Regular tour)'
     }
   ];
 
-  // Mock data cho services
+  // Dịch vụ đặc trưng của Hà Nội
   const services: Service[] = [
     {
       id: 1,
-      title: 'Dịch Vụ Đưa Đón Sân Bay Nội Bài & Cát Bi – Xe 16 Chỗ',
+      title: 'Dịch Vụ Đưa Đón Sân Bay Nội Bài - Trung Tâm Hà Nội (Xe 4 Chỗ)',
       category: 'Thuê xe',
-      location: 'Hạ Long, Hà Nội, Hải Phòng',
-      price: 2400000,
+      location: 'Hà Nội',
+      price: 350000,
       image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500&h=300&fit=crop'
     },
     {
       id: 2,
-      title: 'Tour Trải Nghiệm Đêm Ở Văn Miếu Quốc Tử Giám – Chủ Đề "Tinh Hoa Đạo Học"',
-      category: 'Vé tham quan, City tour',
+      title: 'Vé Tham Quan Khu Di Tích Hoàng Thành Thăng Long',
+      category: 'Vé tham quan',
       location: 'Hà Nội',
-      price: 199000,
-      image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500&h=300&fit=crop'
+      price: 30000,
+      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=500&h=300&fit=crop'
     },
     {
       id: 3,
-      title: 'Vé Vinwonders Wave Park & Water Park Hà Nội',
-      category: 'Vé tham quan',
+      title: 'Tour Phố Cổ Hà Nội - Đi Bộ & Ẩm Thực Đường Phố (Nửa Ngày)',
+      category: 'Tour trong ngày',
       location: 'Hà Nội',
-      price: 100000,
-      image: 'https://images.unsplash.com/photo-1567593810070-7a3d471af022?w=500&h=300&fit=crop'
+      price: 450000,
+      image: 'https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=500&h=300&fit=crop'
     },
     {
       id: 4,
-      title: 'Dịch Vụ Fast Track Tại Sân Bay Quốc Tế Nội Bài',
-      category: 'Free & Easy',
+      title: 'Dịch Vụ Thuê Xe 7 Chỗ Tham Quan Hà Nội (1 Ngày, Có Tài Xế)',
+      category: 'Thuê xe',
       location: 'Hà Nội',
-      price: 730000,
-      image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&h=300&fit=crop'
+      price: 1200000,
+      image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=500&h=300&fit=crop'
+    },
+    {
+      id: 5,
+      title: 'Vé Xem Múa Rối Nước Thăng Long (1 Buổi)',
+      category: 'Giải trí',
+      location: 'Hà Nội',
+      price: 100000,
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=300&fit=crop'
+    },
+    {
+      id: 6,
+      title: 'Tour Tham Quan Làng Gốm Bát Tràng & Làng Nghề Thủ Công (Nửa Ngày)',
+      category: 'Tour trong ngày',
+      location: 'Hà Nội, Gia Lâm',
+      price: 350000,
+      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=500&h=300&fit=crop'
+    },
+    {
+      id: 7,
+      title: 'Vé Tham Quan Lăng Bác + Chùa Một Cột + Văn Miếu',
+      category: 'Vé tham quan',
+      location: 'Hà Nội',
+      price: 25000,
+      image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=500&h=300&fit=crop'
+    },
+    {
+      id: 8,
+      title: 'Tour Xe Buýt 2 Tầng Tham Quan Hà Nội (Hop On Hop Off)',
+      category: 'Tour trong ngày',
+      location: 'Hà Nội',
+      price: 300000,
+      image: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500&h=300&fit=crop'
     }
   ];
 
@@ -157,7 +188,10 @@ const DestinationDetail = () => {
     return new Intl.NumberFormat('vi-VN').format(price) + ' đ';
   };
 
-  const destinationName = destination?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Hà Nội';
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Search:', { destination: searchDestination, date: searchDate });
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -166,19 +200,19 @@ const DestinationDetail = () => {
         <div className="absolute inset-0 opacity-20">
           <img 
             src="https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=1920&h=400&fit=crop" 
-            alt={destinationName}
+            alt="Hà Nội"
             className="w-full h-full object-cover"
           />
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-5xl font-bold text-white mb-8 text-center drop-shadow-lg">
-            {destinationName}
+            Hà Nội
           </h1>
           
           {/* Search Box */}
           <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-4">
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-3 gap-4">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Bạn muốn đi đâu <span className="text-red-500">*</span>
@@ -190,7 +224,7 @@ const DestinationDetail = () => {
                     value={searchDestination}
                     onChange={(e) => setSearchDestination(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder={destinationName}
+                    placeholder="Hà Nội"
                   />
                 </div>
               </div>
@@ -209,12 +243,17 @@ const DestinationDetail = () => {
                   />
                 </div>
               </div>
-            </div>
-            
-            <button className="mt-4 w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg font-bold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center justify-center gap-2">
-              <FaSearch />
-              Tìm kiếm
-            </button>
+              
+              <div className="md:col-span-3">
+                <button 
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-lg font-bold hover:from-orange-600 hover:to-red-600 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <FaSearch />
+                  Tìm kiếm
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -224,7 +263,7 @@ const DestinationDetail = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
             <div className="w-1 h-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full"></div>
-            TOUR NỔI BẬT TẠI {destinationName.toUpperCase()}
+            TOUR NỔI BẬT TẠI HÀ NỘI
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -322,7 +361,7 @@ const DestinationDetail = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
             <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></div>
-            DỊCH VỤ NỔI BẬT TẠI {destinationName.toUpperCase()}
+            DỊCH VỤ NỔI BẬT TẠI HÀ NỘI
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -370,4 +409,4 @@ const DestinationDetail = () => {
   );
 };
 
-export default DestinationDetail;
+export default HaNoiDetail;

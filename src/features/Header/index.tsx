@@ -239,7 +239,7 @@ const Header: React.FC = () => {
                                     {destinations.map((dest) => (
                                       <li key={dest.id}>
                                         <Link 
-                                          to={`/travel/domestic/${dest.name.toLowerCase()}`} 
+                                          to={`/travel/domestic/${dest.name.toLowerCase().replace(/\s+/g, '-')}`} 
                                           className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base"
                                         >
                                           {dest.name}
@@ -262,7 +262,7 @@ const Header: React.FC = () => {
                                     {countries.map((country: string, idx: number) => (
                                       <li key={idx}>
                                         <Link 
-                                          to={`/travel/international/${country.toLowerCase()}`} 
+                                          to={`/travel/international/${country.toLowerCase().replace(/\s+/g, '-')}`} 
                                           className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
                                         >
                                           {country}
