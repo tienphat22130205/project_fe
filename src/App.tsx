@@ -10,6 +10,7 @@ import StudyAbroadPage from './app/(main)/[lang]/du-hoc/page';
 import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
 import TourDetailPage from './app/(main)/[lang]/tours/[id]/page';
+import BookingPage from './app/(main)/[lang]/booking/page';
 
 function App() {
   const location = useLocation();
@@ -26,6 +27,7 @@ function App() {
           <Route path="/work-abroad" element={<WorkAbroadPage />} />
           <Route path="/custom-tour" element={<CustomTourPage />} />
           <Route path="/tours/:id" element={<TourDetailPage />} />
+          <Route path="/booking" element={<BookingPage />} />
         </Route>
       </Routes>
       <ToastContainer

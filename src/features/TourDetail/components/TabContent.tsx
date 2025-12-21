@@ -242,7 +242,10 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
               <div className="text-sm text-gray-600">Tổng số khách</div>
               <div className="text-2xl font-bold">{totalGuests}</div>
             </div>
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold">
+            <button 
+              onClick={() => window.location.href = '/booking'}
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold"
+            >
               Đặt tour
             </button>
           </div>
