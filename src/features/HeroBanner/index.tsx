@@ -244,7 +244,7 @@ const HeroBanner: React.FC = () => {
               <input 
                 type="text" 
                 placeholder={viTexts.hero.searchPlaceholder}
-                className="w-full pl-14 pr-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                className="w-full pl-14 pr-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               />
             </div>
 
@@ -259,9 +259,8 @@ const HeroBanner: React.FC = () => {
                       setShowDatePicker(true);
                       setSelectingDepart(true);
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left focus:outline-none
-                      ${selectingDepart && showDatePicker ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'}
-                    `}
+                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-blue-500 transition-all text-left focus:outline-none
+                      ${selectingDepart && showDatePicker ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}`}
                   >
                     <div className="text-xs text-gray-500 mb-1">{departFormatted.day || 'Thứ tư'}</div>
                     <div className="flex items-center gap-2">
@@ -288,10 +287,9 @@ const HeroBanner: React.FC = () => {
                         setSelectingDepart(false);
                       }
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-orange-500 transition-all text-left focus:outline-none
-                      ${!selectingDepart && showDatePicker ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'}
-                      ${!departDate ? 'opacity-50 cursor-not-allowed' : ''}
-                    `}
+                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-blue-500 transition-all text-left focus:outline-none
+                      ${!selectingDepart && showDatePicker ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}
+                      ${!departDate ? 'opacity-50 cursor-not-allowed' : ''}`}
                     disabled={!departDate}
                   >
                     <div className="text-xs text-gray-500 mb-1">{returnFormatted.day || 'Thứ năm'}</div>
@@ -328,7 +326,7 @@ const HeroBanner: React.FC = () => {
                           setShowDatePicker(false);
                           setSelectingDepart(true);
                         }}
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold focus:outline-none"
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold focus:outline-none"
                       >
                         Đóng
                       </button>
@@ -347,7 +345,7 @@ const HeroBanner: React.FC = () => {
               <div className="md:col-span-3 relative">
                 <button 
                   onClick={() => setShowGuestPicker(!showGuestPicker)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-left hover:border-orange-500 transition-all focus:outline-none"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-left hover:border-blue-500 transition-all focus:outline-none"
                 >
                   <div className="text-xs text-gray-500 mb-1">1 Phòng</div>
                   <div className="flex items-center gap-2">
@@ -368,14 +366,14 @@ const HeroBanner: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <button 
                             onClick={() => setAdults(Math.max(1, adults - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
                           >
                             −
                           </button>
                           <span className="w-8 text-center font-semibold">{adults}</span>
                           <button 
                             onClick={() => setAdults(adults + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
                           >
                             +
                           </button>
@@ -391,14 +389,14 @@ const HeroBanner: React.FC = () => {
                         <div className="flex items-center gap-3">
                           <button 
                             onClick={() => setChildren(Math.max(0, children - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
                           >
                             −
                           </button>
                           <span className="w-8 text-center font-semibold">{children}</span>
                           <button 
                             onClick={() => setChildren(children + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-orange-500 flex items-center justify-center focus:outline-none"
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
                           >
                             +
                           </button>
@@ -411,7 +409,7 @@ const HeroBanner: React.FC = () => {
 
               {/* Search Button */}
               <div className="md:col-span-2">
-                <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none">
+                <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none">
                   <FaSearch className="text-xl" /> Tìm
                 </button>
               </div>

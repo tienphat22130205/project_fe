@@ -69,3 +69,10 @@ export interface TourDetailResponse {
     tour: TourAPI;
   };
 }
+
+export interface RelatedToursResponse {
+  status: string;
+  data: {
+    tours: TourAPI[];
+  };
+}

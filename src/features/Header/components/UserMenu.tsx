@@ -98,7 +98,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ showMenu, onToggleMenu, onCl
           <div className="border-t border-gray-100 pt-2">
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-all w-full text-left focus:outline-none"
+              className="flex items-center gap-3 px-4 py-3 text-blue-600 hover:bg-blue-50 transition-all w-full text-left focus:outline-none"
             >
               <FaSignOutAlt className="text-lg" />
               <span className="font-medium">Đăng xuất</span>

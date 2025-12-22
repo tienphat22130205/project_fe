@@ -35,6 +35,11 @@ const TourDetail: React.FC = () => {
     loadTourDetail();
   }, [id]);
 
+  // Scroll to top khi vào trang chi tiết
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
+
   if (loading) {
     return (
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
@@ -66,12 +71,16 @@ const TourDetail: React.FC = () => {
     <div className="bg-gray-50 min-h-screen">
       <div className="container mx-auto px-4 py-6">
         {/* Breadcrumb */}
-        <div className="text-sm text-gray-600 mb-4">
-          <span>Trang chủ</span>
-          <span className="mx-2">/</span>
-          <span>Chùm tour theo thể loại</span>
-          <span className="mx-2">/</span>
-          <span className="text-gray-800 font-medium">{tourData.title}</span>
+        <div className="text-base text-gray-600 mb-4 flex items-center gap-2">
+          <a href="/" className="hover:text-blue-600 cursor-pointer transition-colors">
+            Trang chủ
+          </a>
+          <span className="text-gray-400">/</span>
+          <a href={`/tours?category=${tourData.category}`} className="hover:text-blue-600 cursor-pointer transition-colors">
+            Chùm tour theo thể loại
+          </a>
+          <span className="text-gray-400">/</span>
+          <span className="text-gray-900 font-semibold">{tourData.title}</span>
         </div>
 
         {/* Title */}
@@ -102,7 +111,7 @@ const TourDetail: React.FC = () => {
         </div>
 
         {/* Related Tours */}
-        <RelatedTours />
+        <RelatedTours currentTourId={id || ''} />
       </div>
     </div>
   );

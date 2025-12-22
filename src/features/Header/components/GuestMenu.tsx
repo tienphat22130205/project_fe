@@ -21,7 +21,7 @@ export const GuestMenu: React.FC<GuestMenuProps> = ({
           e.stopPropagation();
           onToggleMenu();
         }}
-        className="flex items-center space-x-2 cursor-pointer hover:text-orange-500 transition-colors focus:outline-none relative z-10"
+        className="flex items-center space-x-2 cursor-pointer hover:text-blue-500 transition-colors focus:outline-none relative z-10"
       >
         <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
           <FaUser className="text-sm" />
