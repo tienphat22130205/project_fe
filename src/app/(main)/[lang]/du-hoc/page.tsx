@@ -1,19 +1,5 @@
-import {
-    DuHocHeader,
-    DuHocHeroBanner,
-    DuHocDestinations,
-    DuHocMain,
-    DuHocFooter,
-} from "../../../../features";
+import { DuHocMain } from "../../../../features";
 
 export default function Page() {
-    return (
-        <>
-            <DuHocHeader />
-            <DuHocHeroBanner />
-            <DuHocDestinations />
-            <DuHocMain />
-            <DuHocFooter />
-        </>
-    );
+  return <DuHocMain />;
 }

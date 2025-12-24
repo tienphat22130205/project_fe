@@ -95,9 +95,9 @@ const Header: React.FC = () => {
 
   // Data cho menu Dịch vụ
   const servicesMenuData = [
-    { title: 'Combo Free & Easy', icon: '🎯', href:'/dich-vu/combo' },
-    { title: 'Vé Máy Bay Online', icon: '✈️', href: '/dich-vu/ve-may-bay'},
-    { title: 'Vé Tham Quan Sun World', icon: '🎡', href: '/dich-vu/ve-tham-quan'}
+    { title: 'Combo Free & Easy', href:'/dich-vu/combo' },
+    { title: 'Vé Máy Bay Online', href: '/dich-vu/ve-may-bay'},
+    { title: 'Vé Tham Quan Sun World', href: '/dich-vu/ve-tham-quan'}
   ];
 
   // Group domestic destinations by region
@@ -306,13 +306,12 @@ const Header: React.FC = () => {
               onMouseEnter={handleServicesMouseEnter}
               onMouseLeave={handleServicesMouseLeave}
             >
-              <Link 
-                to="/services"
+              <div
                 className="flex items-center gap-1 text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none"
               >
                 Dịch vụ
                 <FaChevronDown className="text-xs" />
-              </Link>
+              </div>
               
               {/* Services Dropdown */}
               {showServicesMenu && (
@@ -323,7 +322,6 @@ const Header: React.FC = () => {
                       to={service.href}
                       className="flex items-center gap-3 px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all focus:outline-none"
                     >
-                      <span className="text-xl">{service.icon}</span>
                       <span className="font-medium">{service.title}</span>
                     </Link>
                   ))}
