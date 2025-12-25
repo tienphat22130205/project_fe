@@ -21,7 +21,7 @@ const PopularTours: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'domestic' | 'international'>('domestic');
 
   const renderTourCard = (tour: Tour, index: number) => (
-    <div key={index} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+    <div key={index} className="bg-white border border-gray-200 rounded overflow-hidden">
       <div className="relative">
         <img 
           src={`https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=250&fit=crop`}
@@ -31,55 +31,48 @@ const PopularTours: React.FC = () => {
             (e.target as HTMLImageElement).src = `https://via.placeholder.com/400x250/1e88e5/ffffff?text=Tour+${index + 1}`;
           }}
         />
-        {tour.badge && <div className="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">{tour.badge}</div>}
-        {tour.specialPrice && <div className="absolute top-2 right-2 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">{tour.specialPrice}</div>}
+        {tour.badge && <div className="absolute top-3 left-3 bg-red-600 text-white px-2.5 py-1 text-xs font-semibold uppercase">{tour.badge}</div>}
       </div>
       <div className="p-4">
-        <h3 className="font-bold text-lg text-gray-800 mb-3 line-clamp-2">{tour.title}</h3>
-        <div className="space-y-2 text-sm text-gray-600 mb-4">
-          <p className="flex items-center gap-2"><FaMapMarkerAlt className="text-orange-500" /> {tour.location}</p>
-          <p className="flex items-center gap-2"><FaCalendarAlt className="text-blue-500" /> {tour.date}</p>
-          <p className="flex items-center gap-2"><FaClock className="text-green-500" /> {tour.duration}</p>
-          <p className="flex items-center gap-2"><FaBus className="text-purple-500" /> {tour.transport}</p>
-          {tour.airline && <p className="flex items-center gap-2"><FaPlane className="text-blue-600" /> {tour.airline}</p>}
+        <h3 className="font-bold text-base text-black mb-3">{tour.title}</h3>
+        <div className="space-y-1.5 text-sm text-gray-700 mb-3">
+          <p><span className="font-normal">Xuất phát:</span> {tour.location}</p>
+          <p><span className="font-normal">Ngày khởi hành:</span> {tour.date}</p>
+          <p><span className="font-normal">Thời gian:</span> {tour.duration}</p>
         </div>
-        <div className="flex items-center justify-between pt-3 border-t">
-          <div className="flex flex-col">
-            {tour.originalPrice && <span className="text-xs text-gray-400 line-through">{tour.originalPrice}</span>}
-            <span className="text-xl font-bold text-orange-500">{tour.price}</span>
-          </div>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none">{tour.viewDetails}</button>
+        <div className="pt-2 border-t border-gray-100">
+          <span className="text-2xl font-bold text-red-600">{tour.price}</span>
         </div>
       </div>
     </div>
   );
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">{viTexts.popularTours.title}</h2>
+        <h2 className="text-xl font-semibold text-black mb-6">{viTexts.popularTours.title}</h2>
         
         {/* Tabs */}
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex gap-3 mb-6">
           <button 
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all focus:outline-none ${
+            className={`px-4 py-2 rounded font-medium focus:outline-none ${
               activeTab === 'domestic' 
-                ? 'bg-orange-500 text-white shadow-lg' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-blue-600 text-white' 
+                : 'bg-white text-black border border-gray-300'
             }`}
             onClick={() => setActiveTab('domestic')}
           >
-            <MdLocationOn /> {viTexts.popularTours.domestic}
+            {viTexts.popularTours.domestic}
           </button>
           <button 
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all focus:outline-none ${
+            className={`px-4 py-2 rounded font-medium focus:outline-none ${
               activeTab === 'international' 
-                ? 'bg-orange-500 text-white shadow-lg' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-blue-600 text-white' 
+                : 'bg-white text-black border border-gray-300'
             }`}
             onClick={() => setActiveTab('international')}
           >
-            <FaGlobe /> {viTexts.popularTours.international}
+            {viTexts.popularTours.international}
           </button>
         </div>
 

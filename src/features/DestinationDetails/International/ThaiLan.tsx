@@ -195,7 +195,7 @@ const ThaiLanDetail = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-orange-50 via-white to-pink-50">
+    <main className="min-h-screen bg-gray-50">
       {/* Hero Banner with Modern Design */}
       <section className="relative h-[600px] overflow-hidden">
         {/* Background Image with Parallax Effect */}
@@ -205,58 +205,51 @@ const ThaiLanDetail = () => {
             alt="Thái Lan"
             className="w-full h-full object-cover transform scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-600/80 via-pink-600/70 to-purple-700/80"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(37, 99, 235, 0.7)' }}></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center items-center text-center">
           {/* Animated Title */}
-          <div className="mb-6 animate-fadeIn">
-            <div className="inline-block px-6 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 mb-4">
-              <span className="text-white font-semibold flex items-center gap-2">
-                <MdFlightTakeoff className="text-xl" />
-                Du lịch Quốc tế
-              </span>
-            </div>
-            <h1 className="text-6xl md:text-7xl font-black text-white mb-4 drop-shadow-2xl tracking-tight">
+          <div className="mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-3">
               THÁI LAN
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto drop-shadow-lg">
+            <p className="text-lg md:text-xl text-white max-w-2xl mx-auto">
               Xứ sở chùa vàng • Thiên đường mua sắm • Ẩm thực đường phố
             </p>
           </div>
           
           {/* Modern Search Box with Glass Morphism */}
           <div className="w-full max-w-4xl mt-8">
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-300">
+            <div className="bg-white rounded-2xl p-6 shadow-lg">
               <form onSubmit={handleSubmit} className="grid md:grid-cols-12 gap-4">
                 <div className="md:col-span-7">
-                  <label className="block text-sm font-bold text-white mb-3 uppercase tracking-wide">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Điểm đến
                   </label>
                   <div className="relative">
-                    <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400 text-xl" />
+                    <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-xl" style={{ color: 'rgb(37, 99, 235)' }} />
                     <input
                       type="text"
                       value={searchDestination}
                       onChange={(e) => setSearchDestination(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-white/90 backdrop-blur-sm border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-orange-400/50 focus:border-orange-400 transition-all text-gray-800 font-semibold placeholder-gray-400"
+                      className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800 placeholder-gray-400"
                       placeholder="Bangkok, Phuket, Pattaya..."
                     />
                   </div>
                 </div>
                 
                 <div className="md:col-span-5">
-                  <label className="block text-sm font-bold text-white mb-3 uppercase tracking-wide">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Ngày khởi hành
                   </label>
                   <div className="relative">
-                    <FaCalendarAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400 text-xl" />
+                    <FaCalendarAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-xl" style={{ color: 'rgb(37, 99, 235)' }} />
                     <input
                       type="date"
                       value={searchDate}
                       onChange={(e) => setSearchDate(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-white/90 backdrop-blur-sm border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-orange-400/50 focus:border-orange-400 transition-all text-gray-800 font-semibold"
+                      className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-gray-800"
                     />
                   </div>
                 </div>
@@ -264,9 +257,10 @@ const ThaiLanDetail = () => {
                 <div className="md:col-span-12">
                   <button 
                     type="submit"
-                    className="w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white py-5 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3 group"
+                    className="w-full text-white py-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                    style={{ backgroundColor: 'rgb(37, 99, 235)' }}
                   >
-                    <FaSearch className="text-xl group-hover:rotate-90 transition-transform duration-300" />
+                    <FaSearch className="text-lg" />
                     TÌM TOUR NGAY
                   </button>
                 </div>
@@ -284,127 +278,56 @@ const ThaiLanDetail = () => {
       </section>
 
       {/* Tours Section - Modern Grid */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        {/* Decorative Background */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-100 to-pink-100 rounded-full blur-3xl opacity-30 -z-0"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-100 to-orange-100 rounded-full blur-3xl opacity-30 -z-0"></div>
+      <section className="py-16 bg-white">
         
         <div className="container mx-auto px-4 relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block px-6 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-full text-sm font-bold mb-4 shadow-lg">
-              ✨ TOURS HOT
-            </div>
-            <h2 className="text-5xl font-black text-gray-900 mb-4 tracking-tight">
-              TOUR NỔI BẬT TẠI{' '}
-              <span className="bg-gradient-to-r from-orange-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-                THÁI LAN
-              </span>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-3" style={{ color: 'rgb(37, 99, 235)' }}>
+              TOUR NỔI BẬT TẠI THÁI LAN
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Khám phá những hành trình tuyệt vời với giá ưu đãi nhất
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tours.map((tour, index) => (
               <Link 
                 key={tour.id}
                 to={`/tour/${tour.code}`}
-                className="group relative bg-white rounded-3xl overflow-hidden border border-gray-100 hover:border-orange-200 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="group relative bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300"
               >
                 {/* Tour Image */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   <img 
                     src={tour.image} 
                     alt={tour.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    {tour.category.includes('Tết') && (
-                      <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg backdrop-blur-sm">
-                        <FaGift className="text-lg" /> TOUR TẾT
-                      </div>
-                    )}
-                    {tour.category.includes('Premium') && (
-                      <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg backdrop-blur-sm">
-                        <FaStar className="text-lg" /> PREMIUM
-                      </div>
-                    )}
-                  </div>
-                  
-                  {tour.oldPrice && (
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg backdrop-blur-sm animate-pulse">
-                      <BsLightningChargeFill className="text-lg" /> 
-                      -{Math.round((1 - tour.price / tour.oldPrice) * 100)}%
-                    </div>
-                  )}
-
-                  {/* Departure Date Badge */}
-                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg">
-                    <div className="flex items-center gap-2 text-orange-600">
-                      <FaCalendarAlt />
-                      <span className="font-bold text-sm">{tour.departureDate}</span>
-                    </div>
-                  </div>
                 </div>
                 
                 {/* Tour Info */}
-                <div className="p-6">
-                  <h3 className="font-bold text-gray-900 text-lg mb-4 line-clamp-2 group-hover:text-orange-600 transition-colors min-h-[56px] leading-tight">
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-900 text-base mb-3 line-clamp-2 min-h-[48px]">
                     {tour.title}
                   </h3>
                   
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                        <FaMapMarkerAlt className="text-orange-600" />
-                      </div>
-                      <span className="line-clamp-1">{tour.region}</span>
+                  <div className="space-y-1.5 mb-4 text-sm text-gray-600">
+                    <div>
+                      <span className="font-semibold">Xuất phát:</span> {tour.departure}
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                        <FaClock className="text-blue-600" />
-                      </div>
-                      <span>{tour.duration}</span>
+                    <div>
+                      <span className="font-semibold">Ngày khởi hành:</span> {tour.departureDate}
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-gray-600">
-                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                        <FaPlane className="text-purple-600" />
-                      </div>
-                      <span className="line-clamp-1">{tour.transport}</span>
+                    <div>
+                      <span className="font-semibold">Thời gian:</span> {tour.duration}
                     </div>
                   </div>
                   
-                  {/* Price Section */}
-                  <div className="pt-5 border-t-2 border-gray-100 flex items-center justify-between">
-                    <div>
-                      {tour.oldPrice && (
-                        <div className="text-sm text-gray-400 line-through font-medium">
-                          {formatPrice(tour.oldPrice)}
-                        </div>
-                      )}
-                      <div className="text-3xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-                        {formatPrice(tour.price)}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1 text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar key={i} className="text-lg" />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Hover CTA */}
-                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white py-3 rounded-xl font-bold text-center">
-                      Xem chi tiết →
-                    </div>
+                  {/* Price */}
+                  <div className="text-2xl font-bold text-red-600">
+                    {formatPrice(tour.price)}
                   </div>
                 </div>
               </Link>
@@ -414,90 +337,57 @@ const ThaiLanDetail = () => {
       </section>
 
       {/* Services Section - Modern Cards */}
-      <section className="py-20 bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
+      <section className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-block px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-sm font-bold mb-4 shadow-lg">
-              🎯 DỊCH VỤ
-            </div>
-            <h2 className="text-5xl font-black text-gray-900 mb-4 tracking-tight">
-              DỊCH VỤ{' '}
-              <span className="bg-gradient-to-r from-orange-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
-                ĐẶC BIỆT
-              </span>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-3" style={{ color: 'rgb(37, 99, 235)' }}>
+              DỊCH VỤ
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Trải nghiệm đầy đủ với các dịch vụ cao cấp
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {services.map((service, index) => (
               <Link
                 key={service.id}
                 to={`/service/${service.id}`}
-                className="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-orange-200"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="group relative bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-all duration-300"
               >
                 {/* Service Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                    {service.category.includes('Vé') && <FaCamera className="text-orange-600 text-xl" />}
-                    {service.category.includes('Thuê xe') && <FaPlane className="text-blue-600 text-xl" />}
-                    {service.category.includes('Giải trí') && <FaStar className="text-yellow-600 text-xl" />}
-                    {service.category.includes('Ẩm thực') && <FaUtensils className="text-red-600 text-xl" />}
-                  </div>
                 </div>
                 
                 {/* Service Info */}
-                <div className="p-5">
-                  <h3 className="font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-orange-600 transition-colors min-h-[48px] text-base leading-tight">
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 min-h-[48px] text-sm leading-tight">
                     {service.title}
                   </h3>
                   
-                  <div className="space-y-2 mb-4">
-                    <div className="inline-block px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-semibold">
-                      {service.category.split(',')[0]}
+                  <div className="space-y-1.5 mb-3 text-xs text-gray-600">
+                    <div>
+                      <span className="font-semibold">Loại:</span> {service.category.split(',')[0]}
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FaMapMarkerAlt className="text-gray-400 text-xs" />
-                      <span>{service.location}</span>
+                    <div>
+                      <span className="font-semibold">Địa điểm:</span> {service.location}
                     </div>
                   </div>
                   
-                  <div className="pt-4 border-t-2 border-gray-100">
-                    <div className="flex items-center justify-between">
-                      <div className="text-2xl font-black bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-                        {formatPrice(service.price)}
-                      </div>
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
-                          →
-                        </div>
-                      </div>
-                    </div>
+                  <div className="text-xl font-bold text-red-600">
+                    {formatPrice(service.price)}
                   </div>
                 </div>
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/0 to-pink-500/0 group-hover:from-orange-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
               </Link>
             ))}
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-orange-300 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-pink-300 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
       </section>
     </main>
   );

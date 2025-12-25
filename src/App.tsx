@@ -11,6 +11,8 @@ import DestinationPage from './app/(main)/[lang]/travel/domestic/[destination]/p
 import InternationalPage from './app/(main)/[lang]/travel/international/[country]/page';
 
 function App() {
+  console.log('App component rendering...');
+  
   return (
     <RootLayout>
       <Routes>

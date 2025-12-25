@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { HaNoiDetail, HaLongDetail } from '@/features';
+import { HaNoiDetail } from '@/features';
 
 export default function DestinationPage() {
   const { destination } = useParams<{ destination: string }>();
@@ -11,7 +11,7 @@ export default function DestinationPage() {
       return <HaNoiDetail />;
     case 'hạ-long':
     case 'ha-long':
-      return <HaLongDetail />;
+      return <HaNoiDetail />; // TODO: Create HaLongDetail component
     default:
       // Temporary fallback
       return <HaNoiDetail />;

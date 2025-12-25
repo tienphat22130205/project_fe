@@ -11,6 +11,5 @@ export { DestinationsHomeComponent as Destinations };
 
 // Destination Details
 export { default as HaNoiDetail } from './DestinationDetails/Domestic/HaNoi';
-export { default as HaLongDetail } from './DestinationDetails/Domestic/HaLong';
 export { default as ThaiLanDetail } from './DestinationDetails/International/ThaiLan';
 
