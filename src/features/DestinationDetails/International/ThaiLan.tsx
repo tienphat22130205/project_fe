@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaCalendarAlt, FaStar, FaMapMarkerAlt, FaClock, FaPlane, FaPercent, FaGift, FaUmbrellaBeach, FaHotel, FaUtensils, FaCamera } from 'react-icons/fa';
-import { MdCategory, MdFlightTakeoff } from 'react-icons/md';
-import { BsLightningChargeFill } from 'react-icons/bs';
+import { FaSearch, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 interface Tour {
   id: number;
@@ -292,7 +290,7 @@ const ThaiLanDetail = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tours.map((tour, index) => (
+            {tours.map((tour) => (
               <Link 
                 key={tour.id}
                 to={`/tour/${tour.code}`}
@@ -350,7 +348,7 @@ const ThaiLanDetail = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {services.map((service, index) => (
+            {services.map((service) => (
               <Link
                 key={service.id}
                 to={`/service/${service.id}`}
