@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
@@ -31,6 +31,11 @@ interface Service {
 const HaNoiDetail = () => {
   const [searchDestination, setSearchDestination] = useState('Hà Nội');
   const [searchDate, setSearchDate] = useState('');
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Tours đặc trưng của Hà Nội
   const tours: Tour[] = [
@@ -202,7 +207,7 @@ const HaNoiDetail = () => {
             alt="Hà Nội"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(37, 99, 235, 0.7)' }}></div>
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center items-center text-center">
