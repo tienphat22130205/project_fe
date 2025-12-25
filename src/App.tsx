@@ -11,6 +11,8 @@ import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
 import TourDetailPage from './app/(main)/[lang]/tours/[id]/page';
 import BookingPage from './app/(main)/[lang]/booking/page';
+import SearchPage from './app/(main)/[lang]/search/page';
+import AccountPage from './app/(main)/[lang]/account/page';
 
 function App() {
   const location = useLocation();
@@ -20,6 +22,8 @@ function App() {
       <Routes location={location}>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/travel" element={<TravelPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/car-rental" element={<CarRentalPage />} />

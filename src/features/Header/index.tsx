@@ -23,6 +23,7 @@ const Header: React.FC = () => {
   const [domesticDestinations, setDomesticDestinations] = useState<TravelDestination[]>([]);
   const [internationalDestinations, setInternationalDestinations] = useState<Record<string, string[]>>({});
   const [loading, setLoading] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   
@@ -184,7 +185,11 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between py-3">
           {/* Logo */}
           <div className="flex-shrink-0">
-              <Link to="/" className="cursor-pointer focus:outline-none">
+              <Link 
+                to="/" 
+                className="cursor-pointer focus:outline-none"
+                onClick={() => window.scrollTo(0, 0)}
+              >
                 <span 
                   className="ml-2 text-[2.2rem] font-extrabold tracking-tight flex items-center select-none"
                 style={{fontFamily: 'Quicksand, Poppins, Segoe UI, Arial, sans-serif'}}
@@ -203,8 +208,17 @@ const Header: React.FC = () => {
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
                 placeholder="Tìm tour"
                 className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    const params = new URLSearchParams();
+                    if (searchKeyword) params.append('keyword', searchKeyword);
+                    navigate(`/search?${params.toString()}`);
+                  }
+                }}
               />
             </div>
           </div>

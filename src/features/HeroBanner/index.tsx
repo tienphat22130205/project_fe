@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import viTexts from '../../assets/locales/vi.json';
 import { FaSearch, FaCalendarAlt, FaUser, FaChevronLeft, FaChevronRight, FaPlane, FaStar } from 'react-icons/fa';
 
@@ -6,15 +7,17 @@ const HeroBanner: React.FC = () => {
   // Slide carousel state
   const slides = ['/back1.jpg', '/back2.jpg', '/back3.jpg', '/back4.jpg'];
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [showGuestPicker, setShowGuestPicker] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
-  const [departDate, setDepartDate] = useState<Date | null>(new Date(2025, 11, 17));
-  const [returnDate, setReturnDate] = useState<Date | null>(new Date(2025, 11, 18));
+  const [departDate, setDepartDate] = useState<Date | null>(null);
+  const [returnDate, setReturnDate] = useState<Date | null>(null);
   const [selectingDepart, setSelectingDepart] = useState(true);
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 11, 1));
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   // Auto slide every 5 seconds
   useEffect(() => {
@@ -79,6 +82,18 @@ const HeroBanner: React.FC = () => {
         setReturnDate(null);
       }
     }
+  };
+
+  // Handle search
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchKeyword) params.append('keyword', searchKeyword);
+    if (departDate) params.append('depart', departDate.toISOString());
+    if (returnDate) params.append('return', returnDate.toISOString());
+    params.append('adults', String(adults));
+    params.append('children', String(children));
+
+    navigate(`/search?${params.toString()}`);
   };
 
   const renderCalendar = (monthOffset: number) => {
@@ -243,8 +258,15 @@ const HeroBanner: React.FC = () => {
               <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
               <input 
                 type="text" 
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
                 placeholder={viTexts.hero.searchPlaceholder}
                 className="w-full pl-14 pr-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
               />
             </div>
 
@@ -262,7 +284,7 @@ const HeroBanner: React.FC = () => {
                     className={`col-span-3 border-2 rounded-xl p-3 hover:border-blue-500 transition-all text-left focus:outline-none
                       ${selectingDepart && showDatePicker ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}`}
                   >
-                    <div className="text-xs text-gray-500 mb-1">{departFormatted.day || 'Thứ tư'}</div>
+                    <div className="text-xs text-gray-500 mb-1">{departFormatted.day || 'Chọn ngày'}</div>
                     <div className="flex items-center gap-2">
                       <FaCalendarAlt className="text-gray-400" />
                       <span className="font-semibold">
@@ -292,7 +314,7 @@ const HeroBanner: React.FC = () => {
                       ${!departDate ? 'opacity-50 cursor-not-allowed' : ''}`}
                     disabled={!departDate}
                   >
-                    <div className="text-xs text-gray-500 mb-1">{returnFormatted.day || 'Thứ năm'}</div>
+                    <div className="text-xs text-gray-500 mb-1">{returnFormatted.day || 'Chọn ngày'}</div>
                     <div className="flex items-center gap-2">
                       <FaCalendarAlt className="text-gray-400" />
                       <span className="font-semibold">
@@ -409,7 +431,10 @@ const HeroBanner: React.FC = () => {
 
               {/* Search Button */}
               <div className="md:col-span-2">
-                <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none">
+                <button 
+                  onClick={handleSearch}
+                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none"
+                >
                   <FaSearch className="text-xl" /> Tìm
                 </button>
               </div>

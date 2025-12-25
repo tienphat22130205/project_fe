@@ -67,7 +67,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ showMenu, onToggleMenu, onCl
           {/* Menu Items */}
           <div className="py-2">
             <Link
-              to="/profile"
+              to="/account"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all focus:outline-none"
               onClick={onCloseMenu}
             >
@@ -76,7 +76,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ showMenu, onToggleMenu, onCl
             </Link>
             
             <Link
-              to="/my-trips"
+              to="/account"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all focus:outline-none"
               onClick={onCloseMenu}
             >
@@ -85,7 +85,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ showMenu, onToggleMenu, onCl
             </Link>
             
             <Link
-              to="/points"
+              to="/account"
               className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all focus:outline-none"
               onClick={onCloseMenu}
             >
