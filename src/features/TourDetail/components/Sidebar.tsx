@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaPhone, FaEnvelope, FaCheck, FaStar } from 'react-icons/fa';
 
 interface SidebarProps {
@@ -6,9 +7,18 @@ interface SidebarProps {
   tourCode?: string;
   rating?: number;
   ratingsQuantity?: number;
+  tourId?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuantity }) => {
+const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuantity, tourId }) => {
+  const navigate = useNavigate();
+
+  const handleBooking = () => {
+    if (tourId) {
+      navigate(`/booking?tourId=${tourId}`);
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Giá */}
@@ -29,6 +39,12 @@ const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuant
             <span className="text-gray-500 text-sm">({ratingsQuantity} đánh giá)</span>
           </div>
         )}
+        <button 
+          onClick={handleBooking}
+          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-bold text-lg transition-colors"
+        >
+          Đặt tour
+        </button>
       </div>
 
       {/* Hỗ trợ đặt tour */}

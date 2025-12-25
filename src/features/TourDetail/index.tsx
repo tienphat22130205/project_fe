@@ -107,6 +107,7 @@ const TourDetail: React.FC = () => {
             tourCode={tourData.tourCode}
             rating={tourData.rating}
             ratingsQuantity={tourData.ratingsQuantity}
+            tourId={id}
           />
         </div>
 

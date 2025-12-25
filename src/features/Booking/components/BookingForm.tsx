@@ -7,36 +7,50 @@ interface FormData {
   birthDate: string;
   email: string;
   phone: string;
-  singleRoomSupplement: boolean;
+  address: string;
+  notes: string;
+}
+
+interface TourData {
+  _id: string;
+  title: string;
+  tourCode: string;
+  images: string[];
+  destination: string;
+  category: string;
 }
 
 interface BookingFormProps {
   formData: FormData;
   setFormData: (data: FormData) => void;
+  tourData?: TourData;
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ formData, setFormData }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ formData, setFormData, tourData }) => {
   return (
     <div className="space-y-6">
       {/* Thông tin đơn hàng */}
-      <div className="border-b pb-4">
-        <div className="flex items-center gap-2 mb-4">
-          <img 
-            src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=100" 
-            alt="Tour" 
-            className="w-16 h-16 rounded object-cover"
-          />
-          <div className="flex-1">
-            <h3 className="text-blue-600 font-semibold text-sm">
-              Tết Bính Ngọ 2026 - ĐỒNG PHONG NHA- ĐỒNG THIÊN ĐƯỜNG - HUẾ - ĐÀ NẴNG - HỘI AN - KDL BÀ NÀ HILLS
-            </h3>
-            <div className="flex gap-4 text-xs text-gray-600 mt-1">
-              <span>🏠 Miền Trung, Đà Nẵng, Hội An, Huế, Quảng Bình</span>
-              <span>📅 Chùm tour sự kiện, Tour Tết Âm Lịch 2026</span>
+      {tourData && (
+        <div className="border-b pb-4">
+          <div className="flex items-center gap-2 mb-4">
+            <img 
+              src={tourData.images[0] || "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=100"} 
+              alt="Tour" 
+              className="w-16 h-16 rounded object-cover"
+            />
+            <div className="flex-1">
+              <h3 className="text-blue-600 font-semibold text-sm">
+                {tourData.title}
+              </h3>
+              <div className="flex gap-4 text-xs text-gray-600 mt-1">
+                <span>🏠 {tourData.destination}</span>
+                <span>📅 {tourData.category}</span>
+                <span>Mã tour: {tourData.tourCode}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Thông tin hành khách */}
       <div>
@@ -68,8 +82,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, setFormData }) => {
               onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
               className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option>Nam</option>
-              <option>Nữ</option>
+              <option value="male">Nam</option>
+              <option value="female">Nữ</option>
             </select>
           </div>
 
@@ -78,8 +92,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, setFormData }) => {
               Ngày sinh <span className="text-red-500">*</span>
             </label>
             <input
-              type="text"
-              placeholder="DD/MM/YYYY"
+              type="date"
               value={formData.birthDate}
               onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
               className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -115,19 +128,26 @@ const BookingForm: React.FC<BookingFormProps> = ({ formData, setFormData }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Phụ thu Đơn</label>
-            <div className="flex items-center gap-3">
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.singleRoomSupplement}
-                  onChange={(e) => setFormData({ ...formData, singleRoomSupplement: e.target.checked })}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
-            </div>
+            <label className="block text-sm font-medium mb-2">Địa chỉ</label>
+            <input
+              type="text"
+              placeholder="Nhập địa chỉ"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
+        </div>
+
+        <div className="mt-4">
+          <label className="block text-sm font-medium mb-2">Ghi chú</label>
+          <textarea
+            placeholder="Nhập ghi chú nếu có"
+            value={formData.notes}
+            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            rows={3}
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
       </div>
     </div>

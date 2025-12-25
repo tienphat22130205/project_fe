@@ -10,6 +10,7 @@ interface PaymentSectionProps {
   agreedToTerms: boolean;
   setAgreedToTerms: (agreed: boolean) => void;
   onSubmit: () => void;
+  submitting?: boolean;
 }
 
 const PaymentSection: React.FC<PaymentSectionProps> = ({
@@ -22,6 +23,7 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
   agreedToTerms,
   setAgreedToTerms,
   onSubmit,
+  submitting = false,
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
@@ -100,8 +102,8 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           <input
             type="radio"
             name="payment"
-            value="credit"
-            checked={paymentMethod === 'credit'}
+            value="credit_card"
+            checked={paymentMethod === 'credit_card'}
             onChange={(e) => setPaymentMethod(e.target.value)}
             className="mt-1"
           />
@@ -117,8 +119,8 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           <input
             type="radio"
             name="payment"
-            value="bank"
-            checked={paymentMethod === 'bank'}
+            value="bank_transfer"
+            checked={paymentMethod === 'bank_transfer'}
             onChange={(e) => setPaymentMethod(e.target.value)}
             className="mt-1"
           />
@@ -134,8 +136,8 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           <input
             type="radio"
             name="payment"
-            value="office"
-            checked={paymentMethod === 'office'}
+            value="cash"
+            checked={paymentMethod === 'cash'}
             onChange={(e) => setPaymentMethod(e.target.value)}
             className="mt-1"
           />
@@ -209,9 +211,10 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
         </p>
         <button
           onClick={onSubmit}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors"
+          disabled={submitting}
+          className="w-full bg-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Thanh toán
+          {submitting ? 'Đang xử lý...' : 'Thanh toán'}
         </button>
       </div>
     </div>
