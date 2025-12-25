@@ -4,6 +4,8 @@ export { default as HeroBanner } from './HeroBanner';
 export { default as SpecialTours } from './SpecialTours';
 export { default as PopularTours } from './PopularTours';
 export { default as CarRental } from './CarRental';
+export { default as TourCategories } from './TourCategories';
+export { default as TourCategoryListing } from './TourCategoryListing';
 
 // DestinationsHome - imported separately to avoid naming conflicts
 import DestinationsHomeComponent from './DestinationsHome';

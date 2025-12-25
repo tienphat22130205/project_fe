@@ -9,6 +9,7 @@ import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
 import DestinationPage from './app/(main)/[lang]/travel/domestic/[destination]/page';
 import InternationalPage from './app/(main)/[lang]/travel/international/[country]/page';
+import TourCategoryPage from './app/(main)/[lang]/tours/[category]/page';
 
 function App() {
   console.log('App component rendering...');
@@ -17,6 +18,7 @@ function App() {
     <RootLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/vi" element={<HomePage />} />
         <Route path="/travel" element={<TravelPage />} />
         <Route path="/travel/domestic/:destination" element={<DestinationPage />} />
         <Route path="/travel/international/:country" element={<InternationalPage />} />
@@ -25,6 +27,7 @@ function App() {
         <Route path="/study-abroad" element={<StudyAbroadPage />} />
         <Route path="/work-abroad" element={<WorkAbroadPage />} />
         <Route path="/custom-tour" element={<CustomTourPage />} />
+        <Route path="/vi/tours/:category" element={<TourCategoryPage />} />
       </Routes>
     </RootLayout>
   );
