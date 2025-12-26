@@ -4,24 +4,21 @@ import {FaBook, FaGraduationCap, FaGlobe} from 'react-icons/fa';
 
 const Hero: React.FC = () => {
     return (
-        <section className="bg-gradient-to-r from-white via-slate-50 to-white">
+        <section className="bg-white">
             <div className="max-w-7xl mx-auto px-6 py-16 md:py-28">
                 <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg">
 
-                    {/* Background image */}
                     <div
-                        className="absolute inset-0 bg-cover bg-center"
+                        className="absolute inset-0 bg-cover bg-center brightness-[0.65]"
                         style={{
                             backgroundImage: "url('/back5.jpg')",
-                            filter: "brightness(0.55)",
                         }}
                         aria-hidden="true"
                     />
 
-                    {/* Content */}
                     <div className="relative p-8 md:p-16">
                         <div className="max-w-3xl">
-                            <h1 className="text-3xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                            <h1 className="text-3xl md:text-5xl text-white font-extrabold leading-tight drop-shadow-lg [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)]">
                                 Du học — Mở ra cơ hội toàn cầu
                             </h1>
 

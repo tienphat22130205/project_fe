@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { FaUserFriends, FaFileAlt, FaGraduationCap } from 'react-icons/fa';
 
 const FeatureCard: React.FC<{ title: string; desc: string; icon?: React.ReactNode }> = ({title, desc, icon}) => (
-    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition transform hover:-translate-y-1">
+    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition transform hover:-translate-y-1 border-2 border-slate-400">
         <div className="text-blue-600 text-2xl mb-3">{icon}</div>
         <h3 className="font-semibold text-lg text-slate-800">{title}</h3>
         <p className="mt-2 text-slate-600">{desc}</p>
@@ -11,14 +11,14 @@ const FeatureCard: React.FC<{ title: string; desc: string; icon?: React.ReactNod
 );
 
 const StatCard: React.FC<{ num: string; label: string }> = ({num, label}) => (
-    <div className="bg-white p-6 rounded-xl shadow text-center">
+    <div className="bg-white p-6 rounded-xl shadow text-center border-2 border-slate-400">
         <div className="text-3xl font-bold text-blue-600">{num}</div>
         <div className="mt-2 text-slate-600">{label}</div>
     </div>
 );
 
 const ProgramCard: React.FC<{ title: string; brief: string; href?: string; image?: string }> = ({title, brief, href = '#', image}) => (
-    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition">
+    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition border-2 border-slate-400">
         {image && (
             <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-4" />
         )}
@@ -34,7 +34,7 @@ const ProgramCard: React.FC<{ title: string; brief: string; href?: string; image
 const Gallery: React.FC<{ images: string[] }> = ({images}) => (
     <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
         {images.map((src, i) => (
-            <div key={i} className="overflow-hidden rounded-lg bg-white shadow-sm">
+            <div key={i} className="overflow-hidden rounded-lg bg-white shadow-sm border-2 border-slate-400">
                 <img src={src} alt={`gallery-${i}`} className="w-full h-24 sm:h-32 object-cover transform hover:scale-105 transition" />
             </div>
         ))}
@@ -70,11 +70,11 @@ const Cards: React.FC = () => {
                 <h3 className="text-2xl font-semibold text-slate-800">Chương trình nổi bật</h3>
                 <div className="mt-6 grid md:grid-cols-3 gap-6">
                     <ProgramCard title="Bậc đại học" brief="Chương trình cử nhân, hỗ trợ tìm học bổng và nộp hồ sơ."
-                                 href="/du-hoc/dai-hoc" image="/back1.jpg" />
+                                 href="/du-hoc/dai-hoc" image="/back5.jpg" />
                     <ProgramCard title="Sau đại học" brief="Thạc sĩ/tiến sĩ: tư vấn trường, research, và tài chính."
-                                 href="/du-hoc/sau-dai-hoc" image="/back2.jpg" />
+                                 href="/du-hoc/sau-dai-hoc" image="/back6.jpg" />
                     <ProgramCard title="Ngắn hạn & Nghề" brief="Khóa ngắn hạn, tiếng Anh, nghề nghiệp chuyên môn."
-                                 href="/du-hoc/ngan-han" image="/back4.jpg" />
+                                 href="/du-hoc/ngan-han" image="/back7.jpg" />
                 </div>
             </div>
         </section>

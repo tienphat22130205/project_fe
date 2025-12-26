@@ -5,7 +5,7 @@ import CTA from './CTA';
 
 const DuHoc: React.FC = () => {
     return (
-        <main className="bg-slate-50 min-h-screen">
+        <main className="bg-white min-h-screen">
             <Hero/>
             <Cards/>
             <CTA/>
