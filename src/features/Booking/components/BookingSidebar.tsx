@@ -1,10 +1,12 @@
 import React from 'react';
 
 interface Service {
-  id: number;
+  _id: string;
   name: string;
   price: number;
   quantity: number;
+  unit?: string;
+  category?: string;
 }
 
 interface BookingSidebarProps {

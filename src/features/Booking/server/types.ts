@@ -76,6 +76,16 @@ export interface AdditionalService {
   subtotal: number;
 }
 
+export interface AdditionalServiceData {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  unit: string;
+  category: string;
+  maxQuantity?: number;
+}
+
 export interface BookingRequest {
   tourId: string;
   startDate: string;

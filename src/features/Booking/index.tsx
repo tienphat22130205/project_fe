@@ -5,8 +5,10 @@ import BookingForm from './components/BookingForm';
 import AdditionalServices from './components/AdditionalServices';
 import PaymentSection from './components/PaymentSection';
 import BookingSidebar from './components/BookingSidebar';
-import { fetchTourDetail, createBooking, initiatePayment } from './server';
-import type { TourAPI, Passenger, AdditionalService, PaymentRequest } from './server/types';
+import { fetchTourDetail, createBooking, initiatePayment, fetchAdditionalServices } from './server';
+import type { TourAPI, Passenger, AdditionalService, PaymentRequest, BookingRequest } from './server/types';
+import { useToast } from '../../hooks/useToast';
+import Toast from '../../components/Toast';
 
 const BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,11 +30,14 @@ const BookingPage: React.FC = () => {
   });
 
   const [services, setServices] = useState<Array<{
-    id: number;
+    _id: string;
     name: string;
     description: string;
     price: number;
+    unit: string;
+    category: string;
     quantity: number;
+    maxQuantity?: number;
   }>>([]);
 
   const [selectedDeparture, setSelectedDeparture] = useState<string>('');
@@ -44,6 +49,13 @@ const BookingPage: React.FC = () => {
   const [paymentRate, setPaymentRate] = useState('100');
   const [promoCode, setPromoCode] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  // Countdown timer (10 minutes)
+  const [timeLeft, setTimeLeft] = useState(600); // 600 seconds = 10 minutes
+  const [timerExpired, setTimerExpired] = useState(false);
+
+  // Toast notifications
+  const { toasts, success, error: showError, warning } = useToast();
 
   // Fetch tour data on mount
   useEffect(() => {
@@ -79,6 +91,42 @@ const BookingPage: React.FC = () => {
           console.warn('No departures available for this tour');
           setError('Tour này hiện chưa có lịch khởi hành');
         }
+
+        // Fetch additional services for this tour
+        // TODO: Enable this when backend additional services are properly configured
+        try {
+          const servicesResponse = await fetchAdditionalServices(tour._id);
+          if (servicesResponse.success && servicesResponse.data && Array.isArray(servicesResponse.data)) {
+            // Only load services if they have valid IDs
+            const validServices = servicesResponse.data.filter((s: any) => s._id && s._id !== 'undefined');
+            
+            if (validServices.length > 0) {
+              const servicesWithQuantity = validServices.map((service: {
+                _id: string;
+                name: string;
+                description: string;
+                price: number;
+                unit: string;
+                category: string;
+                maxQuantity?: number;
+              }) => ({
+                ...service,
+                quantity: 0
+              }));
+              setServices(servicesWithQuantity);
+              console.log('Additional services loaded:', servicesWithQuantity);
+            } else {
+              console.warn('No valid services found for this tour');
+              setServices([]);
+            }
+          } else {
+            setServices([]);
+          }
+        } catch (err) {
+          console.warn('Could not load additional services:', err);
+          setServices([]);
+          // Don't fail the whole page if services can't be loaded
+        }
         
         setError(null);
       } catch (err) {
@@ -91,6 +139,33 @@ const BookingPage: React.FC = () => {
 
     loadTourData();
   }, [tourId]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setTimerExpired(true);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setTimerExpired(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  // Format time as MM:SS
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
 
   const getCurrentDeparture = () => {
     return tourData?.departures.find(d => d._id === selectedDeparture);
@@ -112,35 +187,51 @@ const BookingPage: React.FC = () => {
     return tourTotal + servicesTotal;
   };
 
-  const handleServiceQuantityChange = (id: number, delta: number) => {
-    setServices(services.map(s => 
-      s.id === id ? { ...s, quantity: Math.max(0, s.quantity + delta) } : s
-    ));
+  const handleServiceQuantityChange = (id: string, delta: number) => {
+    setServices(services.map(s => {
+      if (s._id === id) {
+        const newQuantity = Math.max(0, s.quantity + delta);
+        // Check max quantity if specified
+        if (s.maxQuantity && newQuantity > s.maxQuantity) {
+          alert(`Số lượng tối đa cho dịch vụ này là ${s.maxQuantity}`);
+          return s;
+        }
+        return { ...s, quantity: newQuantity };
+      }
+      return s;
+    }));
   };
 
   const handleSubmit = async () => {
+    console.log('=== SUBMIT BOOKING ===');
+    console.log('Services state:', services);
+    console.log('Selected departure:', selectedDeparture);
+    console.log('Tour data:', tourData);
+    
     if (!agreedToTerms) {
-      alert('Vui lòng đồng ý điều khoản');
+      warning('Vui lòng đồng ý điều khoản');
       return;
     }
     if (!paymentMethod) {
-      alert('Vui lòng chọn phương thức thanh toán');
+      warning('Vui lòng chọn phương thức thanh toán');
       return;
     }
     if (!selectedDeparture || !tourData) {
-      alert('Vui lòng chọn ngày khởi hành');
+      warning('Vui lòng chọn ngày khởi hành');
       return;
     }
     if (!formData.fullName || !formData.email || !formData.phone) {
-      alert('Vui lòng điền đầy đủ thông tin');
+      warning('Vui lòng điền đầy đủ thông tin');
       return;
     }
 
     // Check authentication
     const token = localStorage.getItem('accessToken');
     if (!token) {
-      alert('Vui lòng đăng nhập để đặt tour');
-      window.location.href = '/login';
+      showError('Vui lòng đăng nhập để đặt tour');
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
       return;
     }
 
@@ -184,14 +275,35 @@ const BookingPage: React.FC = () => {
       }
 
       // Prepare additional services
+      console.log('Services before filtering:', services);
       const additionalServices: AdditionalService[] = services
-        .filter(s => s.quantity > 0)
+        .filter(s => {
+          const isValid = s.quantity > 0 && s._id && s._id !== 'undefined';
+          if (!isValid && s.quantity > 0) {
+            console.warn('Invalid service filtered out:', s);
+          }
+          return isValid;
+        })
         .map(s => ({
-          service: s.id.toString(),
+          service: s._id,
           quantity: s.quantity,
           price: s.price,
           subtotal: s.price * s.quantity,
         }));
+
+      console.log('Additional services to send:', additionalServices);
+      console.log('Number of services:', additionalServices.length);
+
+      // If user selected services but all are invalid, warn them
+      const hasSelectedServices = services.some(s => s.quantity > 0);
+      if (hasSelectedServices && additionalServices.length === 0) {
+        showError('Dịch vụ bổ sung không hợp lệ. Đang đặt tour không có dịch vụ bổ sung.');
+      }
+
+      // If no services selected, that's ok - just skip
+      if (additionalServices.length === 0 && !hasSelectedServices) {
+        console.log('No additional services selected, proceeding without services');
+      }
 
       const departure = getCurrentDeparture();
       if (!departure) {
@@ -223,12 +335,11 @@ const BookingPage: React.FC = () => {
       console.log('Final startDate to send:', finalStartDate);
 
       // Create booking
-      const bookingData = {
+      const bookingData: Partial<BookingRequest> = {
         tourId: tourData._id,
         startDate: finalStartDate,
         numberOfPeople: numberOfAdults + numberOfChildren + numberOfInfants,
         passengers,
-        additionalServices,
         customerInfo: {
           fullName: formData.fullName,
           email: formData.email,
@@ -239,9 +350,14 @@ const BookingPage: React.FC = () => {
         paymentType: paymentRate === '100' ? '100%' : '30%',
       };
 
+      // Only add additionalServices if there are any
+      if (additionalServices.length > 0) {
+        bookingData.additionalServices = additionalServices;
+      }
+
       console.log('Booking data being sent:', JSON.stringify(bookingData, null, 2));
 
-      const bookingResponse = await createBooking(bookingData);
+      const bookingResponse = await createBooking(bookingData as BookingRequest);
       
       console.log('Booking response:', bookingResponse);
       
@@ -261,21 +377,8 @@ const BookingPage: React.FC = () => {
       // Initiate payment
       const paymentData: PaymentRequest = {
         bookingId,
-        method: paymentMethod as 'momo' | 'atm' | 'credit_card' | 'bank_transfer' | 'cash',
+        method: paymentMethod as 'bank_transfer' | 'cash',
       };
-
-      // Only add returnUrl/cancelUrl for online payment methods
-      if (paymentMethod === 'momo' || paymentMethod === 'atm' || paymentMethod === 'credit_card') {
-        const baseUrl = window.location.origin;
-        paymentData.returnUrl = `${baseUrl}/payment-result`;
-        paymentData.cancelUrl = `${baseUrl}/booking-cancelled`;
-        
-        console.log('Adding URLs:', {
-          returnUrl: paymentData.returnUrl,
-          cancelUrl: paymentData.cancelUrl,
-          baseUrl
-        });
-      }
 
       console.log('Payment data:', paymentData);
 
@@ -288,44 +391,55 @@ const BookingPage: React.FC = () => {
       }
 
       // Handle payment response
-      if (paymentMethod === 'momo' || paymentMethod === 'atm' || paymentMethod === 'credit_card') {
-        // Redirect to payment gateway
-        const paymentUrl = paymentResponse.data?.paymentUrl;
-        if (paymentUrl) {
-          window.location.href = paymentUrl;
-        } else {
-          throw new Error('Không nhận được URL thanh toán');
-        }
-      } else if (paymentMethod === 'bank_transfer') {
+      if (paymentMethod === 'bank_transfer') {
         // Show bank transfer info
         const bankInfo = paymentResponse.data?.bankInfo;
         const paymentId = paymentResponse.data?._id;
         
         if (bankInfo) {
+          success('Đặt tour thành công! Đang chuyển đến trang thanh toán...');
           // Navigate to payment info page with bank details
-          const params = new URLSearchParams({
-            bookingId,
-            paymentId: paymentId || '',
-            bankName: bankInfo.bankName || '',
-            accountNumber: bankInfo.accountNumber || '',
-            accountName: bankInfo.accountName || '',
-            amount: String(bankInfo.amount || 0),
-            transferContent: bankInfo.transferContent || '',
-          });
-          window.location.href = `/payment-info?${params.toString()}`;
+          setTimeout(() => {
+            const params = new URLSearchParams({
+              bookingId,
+              paymentId: paymentId || '',
+              bankName: bankInfo.bankName || '',
+              accountNumber: bankInfo.accountNumber || '',
+              accountName: bankInfo.accountName || '',
+              amount: String(bankInfo.amount || 0),
+              transferContent: bankInfo.transferContent || '',
+            });
+            window.location.href = `/payment-info?${params.toString()}`;
+          }, 1500);
         } else {
-          alert(`Đặt tour thành công!\n\nMã booking: ${bookingId}\n\nVui lòng liên hệ với chúng tôi để được hướng dẫn thanh toán.`);
-          window.location.href = '/account?tab=orders';
+          success('Đặt tour thành công!');
+          setTimeout(() => {
+            const params = new URLSearchParams({
+              bookingId,
+              tourName: tourData.title,
+              paymentMethod: 'bank_transfer',
+              amount: String(calculateTotal()),
+            });
+            window.location.href = `/booking-success?${params.toString()}`;
+          }, 2000);
         }
       } else if (paymentMethod === 'cash') {
         // Cash payment at office
-        alert(`Đặt tour thành công!\n\nMã booking: ${bookingId}\n\nVui lòng đến văn phòng Lữ hành Saigontourist để thanh toán và nhận vé.`);
-        window.location.href = '/account?tab=orders';
+        success('Đặt tour thành công! Vui lòng đến văn phòng để thanh toán.');
+        setTimeout(() => {
+          const params = new URLSearchParams({
+            bookingId,
+            tourName: tourData.title,
+            paymentMethod: 'cash',
+            amount: String(calculateTotal()),
+          });
+          window.location.href = `/booking-success?${params.toString()}`;
+        }, 2000);
       }
 
     } catch (err) {
       console.error('Booking error:', err);
-      alert(err instanceof Error ? err.message : 'Có lỗi xảy ra khi đặt tour. Vui lòng thử lại.');
+      showError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi đặt tour. Vui lòng thử lại.');
     } finally {
       setSubmitting(false);
     }
@@ -337,6 +451,26 @@ const BookingPage: React.FC = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải thông tin tour...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (timerExpired) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md">
+          <div className="text-red-600 text-6xl mb-4">⏰</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Hết thời gian giữ chỗ</h2>
+          <p className="text-gray-600 mb-6">
+            Thời gian giữ chỗ đã hết. Vui lòng đặt tour lại.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold"
+          >
+            Đặt lại
+          </button>
         </div>
       </div>
     );
@@ -375,7 +509,16 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6">        {/* Countdown Timer */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-4 text-center">
+          <p className="text-sm text-gray-600 mb-1">Thời gian giữ chỗ còn lại:</p>
+          <p className={`text-3xl font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-orange-500'}`}>
+            {formatTime(timeLeft)}
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Vui lòng hoàn tất đặt tour trước khi hết thời gian
+          </p>
+        </div>
         {/* Progress Steps */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -506,6 +649,18 @@ const BookingPage: React.FC = () => {
             total={calculateTotal()}
           />
         </div>
+      </div>
+
+      {/* Toast Notifications */}
+      <div className="fixed top-4 right-4 z-50 space-y-2">
+        {toasts.map((toast) => (
+          <Toast 
+            key={toast.id} 
+            message={toast.message}
+            type={toast.type}
+            onClose={() => {}}
+          />
+        ))}
       </div>
     </div>
   );

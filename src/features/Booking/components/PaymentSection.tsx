@@ -85,40 +85,6 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           <input
             type="radio"
             name="payment"
-            value="atm"
-            checked={paymentMethod === 'atm'}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-            className="mt-1"
-          />
-          <div>
-            <div className="font-semibold text-gray-800">Thanh toán bằng thẻ nội địa ATM</div>
-            <div className="text-sm text-gray-600 mt-1">
-              Sau khi đặt vé và thanh toán thành công, Lữ hành Saigontourist sẽ gửi vé điện tử của Quý khách qua email.
-            </div>
-          </div>
-        </label>
-
-        <label className="flex items-start gap-3 p-4 border rounded cursor-pointer hover:bg-gray-50">
-          <input
-            type="radio"
-            name="payment"
-            value="credit_card"
-            checked={paymentMethod === 'credit_card'}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-            className="mt-1"
-          />
-          <div>
-            <div className="font-semibold text-gray-800">Thanh toán bằng Thẻ Tín Dụng</div>
-            <div className="text-sm text-gray-600 mt-1">
-              Sau khi đặt vé và thanh toán thành công, Lữ hành Saigontourist sẽ gửi vé điện tử của Quý khách qua email.
-            </div>
-          </div>
-        </label>
-
-        <label className="flex items-start gap-3 p-4 border rounded cursor-pointer hover:bg-gray-50">
-          <input
-            type="radio"
-            name="payment"
             value="bank_transfer"
             checked={paymentMethod === 'bank_transfer'}
             onChange={(e) => setPaymentMethod(e.target.value)}
@@ -145,23 +111,6 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
             <div className="font-semibold text-gray-800">Thanh toán bằng tiền mặt tại văn phòng Lữ hành Saigontourist</div>
             <div className="text-sm text-gray-600 mt-1">
               Quý khách vui lòng đến các văn phòng Saigontourist để thanh toán và nhận vé.
-            </div>
-          </div>
-        </label>
-
-        <label className="flex items-start gap-3 p-4 border rounded cursor-pointer hover:bg-gray-50">
-          <input
-            type="radio"
-            name="payment"
-            value="momo"
-            checked={paymentMethod === 'momo'}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-            className="mt-1"
-          />
-          <div>
-            <div className="font-semibold text-gray-800">Thanh toán bằng Momo</div>
-            <div className="text-sm text-gray-600 mt-1">
-              Hạn mức tối đa là 20.000.000 VNĐ. Sau khi đặt vé và thanh toán thành công, Lữ hành Saigontourist sẽ gửi vé điện tử của Quý khách qua email.
             </div>
           </div>
         </label>

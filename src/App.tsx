@@ -13,6 +13,7 @@ import TourDetailPage from './app/(main)/[lang]/tours/[id]/page';
 import BookingPage from './app/(main)/[lang]/booking/page';
 import SearchPage from './app/(main)/[lang]/search/page';
 import AccountPage from './app/(main)/[lang]/account/page';
+import BookingSuccess from './features/BookingSuccess';
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
           <Route path="/custom-tour" element={<CustomTourPage />} />
           <Route path="/tours/:id" element={<TourDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
+          <Route path="/booking-success" element={<BookingSuccess />} />
         </Route>
       </Routes>
       <ToastContainer

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { FaCheckCircle, FaCopy, FaUniversity } from 'react-icons/fa';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { FaCheckCircle, FaCopy, FaUniversity, FaClock } from 'react-icons/fa';
 
 const PaymentInfo: React.FC = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [copied, setCopied] = useState<string>('');
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   const bookingId = searchParams.get('bookingId');
   const bankName = searchParams.get('bankName');
@@ -12,6 +14,28 @@ const PaymentInfo: React.FC = () => {
   const accountName = searchParams.get('accountName');
   const amount = searchParams.get('amount');
   const transferContent = searchParams.get('transferContent');
+
+  // Countdown timer
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      // Timer expired - redirect to home
+      alert('Hết thời gian thanh toán. Vui lòng đặt lại tour.');
+      navigate('/');
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft, navigate]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -26,6 +50,20 @@ const PaymentInfo: React.FC = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4 max-w-3xl">
+        {/* Countdown Timer */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <FaClock className={timeLeft < 120 ? 'text-red-600' : 'text-orange-500'} />
+            <p className="text-sm text-gray-600">Thời gian thanh toán còn lại:</p>
+          </div>
+          <p className={`text-3xl font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-orange-500'}`}>
+            {formatTime(timeLeft)}
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Vui lòng hoàn tất thanh toán trước khi hết thời gian
+          </p>
+        </div>
+
         {/* Success Header */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-6 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
