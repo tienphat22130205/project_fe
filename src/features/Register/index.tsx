@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FaGoogle, FaFacebook, FaEnvelope, FaLock, FaTimes, FaSync, FaUser } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { authService } from './server';
 
 interface RegisterProps {
   onClose: () => void;
@@ -21,6 +23,8 @@ const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
   const [name, setName] = useState('');
   const [captchaInput, setCaptchaInput] = useState('');
   const [captchaText, setCaptchaText] = useState(generateInitialCaptcha());
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Generate random captcha
   const generateCaptcha = () => {
@@ -28,18 +32,45 @@ const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
     setCaptchaInput('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     
     // Check captcha
     if (captchaInput !== captchaText) {
-      alert('Captcha không đúng. Vui lòng thử lại!');
+      setError('Captcha không đúng. Vui lòng thử lại!');
       generateCaptcha();
       return;
     }
     
-    // Handle register logic here
-    console.log('Register', { email, password, name });
+    setIsLoading(true);
+    try {
+      // Gọi API đăng ký
+      const result = await authService.register({
+        fullName: name,
+        email: email,
+        password: password,
+      });
+      
+      console.log('Đăng ký thành công!', result);
+      toast.success(`🎊 Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
+      // Chuyển sang modal đăng nhập
+      onSwitchToLogin();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Đăng ký thất bại. Vui lòng thử lại!';
+      console.error('Lỗi đăng ký:', error);
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -114,6 +145,13 @@ const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
 
           {/* Register Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Họ và tên
@@ -198,9 +236,10 @@ const Register: React.FC<RegisterProps> = ({ onClose, onSwitchToLogin }) => {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-[1.02] shadow-lg focus:outline-none"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-[1.02] shadow-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Đăng ký
+              {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
             </button>
           </form>
 

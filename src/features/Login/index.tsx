@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FaGoogle, FaFacebook, FaEnvelope, FaLock, FaTimes } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { authService } from './server';
 
 interface LoginProps {
   onClose: () => void;
@@ -9,11 +11,41 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login', { email, password });
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const result = await authService.login({
+        email,
+        password,
+      });
+
+      console.log('Đăng nhập thành công!', result);
+      toast.success(`Chào mừng ${result.user.fullName}!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
+      // Đóng modal sau khi đăng nhập thành công
+      onClose();
+      // Dispatch custom event để Header cập nhật
+      window.dispatchEvent(new Event('storage'));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Đăng nhập thất bại. Vui lòng thử lại!';
+      console.error('Lỗi đăng nhập:', error);
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -92,6 +124,13 @@ const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => {
 
           {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email
@@ -138,9 +177,10 @@ const Login: React.FC<LoginProps> = ({ onClose, onSwitchToRegister }) => {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-[1.02] shadow-lg focus:outline-none"
+              disabled={isLoading}
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-[1.02] shadow-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Đăng nhập
+              {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
             </button>
           </form>
 

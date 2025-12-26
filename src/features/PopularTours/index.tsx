@@ -1,32 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import viTexts from '../../assets/locales/vi.json';
-import { FaMapMarkerAlt, FaCalendarAlt, FaClock, FaBus, FaPlane, FaGlobe } from 'react-icons/fa';
-import { MdLocationOn } from 'react-icons/md';
-
-interface Tour {
-  title: string;
-  location: string;
-  date: string;
-  duration: string;
-  transport: string;
-  price: string;
-  badge?: string;
-  specialPrice?: string;
-  originalPrice?: string;
-  airline?: string;
-  viewDetails: string;
-}
+import type { TourDisplay } from './types';
+import { fetchTours, convertTourToDisplay, filterToursByType } from './api';
 
 const PopularTours: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'domestic' | 'international'>('domestic');
+  const [domesticTours, setDomesticTours] = useState<TourDisplay[]>([]);
+  const [internationalTours, setInternationalTours] = useState<TourDisplay[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const renderTourCard = (tour: Tour, index: number) => (
+  useEffect(() => {
+    const loadTours = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchTours({ limit: 10, featured: true });
+        
+        const domesticData = filterToursByType(response.data.tours, 'domestic');
+        const internationalData = filterToursByType(response.data.tours, 'international');
+        
+        setDomesticTours(domesticData.map(convertTourToDisplay));
+        setInternationalTours(internationalData.map(convertTourToDisplay));
+      } catch (error) {
+        console.error('Failed to load tours:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTours();
+  }, []);
+
+  const renderTourCard = (tour: TourDisplay, index: number) => (
     <div key={index} className="bg-white border border-gray-200 rounded overflow-hidden">
       <div className="relative">
         <img 
-          src={`https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=250&fit=crop`}
+          src={tour.image || `https://via.placeholder.com/400x250/1e88e5/ffffff?text=${encodeURIComponent(tour.title)}`}
           alt={tour.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 sm:h-full object-cover"
           onError={(e) => {
             (e.target as HTMLImageElement).src = `https://via.placeholder.com/400x250/1e88e5/ffffff?text=Tour+${index + 1}`;
           }}
@@ -46,6 +56,23 @@ const PopularTours: React.FC = () => {
       </div>
     </div>
   );
+
+  const renderPlaceholderCard = (index: number) => (
+    <div key={index} className="bg-white border border-gray-200 rounded overflow-hidden animate-pulse">
+      <div className="bg-gray-300 h-48 w-full"></div>
+      <div className="p-4">
+        <div className="h-4 bg-gray-300 rounded mb-3"></div>
+        <div className="space-y-2 mb-3">
+          <div className="h-3 bg-gray-200 rounded"></div>
+          <div className="h-3 bg-gray-200 rounded"></div>
+          <div className="h-3 bg-gray-200 rounded"></div>
+        </div>
+        <div className="h-6 bg-gray-300 rounded w-1/3"></div>
+      </div>
+    </div>
+  );
+
+  const currentTours = activeTab === 'domestic' ? domesticTours : internationalTours;
 
   return (
     <section className="py-12 bg-gray-50">
@@ -76,12 +103,17 @@ const PopularTours: React.FC = () => {
           </button>
         </div>
 
-        {/* Tours Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeTab === 'domestic' 
-            ? viTexts.popularTours.tours.domestic.map((tour: Tour, index: number) => renderTourCard(tour, index))
-            : viTexts.popularTours.tours.international.map((tour: Tour, index: number) => renderTourCard(tour, index))
-          }
+        {/* Tour content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {loading ? (
+            Array.from({ length: 8 }).map((_, index) => renderPlaceholderCard(index))
+          ) : currentTours.length > 0 ? (
+            currentTours.map((tour, index) => renderTourCard(tour, index))
+          ) : (
+            <div className="col-span-full text-center py-8 text-gray-500">
+              Không có tour nào
+            </div>
+          )}
         </div>
       </div>
     </section>
