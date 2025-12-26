@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 {viTexts.footer.services.items.map((item: string, index: number) => (
                   <li key={index}>
-                    <a href="#" className="hover:text-orange-500 transition-colors text-sm">{item}</a>
+                    <a href="#" className="hover:text-blue-500 transition-colors text-sm">{item}</a>
                   </li>
                 ))}
               </ul>
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 {viTexts.footer.customerCare.items.map((item: string, index: number) => (
                   <li key={index}>
-                    <a href="#" className="hover:text-orange-500 transition-colors text-sm">{item}</a>
+                    <a href="#" className="hover:text-blue-500 transition-colors text-sm">{item}</a>
                   </li>
                 ))}
               </ul>
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 {viTexts.footer.aboutUs.items.map((item: string, index: number) => (
                   <li key={index}>
-                    <a href="#" className="hover:text-orange-500 transition-colors text-sm">{item}</a>
+                    <a href="#" className="hover:text-blue-500 transition-colors text-sm">{item}</a>
                   </li>
                 ))}
               </ul>
@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 {viTexts.footer.policies.items.map((item: string, index: number) => (
                   <li key={index}>
-                    <a href="#" className="hover:text-orange-500 transition-colors text-sm">{item}</a>
+                    <a href="#" className="hover:text-blue-500 transition-colors text-sm">{item}</a>
                   </li>
                 ))}
               </ul>
