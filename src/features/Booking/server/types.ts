@@ -71,6 +71,8 @@ export interface Passenger {
 
 export interface AdditionalService {
   service: string;
+  serviceId?: string;
+  _id?: string;
   quantity: number;
   price: number;
   subtotal: number;

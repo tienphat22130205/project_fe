@@ -49,9 +49,21 @@ const BookingPage: React.FC = () => {
   const [paymentRate, setPaymentRate] = useState('100');
   const [promoCode, setPromoCode] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   // Countdown timer (10 minutes)
-  const [timeLeft, setTimeLeft] = useState(600); // 600 seconds = 10 minutes
+  const [timeLeft, setTimeLeft] = useState(() => {
+    // Calculate time left from localStorage
+    const bookingStartTime = localStorage.getItem('bookingStartTime');
+    if (bookingStartTime) {
+      const startTime = parseInt(bookingStartTime);
+      const now = Date.now();
+      const elapsed = Math.floor((now - startTime) / 1000);
+      const remaining = 600 - elapsed; // 600 seconds = 10 minutes
+      return remaining > 0 ? remaining : 0;
+    }
+    return 600;
+  });
   const [timerExpired, setTimerExpired] = useState(false);
 
   // Toast notifications
@@ -70,19 +82,19 @@ const BookingPage: React.FC = () => {
         setLoading(true);
         const response = await fetchTourDetail(tourId);
         console.log('Full response:', response);
-        
+
         // Check if response has the correct structure
         const tour = response.data?.tour || response.tour || response;
-        
+
         if (!tour || !tour._id) {
           throw new Error('Invalid tour data structure');
         }
 
         console.log('Tour loaded:', tour);
         console.log('Tour departures:', tour.departures);
-        
+
         setTourData(tour);
-        
+
         // Set first departure as default
         if (tour.departures && tour.departures.length > 0) {
           setSelectedDeparture(tour.departures[0]._id);
@@ -99,7 +111,7 @@ const BookingPage: React.FC = () => {
           if (servicesResponse.success && servicesResponse.data && Array.isArray(servicesResponse.data)) {
             // Only load services if they have valid IDs
             const validServices = servicesResponse.data.filter((s: any) => s._id && s._id !== 'undefined');
-            
+
             if (validServices.length > 0) {
               const servicesWithQuantity = validServices.map((service: {
                 _id: string;
@@ -127,8 +139,14 @@ const BookingPage: React.FC = () => {
           setServices([]);
           // Don't fail the whole page if services can't be loaded
         }
-        
+
         setError(null);
+
+        // Save booking session to localStorage for reminder feature
+        if (!localStorage.getItem('bookingStartTime')) {
+          localStorage.setItem('bookingStartTime', Date.now().toString());
+          localStorage.setItem('bookingTourId', tourId);
+        }
       } catch (err) {
         console.error('Error loading tour:', err);
         setError('Không thể tải thông tin tour. Vui lòng thử lại sau.');
@@ -144,6 +162,9 @@ const BookingPage: React.FC = () => {
   useEffect(() => {
     if (timeLeft <= 0) {
       setTimerExpired(true);
+      // Clear localStorage when timer expires
+      localStorage.removeItem('bookingStartTime');
+      localStorage.removeItem('bookingTourId');
       return;
     }
 
@@ -151,6 +172,9 @@ const BookingPage: React.FC = () => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           setTimerExpired(true);
+          // Clear localStorage when timer expires
+          localStorage.removeItem('bookingStartTime');
+          localStorage.removeItem('bookingTourId');
           return 0;
         }
         return prev - 1;
@@ -173,17 +197,17 @@ const BookingPage: React.FC = () => {
 
   const calculateTotal = () => {
     if (!tourData) return 0;
-    
+
     const departure = getCurrentDeparture();
     if (!departure) return 0;
 
-    const tourTotal = 
+    const tourTotal =
       departure.pricing.adult * numberOfAdults +
       departure.pricing.child * numberOfChildren +
       departure.pricing.infant * numberOfInfants;
-    
+
     const servicesTotal = services.reduce((sum, service) => sum + (service.price * service.quantity), 0);
-    
+
     return tourTotal + servicesTotal;
   };
 
@@ -202,12 +226,24 @@ const BookingPage: React.FC = () => {
     }));
   };
 
+  const handleCancelBooking = () => {
+    setShowCancelConfirm(true);
+  };
+
+  const confirmCancel = () => {
+    // Clear booking session
+    localStorage.removeItem('bookingStartTime');
+    localStorage.removeItem('bookingTourId');
+    // Navigate to home page
+    window.location.href = '/';
+  };
+
   const handleSubmit = async () => {
     console.log('=== SUBMIT BOOKING ===');
     console.log('Services state:', services);
     console.log('Selected departure:', selectedDeparture);
     console.log('Tour data:', tourData);
-    
+
     if (!agreedToTerms) {
       warning('Vui lòng đồng ý điều khoản');
       return;
@@ -240,7 +276,7 @@ const BookingPage: React.FC = () => {
 
       // Prepare passengers data
       const passengers: Passenger[] = [];
-      
+
       // Add adults
       for (let i = 0; i < numberOfAdults; i++) {
         passengers.push({
@@ -251,7 +287,7 @@ const BookingPage: React.FC = () => {
           phone: formData.phone,
         });
       }
-      
+
       // Add children
       for (let i = 0; i < numberOfChildren; i++) {
         passengers.push({
@@ -262,7 +298,7 @@ const BookingPage: React.FC = () => {
           phone: formData.phone,
         });
       }
-      
+
       // Add infants
       for (let i = 0; i < numberOfInfants; i++) {
         passengers.push({
@@ -286,6 +322,8 @@ const BookingPage: React.FC = () => {
         })
         .map(s => ({
           service: s._id,
+          serviceId: s._id,
+          _id: s._id,
           quantity: s.quantity,
           price: s.price,
           subtotal: s.price * s.quantity,
@@ -358,21 +396,25 @@ const BookingPage: React.FC = () => {
       console.log('Booking data being sent:', JSON.stringify(bookingData, null, 2));
 
       const bookingResponse = await createBooking(bookingData as BookingRequest);
-      
+
       console.log('Booking response:', bookingResponse);
-      
+
       if (!bookingResponse.success && !bookingResponse.status) {
         throw new Error(bookingResponse.message || 'Tạo booking thất bại');
       }
 
       const bookingId = bookingResponse.data?.booking?._id || bookingResponse.data?._id;
-      
+
       if (!bookingId) {
         console.error('No booking ID in response:', bookingResponse);
         throw new Error('Không tìm thấy booking ID');
       }
 
       console.log('Booking created successfully, ID:', bookingId);
+
+      // Clear booking session from localStorage
+      localStorage.removeItem('bookingStartTime');
+      localStorage.removeItem('bookingTourId');
 
       // Initiate payment
       const paymentData: PaymentRequest = {
@@ -393,36 +435,31 @@ const BookingPage: React.FC = () => {
       // Handle payment response
       if (paymentMethod === 'bank_transfer') {
         // Show bank transfer info
-        const bankInfo = paymentResponse.data?.bankInfo;
+        const bankInfo = paymentResponse.data?.bankInfo || {
+          bankName: 'Vietcombank',
+          accountNumber: '1012345678',
+          accountName: 'CONG TY EASYTRIP',
+          transferContent: `THANH TOAN ${bookingId.slice(-6).toUpperCase()}`,
+          amount: calculateTotal()
+        };
         const paymentId = paymentResponse.data?._id;
-        
-        if (bankInfo) {
-          success('Đặt tour thành công! Đang chuyển đến trang thanh toán...');
-          // Navigate to payment info page with bank details
-          setTimeout(() => {
-            const params = new URLSearchParams({
-              bookingId,
-              paymentId: paymentId || '',
-              bankName: bankInfo.bankName || '',
-              accountNumber: bankInfo.accountNumber || '',
-              accountName: bankInfo.accountName || '',
-              amount: String(bankInfo.amount || 0),
-              transferContent: bankInfo.transferContent || '',
-            });
-            window.location.href = `/payment-info?${params.toString()}`;
-          }, 1500);
-        } else {
-          success('Đặt tour thành công!');
-          setTimeout(() => {
-            const params = new URLSearchParams({
-              bookingId,
-              tourName: tourData.title,
-              paymentMethod: 'bank_transfer',
-              amount: String(calculateTotal()),
-            });
-            window.location.href = `/booking-success?${params.toString()}`;
-          }, 2000);
-        }
+
+        success('Đặt tour thành công! Đang chuyển đến trang thanh toán...');
+
+        // Navigate to payment info page with bank details (always)
+        setTimeout(() => {
+          const params = new URLSearchParams({
+            bookingId,
+            paymentId: paymentId || '',
+            bankName: bankInfo.bankName || '',
+            accountNumber: bankInfo.accountNumber || '',
+            accountName: bankInfo.accountName || '',
+            amount: String(bankInfo.amount || 0),
+            transferContent: bankInfo.transferContent || '',
+            tourName: tourData.title,
+          });
+          window.location.href = `/payment-info?${params.toString()}`;
+        }, 1500);
       } else if (paymentMethod === 'cash') {
         // Cash payment at office
         success('Đặt tour thành công! Vui lòng đến văn phòng để thanh toán.');
@@ -509,16 +546,7 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-6">        {/* Countdown Timer */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-4 text-center">
-          <p className="text-sm text-gray-600 mb-1">Thời gian giữ chỗ còn lại:</p>
-          <p className={`text-3xl font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-orange-500'}`}>
-            {formatTime(timeLeft)}
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            Vui lòng hoàn tất đặt tour trước khi hết thời gian
-          </p>
-        </div>
+      <div className="container mx-auto px-4 py-6">
         {/* Progress Steps */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -528,18 +556,18 @@ const BookingPage: React.FC = () => {
               </div>
               <span className="text-sm font-medium">Chọn tour</span>
             </div>
-            
+
             <div className="flex-1 h-1 bg-green-500 mx-2" />
-            
+
             <div className="flex flex-col items-center flex-1">
               <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white mb-2">
                 <span className="font-bold">2</span>
               </div>
               <span className="text-sm font-medium text-red-500">Điền thông tin</span>
             </div>
-            
+
             <div className="flex-1 h-1 bg-gray-300 mx-2" />
-            
+
             <div className="flex flex-col items-center flex-1">
               <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 mb-2">
                 <span className="font-bold">3</span>
@@ -566,7 +594,7 @@ const BookingPage: React.FC = () => {
                 >
                   {tourData.departures.map((dep) => (
                     <option key={dep._id} value={dep._id}>
-                      {new Date(dep.startDate).toLocaleDateString('vi-VN')} - {new Date(dep.endDate).toLocaleDateString('vi-VN')} 
+                      {new Date(dep.startDate).toLocaleDateString('vi-VN')} - {new Date(dep.endDate).toLocaleDateString('vi-VN')}
                       (Còn {dep.availableSeats} chỗ - Người lớn: {dep.pricing.adult.toLocaleString('vi-VN')}đ)
                     </option>
                   ))}
@@ -612,8 +640,8 @@ const BookingPage: React.FC = () => {
             {/* Điền thông tin */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-xl font-bold text-orange-500 mb-6">Điền thông tin</h2>
-              <BookingForm 
-                formData={formData} 
+              <BookingForm
+                formData={formData}
                 setFormData={setFormData}
                 tourData={tourData}
               />
@@ -621,7 +649,7 @@ const BookingPage: React.FC = () => {
 
             {/* Dịch vụ cộng thêm */}
             {services.length > 0 && (
-              <AdditionalServices 
+              <AdditionalServices
                 services={services}
                 onQuantityChange={handleServiceQuantityChange}
               />
@@ -638,15 +666,19 @@ const BookingPage: React.FC = () => {
               agreedToTerms={agreedToTerms}
               setAgreedToTerms={setAgreedToTerms}
               onSubmit={handleSubmit}
+              onCancel={handleCancelBooking}
               submitting={submitting}
             />
           </div>
 
           {/* Sidebar */}
-          <BookingSidebar 
+          <BookingSidebar
             tourInfo={tourInfo}
             services={services}
             total={calculateTotal()}
+            timeLeft={timeLeft}
+            formatTime={formatTime}
+            paymentRate={paymentRate}
           />
         </div>
       </div>
@@ -654,14 +686,40 @@ const BookingPage: React.FC = () => {
       {/* Toast Notifications */}
       <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((toast) => (
-          <Toast 
-            key={toast.id} 
+          <Toast
+            key={toast.id}
             message={toast.message}
             type={toast.type}
-            onClose={() => {}}
+            onClose={() => { }}
           />
         ))}
       </div>
+
+      {/* Cancel Confirmation Modal */}
+      {showCancelConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 animate-fadeIn">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Hủy đặt tour?</h3>
+            <p className="text-gray-600 mb-6">
+              Bạn có chắc chắn muốn hủy quá trình đặt tour này không? Mọi thông tin bạn đã nhập sẽ bị mất.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowCancelConfirm(false)}
+                className="px-4 py-2 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                Không, tiếp tục đặt
+              </button>
+              <button
+                onClick={confirmCancel}
+                className="px-4 py-2 rounded-lg font-medium text-white bg-red-600 hover:bg-red-700 transition-colors"
+              >
+                Có, hủy đặt tour
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

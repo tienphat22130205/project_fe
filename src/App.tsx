@@ -14,10 +14,12 @@ import BookingPage from './app/(main)/[lang]/booking/page';
 import SearchPage from './app/(main)/[lang]/search/page';
 import AccountPage from './app/(main)/[lang]/account/page';
 import BookingSuccess from './features/BookingSuccess';
+import BookingReminder from './components/BookingReminder';
+import PaymentInfo from './features/PaymentInfo';
 
 function App() {
   const location = useLocation();
-  
+
   return (
     <>
       <Routes location={location}>
@@ -33,9 +35,11 @@ function App() {
           <Route path="/custom-tour" element={<CustomTourPage />} />
           <Route path="/tours/:id" element={<TourDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
+          <Route path="/payment-info" element={<PaymentInfo />} />
           <Route path="/booking-success" element={<BookingSuccess />} />
         </Route>
       </Routes>
+      <BookingReminder />
       <ToastContainer
         position="top-right"
         autoClose={3000}

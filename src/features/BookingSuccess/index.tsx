@@ -5,7 +5,7 @@ import { FaCheckCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'rea
 const BookingSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  
+
   const bookingId = searchParams.get('bookingId');
   const tourName = searchParams.get('tourName') || 'Tour du lịch';
   const paymentMethod = searchParams.get('paymentMethod');
@@ -27,7 +27,7 @@ const BookingSuccess: React.FC = () => {
               <FaCheckCircle className="text-5xl text-green-500" />
             </div>
           </div>
-          
+
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Đặt Tour Thành Công!</h1>
           <p className="text-gray-600 mb-6">
             Cảm ơn bạn đã tin tưởng và lựa chọn dịch vụ của chúng tôi
@@ -40,7 +40,7 @@ const BookingSuccess: React.FC = () => {
                 <span className="font-semibold text-gray-700 w-32">Mã booking:</span>
                 <span className="text-gray-900 font-mono">{bookingId}</span>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="font-semibold text-gray-700 w-32">Tour:</span>
                 <span className="text-gray-900">{tourName}</span>
@@ -118,7 +118,7 @@ const BookingSuccess: React.FC = () => {
           <div className="flex gap-4 mt-8">
             <button
               onClick={() => navigate('/account?tab=orders')}
-              className="flex-1 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors font-semibold"
+              className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
             >
               Xem đơn hàng
             </button>

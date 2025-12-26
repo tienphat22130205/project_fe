@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdLocationOn, MdPrint, MdExpandMore } from 'react-icons/md';
 import type { TourAPI } from '../server/types';
 
@@ -8,6 +9,7 @@ interface TabContentProps {
 }
 
 const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
+  const navigate = useNavigate();
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
@@ -34,6 +36,12 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  const handleBooking = () => {
+    if (tourData._id) {
+      navigate(`/booking?tourId=${tourData._id}`);
+    }
   };
 
   return (
@@ -254,8 +262,8 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
               <div className="text-base text-gray-600 mb-1">Tổng số khách</div>
               <div className="text-3xl font-bold text-gray-900">{totalGuests}</div>
             </div>
-            <button 
-              onClick={() => window.location.href = '/booking'}
+            <button
+              onClick={handleBooking}
               className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl text-xl font-bold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 focus:outline-none"
             >
               Đặt tour
