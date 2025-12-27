@@ -11,20 +11,20 @@ export const fetchTours = async (params?: {
 }): Promise<ToursResponse> => {
   try {
     const queryParams = new URLSearchParams();
-    
+
     if (params?.category) queryParams.append('category', params.category);
     if (params?.featured !== undefined) queryParams.append('featured', String(params.featured));
     if (params?.page) queryParams.append('page', String(params.page));
     if (params?.limit) queryParams.append('limit', String(params.limit));
 
-    const url = `${API_BASE_URL}/tours${queryParams.toString() ? `?${queryParams}` : ''}`;
-    
+    const url = `${API_BASE_URL}/tours/promotional${queryParams.toString() ? `?${queryParams}` : ''}`;
+
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const data: ToursResponse = await response.json();
     return data;
   } catch (error) {
@@ -76,7 +76,7 @@ const getBadge = (tour: TourAPI): string | undefined => {
 export const convertTourToDisplay = (tour: TourAPI): TourDisplay => {
   const firstStartDate = tour.startDates[0] || new Date().toISOString();
   const lastStartDate = tour.startDates[tour.startDates.length - 1] || firstStartDate;
-  
+
   return {
     id: tour.id || tour._id,
     title: tour.title,

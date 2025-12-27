@@ -1,9 +1,9 @@
 {
   "header": {
-    "logo": "SAIGONTOURIST",
+    "logo": "EASYTRIP",
     "tagline": "Công ty du lịch hàng đầu",
     "phone": "1900 1808 (từ 8:00 - 22:00)",
-    "email": "Mail to: info@saigontourist.net",
+    "email": "Mail to: info@easytrip.com",
     "language": "Chọn điểm khởi hành",
     "contact": "Liên hệ",
     "navigation": {
@@ -103,7 +103,7 @@
   },
   "destinations": {
     "title": "ĐIỂM DU LỊCH HẤP DẪN",
-    "description": "Saigontourist luôn có những sản phẩm đến các điểm du lịch hấp dẫn trải dài khắp chiều dài đất nước. Du khách có thể chọn một điểm đến du lịch hấp dẫn để khám phá và trải nghiệm với mức giá vô cùng hợp lý.",
+    "description": "EasyTrip luôn có những sản phẩm đến các điểm du lịch hấp dẫn trải dài khắp chiều dài đất nước. Du khách có thể chọn một điểm đến du lịch hấp dẫn để khám phá và trải nghiệm với mức giá vô cùng hợp lý.",
     "tabs": {
       "domestic": "Điểm đến trong nước",
       "international": "Điểm đến ngoài nước"
@@ -116,14 +116,38 @@
       "Miền Tây Nam Bộ"
     ],
     "places": [
-      { "name": "Hà Nội", "image": "hanoi.jpg" },
-      { "name": "Hạ Long", "image": "halong.jpg" },
-      { "name": "Sa Pa", "image": "sapa.jpg" },
-      { "name": "Cao Bằng", "image": "caobang.jpg" },
-      { "name": "Ninh Bình", "image": "ninhbinh.jpg" },
-      { "name": "Hạ Giang", "image": "hagiang.jpg" },
-      { "name": "Mộc Châu", "image": "mocchau.jpg" },
-      { "name": "Điện Biên", "image": "dienbien.jpg" }
+      {
+        "name": "Hà Nội",
+        "image": "hanoi.jpg"
+      },
+      {
+        "name": "Hạ Long",
+        "image": "halong.jpg"
+      },
+      {
+        "name": "Sa Pa",
+        "image": "sapa.jpg"
+      },
+      {
+        "name": "Cao Bằng",
+        "image": "caobang.jpg"
+      },
+      {
+        "name": "Ninh Bình",
+        "image": "ninhbinh.jpg"
+      },
+      {
+        "name": "Hạ Giang",
+        "image": "hagiang.jpg"
+      },
+      {
+        "name": "Mộc Châu",
+        "image": "mocchau.jpg"
+      },
+      {
+        "name": "Điện Biên",
+        "image": "dienbien.jpg"
+      }
     ]
   },
   "footer": {
@@ -132,7 +156,7 @@
       "Thương Hiệu Lữ Hành Hàng Đầu Việt Nam",
       "Travelife Partner - Sustainability In Tourism"
     ],
-    "email": "Email: info@saigontourist.net",
+    "email": "Email: info@easytrip.com",
     "services": {
       "title": "DỊCH VỤ",
       "items": [
@@ -157,7 +181,7 @@
       ]
     },
     "aboutUs": {
-      "title": "LỮ HÀNH SAIGONTOURIST",
+      "title": "EASYTRIP",
       "items": [
         "Giới thiệu",
         "Liên hệ",
@@ -179,15 +203,15 @@
       ]
     },
     "company": {
-      "name": "Công ty TNHH MTV Dịch vụ Lữ hành Saigontourist (Saigontourist Travel) - trực thuộc Tổng Công ty Du lịch Sài Gòn (Saigontourist Group)",
+      "name": "Công ty TNHH EasyTrip (EasyTrip Travel)",
       "address": "45 Lê Thánh Tôn, Phường Sài Gòn, Thành phố Hồ Chí Minh.",
       "phone": "ĐT: (84-28) 38 279 279 - Fax: (84-28) 38 254 987.",
       "businessLicense": "Số đăng ký kinh doanh: 0310891532 do Sở kế hoạch & Đầu tư TP.HCM cấp lần thứ 12, ngày 26/12/2023",
       "tourLicense": "Giấy phép kinh doanh Dịch vụ Lữ hành Quốc tế: 79-2006/2018 / TCDL-GP-LHQT",
       "representative": "Người đại diện Ông Nguyễn Thành Lưu.",
-      "copyright": "© Ghi rõ nguồn \"SAIGONTOURIST.NET\" khi sử dụng lại thông tin từ website này.",
+      "copyright": "© Ghi rõ nguồn \"EASYTRIP.COM\" khi sử dụng lại thông tin từ website này.",
       "hotline": "Tư vấn & đặt dịch vụ: 1900 1808",
-      "website": "Website SAIGONTOURIST.NET đã được đăng ký với Bộ Công Thương"
+      "website": "Website EASYTRIP.COM đã được đăng ký với Bộ Công Thương"
     }
   },
   "common": {

@@ -1,22 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaShoppingBag, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { fetchMyBookings, convertBookingToDisplay } from '../api';
+import type { BookingDisplay } from '../types';
 
-interface Order {
-  id: string;
-  tourName: string;
-  tourCode: string;
-  date: string;
-  location: string;
-  price: number;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-  image: string;
-}
 
 const Orders: React.FC = () => {
-  // Mock data - replace with real API call
-  const orders: Order[] = [];
+  const [orders, setOrders] = useState<BookingDisplay[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const getStatusColor = (status: string) => {
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchMyBookings();
+        console.log('Bookings API response:', response);
+        const displayBookings = response.data.bookings.map(booking => convertBookingToDisplay(booking));
+        setOrders(displayBookings);
+      } catch (err) {
+        setError('Có lỗi xảy ra khi tải danh sách đơn hàng');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  const getStatusColor = (status: BookingDisplay['status']) => {
     switch (status) {
       case 'confirmed':
         return 'bg-green-100 text-green-800';
@@ -31,7 +43,7 @@ const Orders: React.FC = () => {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: BookingDisplay['status']) => {
     switch (status) {
       case 'confirmed':
         return 'Đã xác nhận';
@@ -45,6 +57,28 @@ const Orders: React.FC = () => {
         return status;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8 text-center text-red-600">
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Thử lại
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-8">
