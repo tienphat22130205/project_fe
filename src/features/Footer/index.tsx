@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-white font-bold text-lg mb-4">{viTexts.footer.customerCare.title}</h3>
               <ul className="space-y-2">
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-white font-bold text-lg mb-4">{viTexts.footer.aboutUs.title}</h3>
               <ul className="space-y-2">
@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-white font-bold text-lg mb-4">{viTexts.footer.policies.title}</h3>
               <ul className="space-y-2">
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
               <FaLock /> <span className="font-semibold">ĐÃ THÔNG BÁO BỘ CÔNG THƯƠNG</span>
             </div>
             <div className="mt-6">
-              <p className="mb-2">Kết nối với Lữ hành Saigontourist</p>
+              <p className="mb-2">Kết nối với EasyTrip</p>
               <div className="flex justify-center items-center gap-2 text-blue-500 hover:text-blue-400 cursor-pointer">
                 <FaFacebook className="text-2xl" /> Facebook
               </div>

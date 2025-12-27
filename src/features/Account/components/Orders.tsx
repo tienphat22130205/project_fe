@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaShoppingBag, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
-import { fetchMyOrders } from '../server/api';
-import type { Booking } from '../server/types';
+import { fetchMyBookings, convertBookingToDisplay } from '../api';
+import type { BookingDisplay } from '../types';
+
 
 const Orders: React.FC = () => {
-  const [orders, setOrders] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState<BookingDisplay[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadOrders = async () => {
+    const fetchBookings = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-          setLoading(false);
-          return;
-        }
-
-        const data = await fetchMyOrders(token);
-        setOrders(data);
-      } catch (error) {
-        console.error('Error loading orders:', error);
+        setLoading(true);
+        const response = await fetchMyBookings();
+        console.log('Bookings API response:', response);
+        const displayBookings = response.data.bookings.map(booking => convertBookingToDisplay(booking));
+        setOrders(displayBookings);
+      } catch (err) {
+        setError('Có lỗi xảy ra khi tải danh sách đơn hàng');
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    loadOrders();
+    fetchBookings();
   }, []);
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: BookingDisplay['status']) => {
     switch (status) {
       case 'confirmed':
         return 'bg-green-100 text-green-800';
@@ -43,7 +43,7 @@ const Orders: React.FC = () => {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: BookingDisplay['status']) => {
     switch (status) {
       case 'confirmed':
         return 'Đã xác nhận';
@@ -58,14 +58,24 @@ const Orders: React.FC = () => {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('vi-VN');
-  };
-
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-8 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="bg-white rounded-lg shadow-sm p-8 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8 text-center text-red-600">
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Thử lại
+        </button>
       </div>
     );
   }
@@ -80,7 +90,7 @@ const Orders: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Chưa có đơn hàng nào</h3>
           <p className="text-gray-600 mb-6">Hãy khám phá và đặt tour du lịch của bạn</p>
           <button
-            onClick={() => (window.location.href = '/')}
+            onClick={() => (window.location.href = '/tours')}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Khám phá tours
@@ -90,15 +100,15 @@ const Orders: React.FC = () => {
         <div className="space-y-4">
           {orders.map((order) => (
             <div
-              key={order._id}
+              key={order.id}
               className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex gap-4">
                 {/* Tour Image */}
                 <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
                   <img
-                    src={order.tour.images?.[0] || 'https://via.placeholder.com/150'}
-                    alt={order.tour.title}
+                    src={order.image}
+                    alt={order.tourName}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -107,8 +117,8 @@ const Orders: React.FC = () => {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-bold text-gray-900 text-lg mb-1">{order.tour.title}</h3>
-                      <p className="text-sm text-gray-600">Mã booking: {order._id.slice(-6).toUpperCase()}</p>
+                      <h3 className="font-bold text-gray-900 text-lg mb-1">{order.tourName}</h3>
+                      <p className="text-sm text-gray-600">Mã tour: {order.tourCode}</p>
                     </div>
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusColor(
@@ -122,11 +132,11 @@ const Orders: React.FC = () => {
                   <div className="space-y-2 text-gray-700">
                     <div className="flex items-center gap-2">
                       <FaCalendarAlt className="text-gray-400" />
-                      <span>Ngày khởi hành: {formatDate(order.startDate)}</span>
+                      <span>{order.date}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <FaMapMarkerAlt className="text-gray-400" />
-                      <span>{order.tour.destination}</span>
+                      <span>{order.location}</span>
                     </div>
                   </div>
 
@@ -134,22 +144,11 @@ const Orders: React.FC = () => {
                     <div>
                       <span className="text-gray-600">Tổng tiền: </span>
                       <span className="text-xl font-bold text-red-600">
-                        {order.totalPrice.toLocaleString('vi-VN')} đ
+                        {order.price.toLocaleString('vi-VN')} đ
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          const params = new URLSearchParams({
-                            bookingId: order._id,
-                            tourName: order.tour.title,
-                            paymentMethod: order.paymentMethod,
-                            amount: String(order.totalPrice),
-                          });
-                          window.location.href = `/booking-success?${params.toString()}`;
-                        }}
-                        className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-                      >
+                      <button className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
                         Chi tiết
                       </button>
                       {order.status === 'completed' && (
