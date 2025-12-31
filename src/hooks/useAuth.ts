@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import { authService } from '../features/Login/server';
-
-interface User {
-  id: string;
-  fullName: string;
-  email: string;
-  role?: string;
-  avatar?: string;
-}
+import type { User } from '../features/Account/types';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(authService.getCurrentUser());
@@ -25,10 +18,10 @@ export const useAuth = () => {
   const logout = async (navigate?: (path: string) => void) => {
     await authService.logout();
     setUser(null);
-    
+
     // Trigger storage event để các components khác cập nhật
     window.dispatchEvent(new Event('storage'));
-    
+
     // Redirect về trang chủ sau khi đăng xuất
     if (navigate) {
       navigate('/');
@@ -56,6 +49,7 @@ export const useAuth = () => {
     user,
     logout,
     updateUser,
+    refreshProfile: useState<() => Promise<User>>(() => authService.getProfile.bind(authService))[0],
     isAuthenticated,
     getUserAvatar,
   };

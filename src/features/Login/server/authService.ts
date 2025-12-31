@@ -1,5 +1,7 @@
 import { apiClient } from './api';
 
+import type { User } from '../../Account/types';
+
 export interface LoginData {
   email: string;
   password: string;
@@ -8,13 +10,7 @@ export interface LoginData {
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
-  user: {
-    id: string;
-    fullName: string;
-    email: string;
-    role?: string;
-    avatar?: string;
-  };
+  user: User;
 }
 
 class AuthService {
@@ -37,7 +33,7 @@ class AuthService {
             avatar: response.data.user.avatar || this.getDefaultAvatar(response.data.user.fullName),
           },
         };
-        
+
         this.saveAuthData(userData);
         return userData;
       } else {
@@ -120,6 +116,68 @@ class AuthService {
   private getDefaultAvatar(fullName: string): string {
     const name = encodeURIComponent(fullName || 'User');
     return `https://ui-avatars.com/api/?name=${name}&background=0D8ABC&color=fff&size=200`;
+  }
+
+
+  /**
+   * Cập nhật thông tin profile
+   */
+  async updateProfile(data: Partial<User>): Promise<User> {
+    try {
+      const response = await apiClient.put<User>('/api/auth/profile', data);
+
+      if (response.status === 'success' && response.data) {
+        // Update local storage with new user data
+        const currentUser = this.getCurrentUser();
+        // Use type assertion if needed, or rely on runtime spread working (which it does)
+        const updatedUser = { ...currentUser, ...response.data } as User;
+
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        // Trigger storage event for cross-tab sync and current tab hooks
+        window.dispatchEvent(new Event('storage'));
+
+        return updatedUser;
+      } else {
+        throw new Error(response.message || 'Cập nhật thất bại');
+      }
+    } catch (error) {
+      console.error('Lỗi cập nhật profile:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Lấy thông tin profile mới nhất từ server
+   */
+  async getProfile(): Promise<User> {
+    try {
+      // Use any to inspect the structure dynamically since it might be wrapped
+      const response = await apiClient.get<any>('/api/auth/profile');
+
+      if (response.status === 'success' && response.data) {
+        // Handle case where API returns { data: { user: ... } } vs { data: ... }
+        const newData = response.data.user || response.data;
+
+        // Update local storage with new user data
+        const currentUser = this.getCurrentUser();
+
+        // Merge allows us to keep local-only fields if any (though usually backend is truth)
+        const updatedUser = { ...currentUser, ...newData } as User;
+
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        // Trigger storage event
+        window.dispatchEvent(new Event('storage'));
+
+        return updatedUser;
+      } else {
+        throw new Error(response.message || 'Không thể lấy thông tin người dùng');
+      }
+    } catch (error) {
+      console.error('Lỗi lấy thông tin profile:', error);
+      throw error;
+    }
   }
 }
 

@@ -56,3 +56,27 @@ export interface BookingDisplay {
     paymentMethod: string;
     paymentStatus: string;
 }
+
+export interface User {
+    _id: string; // MongoDB ID
+    id?: string; // Compatibility alias
+    email: string;
+    fullName: string;
+    role?: string;
+    avatar?: string;
+    address?: string;
+    dateOfBirth?: string;
+    gender?: 'Nam' | 'Nữ' | 'Khác';
+    phone?: string;
+    taxId?: string;
+}
+
+export interface UpdateProfileRequest {
+    fullName?: string;
+    address?: string;
+    dateOfBirth?: string;
+    gender?: 'Nam' | 'Nữ' | 'Khác';
+    phone?: string;
+    taxId?: string;
+    avatar?: string; // If handling avatar update via base64 or URL
+}
