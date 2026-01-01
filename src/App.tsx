@@ -9,6 +9,8 @@ import CarRentalPage from './app/(main)/[lang]/thue-xe/page';
 import StudyAbroadPage from './app/(main)/[lang]/du-hoc/page';
 import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
+import HaNoiPage from './app/(main)/[lang]/destinations/trong-nuoc/ha-noi/page';
+import ThaiLanPage from './app/(main)/[lang]/destinations/ngoai-nuoc/thai-lan/page';
 import ComboPage from "./features/DichVu/combo.tsx";
 import FlightTicketPage from "./features/DichVu/vemaybay.tsx";
 import AttractionTicketPage from "./features/DichVu/vethamquan.tsx";
@@ -32,10 +34,12 @@ function App() {
           <Route path="/account" element={<AccountPage />} />
           <Route path="/travel" element={<TravelPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/car-rental" element={<CarRentalPage />} />
+          <Route path="/thue-xe" element={<CarRentalPage />} />
           <Route path="/study-abroad" element={<StudyAbroadPage />} />
           <Route path="/work-abroad" element={<WorkAbroadPage />} />
           <Route path="/custom-tour" element={<CustomTourPage />} />
+          <Route path="/destinations/trong-nuoc/ha-noi" element={<HaNoiPage />} />
+          <Route path="/destinations/ngoai-nuoc/thai-lan" element={<ThaiLanPage />} />
           <Route path="/tours/:id" element={<TourDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/payment-info" element={<PaymentInfo />} />

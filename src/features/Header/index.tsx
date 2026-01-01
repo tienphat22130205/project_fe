@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaPhone, FaSearch, FaEnvelope, FaGlobe, FaChevronDown, FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import { MdFlight } from 'react-icons/md';
 import Login from '../Login';
@@ -26,6 +26,7 @@ const Header: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const travelTimeoutRef = useRef<number | null>(null);
   const servicesTimeoutRef = useRef<number | null>(null);
@@ -233,7 +234,9 @@ const Header: React.FC = () => {
             >
               <button
                 onClick={() => setShowTravelMenu(!showTravelMenu)}
-                className="flex items-center gap-1 text-blue-600 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none"
+                className={`flex items-center gap-1 transition-colors font-medium cursor-pointer focus:outline-none ${
+                  location.pathname === '/travel' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
+                }`}
               >
                 Du lịch
                 <FaChevronDown className="text-xs" />
@@ -306,7 +309,8 @@ const Header: React.FC = () => {
                                     {destinations.map((dest) => (
                                       <li key={dest.id}>
                                         <Link 
-                                          to={`/travel/domestic/${dest.name.toLowerCase()}`} 
+                                          to={dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`}
+                                          onClick={(e) => handleLinkClick(e, dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`)}
                                           className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base"
                                         >
                                           {dest.name}
@@ -329,7 +333,8 @@ const Header: React.FC = () => {
                                     {countries.map((country: string, idx: number) => (
                                       <li key={idx}>
                                         <Link 
-                                          to={`/travel/international/${country.toLowerCase()}`} 
+                                          to={country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`}
+                                          onClick={(e) => handleLinkClick(e, country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`)}
                                           className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
                                         >
                                           {country}
@@ -409,13 +414,31 @@ const Header: React.FC = () => {
               )}
             </div>
 
-            <Link to="/car-rental" onClick={(e) => handleLinkClick(e, '/car-rental')} className="text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none">
+            <Link 
+              to="/thue-xe" 
+              onClick={(e) => handleLinkClick(e, '/thue-xe')} 
+              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
+                location.pathname === '/thue-xe' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
+              }`}
+            >
               Thuê xe
             </Link>
-            <Link to="/study-abroad" onClick={(e) => handleLinkClick(e, '/study-abroad')} className="text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none">
+            <Link 
+              to="/study-abroad" 
+              onClick={(e) => handleLinkClick(e, '/study-abroad')} 
+              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
+                location.pathname === '/study-abroad' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
+              }`}
+            >
               Du học
             </Link>
-            <Link to="/work-abroad" onClick={(e) => handleLinkClick(e, '/work-abroad')} className="text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none">
+            <Link 
+              to="/work-abroad" 
+              onClick={(e) => handleLinkClick(e, '/work-abroad')} 
+              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
+                location.pathname === '/work-abroad' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
+              }`}
+            >
               Việc làm ngoài nước
             </Link>
           </nav>
