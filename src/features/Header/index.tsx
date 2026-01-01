@@ -333,7 +333,8 @@ const Header: React.FC = () => {
                                     {countries.map((country: string, idx: number) => (
                                       <li key={idx}>
                                         <Link 
-                                          to={`/travel/international/${country.toLowerCase()}`} 
+                                          to={country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`}
+                                          onClick={(e) => handleLinkClick(e, country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`)}
                                           className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
                                         >
                                           {country}
