@@ -309,7 +309,8 @@ const Header: React.FC = () => {
                                     {destinations.map((dest) => (
                                       <li key={dest.id}>
                                         <Link 
-                                          to={`/travel/domestic/${dest.name.toLowerCase()}`} 
+                                          to={dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`}
+                                          onClick={(e) => handleLinkClick(e, dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`)}
                                           className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base"
                                         >
                                           {dest.name}

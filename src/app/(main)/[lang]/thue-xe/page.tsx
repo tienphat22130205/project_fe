@@ -107,21 +107,21 @@ export default function ThueXePage() {
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
               Dịch Vụ Thuê Xe Du Lịch
             </h1>
-            <p className="text-xl md:text-2xl mb-10 text-blue-100 font-light">
-              Đa dạng loại xe • Tài xế kinh nghiệm • Giá cả cạnh tranh
+            <p className="text-xl mb-8 text-blue-100">
+              Đa dạng loại xe, tài xế kinh nghiệm, giá cả cạnh tranh
             </p>
-            <div className="flex flex-wrap justify-center gap-4 text-base">
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 shadow-lg hover:bg-white/30 transition-all">
-                <FaClock className="w-5 h-5" />
-                <span className="font-medium">Sẵn sàng 24/7</span>
+            <div className="flex flex-wrap justify-center gap-3 text-sm">
+              <div className="flex items-center gap-2 bg-white/15 px-4 py-2 rounded-lg">
+                <FaClock className="w-4 h-4" />
+                <span>Sẵn sàng 24/7</span>
               </div>
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 shadow-lg hover:bg-white/30 transition-all">
-                <FaUsers className="w-5 h-5" />
-                <span className="font-medium">Tài xế chuyên nghiệp</span>
+              <div className="flex items-center gap-2 bg-white/15 px-4 py-2 rounded-lg">
+                <FaUsers className="w-4 h-4" />
+                <span>Tài xế chuyên nghiệp</span>
               </div>
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 shadow-lg hover:bg-white/30 transition-all">
-                <FaStar className="w-5 h-5 " />
-                <span className="font-medium">Đánh giá 4.8/5</span>
+              <div className="flex items-center gap-2 bg-white/15 px-4 py-2 rounded-lg">
+                <FaStar className="w-4 h-4" />
+                <span>Đánh giá 4.8/5</span>
               </div>
             </div>
           </div>
