@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdLocationOn, MdPrint, MdExpandMore } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import { authService } from '../../Login/server';
 import type { TourAPI } from '../server/types';
 
 interface TabContentProps {
@@ -39,6 +41,12 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
   };
 
   const handleBooking = () => {
+    const user = authService.getCurrentUser();
+    if (!user) {
+      toast.error('Bạn cần đăng nhập tài khoản để đặt tour');
+      return;
+    }
+    
     if (tourData._id) {
       navigate(`/booking?tourId=${tourData._id}`);
     }
