@@ -6,12 +6,8 @@ import Login from '../Login';
 import Register from '../Register';
 import { UserMenu, GuestMenu } from './components';
 import { useAuth } from '../../hooks';
-
-interface TravelDestination {
-  id: number;
-  name: string;
-  region?: string;
-}
+import { getRegions, getProvincesByRegion, getAllCountries } from './server';
+import type {Province, Country } from './server';
 
 const Header: React.FC = () => {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
@@ -20,8 +16,8 @@ const Header: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'domestic' | 'international' | 'types'>('international');
-  const [domesticDestinations, setDomesticDestinations] = useState<TravelDestination[]>([]);
-  const [internationalDestinations, setInternationalDestinations] = useState<Record<string, string[]>>({});
+  const [provincesByRegion, setProvincesByRegion] = useState<Record<string, Province[]>>({});
+  const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const { user, updateUser } = useAuth();
@@ -68,41 +64,37 @@ const Header: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showLoginModal, showRegisterModal]);
 
-  // Fetch dữ liệu du lịch (mock API)
+  // Fetch dữ liệu du lịch từ API
   useEffect(() => {
     const fetchTravelData = async () => {
       setLoading(true);
       try {
-        // Mock API cho du lịch trong nước
-        const domesticData: TravelDestination[] = [
-          { id: 1, name: 'Hà Nội', region: 'Miền Bắc' },
-          { id: 2, name: 'Hạ Long', region: 'Miền Bắc' },
-          { id: 3, name: 'Sapa', region: 'Miền Bắc' },
-          { id: 4, name: 'Ninh Bình', region: 'Miền Bắc' },
-          { id: 5, name: 'Đà Nẵng', region: 'Miền Trung' },
-          { id: 6, name: 'Hội An', region: 'Miền Trung' },
-          { id: 7, name: 'Huế', region: 'Miền Trung' },
-          { id: 8, name: 'Nha Trang', region: 'Miền Trung' },
-          { id: 9, name: 'TP.HCM', region: 'Miền Nam' },
-          { id: 10, name: 'Phú Quốc', region: 'Miền Nam' },
-          { id: 11, name: 'Vũng Tàu', region: 'Miền Nam' },
-          { id: 12, name: 'Đà Lạt', region: 'Miền Nam' }
-        ];
+        // Fetch regions và provinces cho du lịch trong nước
+        const regionsResponse = await getRegions();
+        const fetchedRegions = regionsResponse.data.regions;
 
-        // Mock API cho du lịch nước ngoài
-        const internationalData = {
-          'CHÂU Á': ['Thái Lan', 'Hàn Quốc', 'Trung Quốc', 'Indonesia', 'Nhật Bản', 'Singapore', 'Dubai', 'Malaysia', 'Đài Loan', 'Campuchia'],
-          'CHÂU ÂU': ['Pháp', 'Đức', 'Thụy Sĩ', 'Ý', 'Tây Ban Nha', 'Bồ Đào Nha', 'Bỉ', 'Na Uy', 'Luxembourg', 'Scotland'],
-          'CHÂU MỸ': ['Mỹ', 'Canada', 'Cuba', 'Brazil', 'Argentina'],
-          'CHÂU ÚC': ['Úc', 'New Zealand'],
-          'CHÂU PHI': ['Ai Cập', 'Nam Phi', 'Morocco']
-        };
+        // Fetch provinces cho mỗi region
+        const provincesData: Record<string, Province[]> = {};
+        for (const region of fetchedRegions) {
+          try {
+            const provincesResponse = await getProvincesByRegion(region.slug);
+            provincesData[region.name] = provincesResponse.data.provinces;
+          } catch (error) {
+            console.error(`Error fetching provinces for ${region.name}:`, error);
+            provincesData[region.name] = [];
+          }
+        }
+        setProvincesByRegion(provincesData);
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        setDomesticDestinations(domesticData);
-        setInternationalDestinations(internationalData);
+        // Fetch countries cho du lịch nước ngoài
+        try {
+          const countriesResponse = await getAllCountries();
+          setCountries(countriesResponse.data.countries);
+        } catch (error) {
+          console.error('Error fetching countries:', error);
+          // Set empty array if countries API fails
+          setCountries([]);
+        }
       } catch (error) {
         console.error('Error fetching travel data:', error);
       } finally {
@@ -147,13 +139,16 @@ const Header: React.FC = () => {
     { title: 'Vé Tham Quan Sun World', href: '/dich-vu/ve-tham-quan'}
   ];
 
-  // Group domestic destinations by region
-  const groupedDomestic = domesticDestinations.reduce((acc, dest) => {
-    const region = dest.region || 'Khác';
-    if (!acc[region]) acc[region] = [];
-    acc[region].push(dest);
+  // Group countries by continent
+  const groupedCountries = countries.reduce((acc, country) => {
+    const continent = country.continent || 'Khác';
+    if (!acc[continent]) acc[continent] = [];
+    acc[continent].push(country.name);
     return acc;
-  }, {} as Record<string, TravelDestination[]>);
+  }, {} as Record<string, string[]>);
+
+  // Keep reference to full country data for slug lookup
+  const countriesData = countries;
 
   return (
     <header ref={headerRef} className="bg-white shadow-md sticky top-0 z-50">
@@ -246,16 +241,6 @@ const Header: React.FC = () => {
               {showTravelMenu && (
                 <div className="absolute top-full left-[-200px] mt-2 bg-white rounded-lg shadow-2xl border border-gray-100 z-40 w-[1400px] min-h-[500px] overflow-hidden transition-all duration-300">
                   {/* View All Link */}
-                  <div className="bg-blue-50 px-8 py-3 border-b border-blue-100">
-                    <Link
-                      to="/travel"
-                      onClick={(e) => handleLinkClick(e, '/travel')}
-                      className="text-blue-600 hover:text-blue-700 font-semibold text-base flex items-center gap-2 focus:outline-none"
-                    >
-                      <span>🌍</span>
-                      <span>Xem tất cả tour du lịch</span>
-                    </Link>
-                  </div>
                   <div className="flex">
                     {/* Left sidebar */}
                     <div className="w-60 bg-blue-600 text-white p-5 min-h-[500px]">
@@ -302,18 +287,18 @@ const Header: React.FC = () => {
                           {/* Du lịch trong nước */}
                           {activeCategory === 'domestic' && (
                             <div className="grid grid-cols-3 gap-8 animate-fadeIn">
-                              {Object.entries(groupedDomestic).map(([region, destinations]) => (
-                                <div key={region}>
-                                  <h4 className="font-bold text-blue-600 mb-4 text-xl">{region}</h4>
+                              {Object.entries(provincesByRegion).map(([regionName, provinces]) => (
+                                <div key={regionName}>
+                                  <h4 className="font-bold text-blue-600 mb-4 text-xl">{regionName}</h4>
                                   <ul className="space-y-2">
-                                    {destinations.map((dest) => (
-                                      <li key={dest.id}>
+                                    {provinces.map((province) => (
+                                      <li key={province._id}>
                                         <Link 
-                                          to={dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`}
-                                          onClick={(e) => handleLinkClick(e, dest.name === 'Hà Nội' ? '/destinations/trong-nuoc/ha-noi' : `/travel/domestic/${dest.name.toLowerCase()}`)}
+                                          to={`/du-lich/${province.slug}`}
+                                          onClick={(e) => handleLinkClick(e, `/du-lich/${province.slug}`)}
                                           className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base"
                                         >
-                                          {dest.name}
+                                          {province.name}
                                         </Link>
                                       </li>
                                     ))}
@@ -325,23 +310,33 @@ const Header: React.FC = () => {
 
                           {/* Du lịch nước ngoài */}
                           {activeCategory === 'international' && (
-                            <div className="grid grid-cols-5 gap-8 animate-fadeIn">
-                              {Object.entries(internationalDestinations).map(([continent, countries]: [string, string[]]) => (
-                                <div key={continent}>
-                                  <h4 className="font-bold text-blue-600 mb-4 text-lg">{continent}</h4>
-                                  <ul className="space-y-2">
-                                    {countries.map((country: string, idx: number) => (
-                                      <li key={idx}>
-                                        <Link 
-                                          to={country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`}
-                                          onClick={(e) => handleLinkClick(e, country === 'Thái Lan' ? '/destinations/ngoai-nuoc/thai-lan' : `/travel/international/${country.toLowerCase()}`)}
-                                          className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
-                                        >
-                                          {country}
-                                        </Link>
-                                      </li>
-                                    ))}
-                                  </ul>
+                            <div className="animate-fadeIn">
+                              {Object.keys(groupedCountries).length === 0 ? (
+                                <div className="text-center text-gray-500 py-8">
+                                  Không có dữ liệu du lịch nước ngoài
+                                </div>
+                              ) : (
+                                <div className="grid grid-cols-5 gap-8">
+                                  {Object.entries(groupedCountries).map(([continent, countries]: [string, string[]]) => (
+                                    <div key={continent}>
+                                      <h4 className="font-bold text-blue-600 mb-4 text-lg">{continent}</h4>
+                                      <ul className="space-y-2">
+                                        {countries.map((country: string, idx: number) => {
+                                          const countryData = countriesData.find(c => c.name === country);
+                                          const countrySlug = countryData?.slug || country.toLowerCase().replace(/\s+/g, '-');
+                                          return (
+                                            <li key={idx}>
+                                              <Link 
+                                                to={`/du-lich/${countrySlug}`}
+                                                onClick={(e) => handleLinkClick(e, `/du-lich/${countrySlug}`)}
+                                                className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
+                                              >
+                                                {country}
+                                              </Link>
+                                            </li>
+                                          );
+                                        })}
+                                      </ul>
                                   {countries.length > 8 && (
                                     <button className="text-sm text-blue-500 hover:text-blue-600 mt-3 focus:outline-none">
                                       Xem thêm
@@ -349,6 +344,8 @@ const Header: React.FC = () => {
                                   )}
                                 </div>
                               ))}
+                                </div>
+                              )}
                             </div>
                           )}
 
@@ -392,14 +389,6 @@ const Header: React.FC = () => {
               {/* Services Dropdown */}
               {showServicesMenu && (
                 <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-2xl border border-gray-100 py-2 z-40 w-64">
-                  <Link
-                    to="/services"
-                    onClick={(e) => handleLinkClick(e, '/services')}
-                    className="flex items-center gap-3 px-6 py-3 text-blue-600 hover:bg-blue-50 font-semibold border-b border-gray-100 focus:outline-none"
-                  >
-                    <span className="text-xl">🌐</span>
-                    <span>Xem tất cả dịch vụ</span>
-                  </Link>
                   {servicesMenuData.map((service, idx) => (
                     <Link
                       key={idx}

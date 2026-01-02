@@ -81,13 +81,13 @@ const Destinations: React.FC = () => {
   }, [activeTab]);
 
   const handleProvinceClick = (provinceSlug: string) => {
-    // Navigate to tours page with province slug
-    navigate(`/tours?province=${provinceSlug}`);
+    // Navigate to province detail page with slug
+    navigate(`/du-lich/${provinceSlug}`);
   };
 
   const handleCountryClick = (countrySlug: string) => {
-    // Navigate to tours page with country slug
-    navigate(`/tours?country=${countrySlug}`);
+    // Navigate to country detail page with slug
+    navigate(`/du-lich/${countrySlug}`);
   };
 
   return (
