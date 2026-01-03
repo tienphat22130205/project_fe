@@ -219,6 +219,16 @@ const PopularTours: React.FC = () => {
                   <p className="text-gray-500 text-center py-8">Không có tour nào khả dụng</p>
                 )}
               </div>
+
+              <div className="mt-6 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => navigate('/search')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Xem thêm
+                </button>
+              </div>
             </div>
 
             {/* Tour nước ngoài */}
@@ -233,6 +243,16 @@ const PopularTours: React.FC = () => {
                   // Hiển thị 5 placeholder cards
                   Array.from({ length: 5 }).map((_, index) => renderPlaceholderCard(index))
                 )}
+              </div>
+
+              <div className="mt-6 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => navigate('/search')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Xem thêm
+                </button>
               </div>
             </div>
           </div>

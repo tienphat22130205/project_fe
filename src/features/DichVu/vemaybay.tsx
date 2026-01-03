@@ -194,7 +194,7 @@ const FlightTicketPage = () => {
                     {flights.map((flight) => (
                         <div
                             key={flight.id}
-                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border-2 border-gray-400 hover:border-blue-500"
+                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6"
                         >
                             <div className="grid md:grid-cols-12 gap-4 items-center">
                                 {/* Airline Info */}
@@ -233,7 +233,7 @@ const FlightTicketPage = () => {
                                 <div className="md:col-span-4 text-right">
                                     <div className="mb-2">
                                         <span className="text-xs text-gray-500">Từ</span>
-                                        <div className="text-2xl font-bold text-blue-600">
+                                        <div className="text-2xl font-bold text-red-600">
                                             {formatPrice(flight.price)}đ
                                         </div>
                                     </div>
@@ -266,7 +266,7 @@ const FlightTicketPage = () => {
                         ].map((item, i) => {
                             const IconComponent = item.icon;
                             return (
-                                <div key={i} className="text-center p-6 rounded-xl bg-white hover:bg-blue-50 transition border-2 border-gray-400 hover:border-blue-500">
+                                <div key={i} className="text-center p-6 rounded-xl bg-white">
                                     <div className="flex justify-center mb-4">
                                         <IconComponent className="text-4xl text-blue-600" />
                                     </div>

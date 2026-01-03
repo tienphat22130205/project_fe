@@ -203,13 +203,13 @@ const AttractionTicketPage = () => {
                     {filteredTickets.map((ticket) => (
                         <div
                             key={ticket.id}
-                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-400 hover:border-blue-500 group"
+                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <img
                                     src={ticket.image}
                                     alt={ticket.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                    className="w-full h-full object-cover"
                                 />
                                 {ticket.badge && (
                                     <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -224,7 +224,7 @@ const AttractionTicketPage = () => {
                                 </div>
                             </div>
                             <div className="p-4">
-                                <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition min-h-[3rem]">
+                                <h3 className="font-bold text-base text-gray-900 mb-2 line-clamp-2 min-h-[3rem]">
                                     {ticket.title}
                                 </h3>
                                 <div className="flex items-center gap-3 mb-3">
@@ -244,7 +244,7 @@ const AttractionTicketPage = () => {
                                                 {formatPrice(ticket.originalPrice)}đ
                                             </div>
                                         )}
-                                        <div className="text-xl font-bold text-blue-600">
+                                        <div className="text-xl font-bold text-red-600">
                                             {formatPrice(ticket.price)}đ
                                         </div>
                                     </div>
@@ -272,7 +272,7 @@ const AttractionTicketPage = () => {
                         {['Hạ Long', 'Đà Nẵng', 'Nha Trang', 'Đà Lạt', 'Phú Quốc'].map((location, i) => (
                             <div
                                 key={i}
-                                className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-6 text-center text-white hover:scale-105 transition-transform cursor-pointer shadow-lg border-2 border-blue-500"
+                                className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-6 text-center text-white cursor-pointer shadow-lg"
                             >
                                 <div className="flex justify-center mb-2">
                                     <FaTicketAlt className="text-3xl" />
@@ -299,7 +299,7 @@ const AttractionTicketPage = () => {
                         ].map((item, i) => {
                             const IconComponent = item.icon;
                             return (
-                                <div key={i} className="text-center p-6 rounded-xl bg-white hover:bg-blue-50 transition shadow-sm border-2 border-gray-400 hover:border-blue-500">
+                                <div key={i} className="text-center p-6 rounded-xl bg-white shadow-sm">
                                     <div className="flex justify-center mb-4">
                                         <IconComponent className="text-4xl text-blue-600" />
                                     </div>
