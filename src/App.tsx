@@ -20,6 +20,8 @@ import AccountPage from './app/(main)/[lang]/account/page';
 import BookingSuccess from './features/BookingSuccess';
 import BookingReminder from './components/BookingReminder';
 import PaymentInfo from './features/PaymentInfo';
+import DomesticAreaPage from './app/(main)/[lang]/khu-vuc/trong-nuoc/page.tsx';
+import InternationalAreaPage from './app/(main)/[lang]/khu-vuc/ngoai-nuoc/page.tsx';
 
 function App() {
   const location = useLocation();
@@ -30,6 +32,8 @@ function App() {
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/khu-vuc/trong-nuoc" element={<DomesticAreaPage />} />
+          <Route path="/khu-vuc/ngoai-nuoc" element={<InternationalAreaPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/travel" element={<TravelPage />} />
           <Route path="/services" element={<ServicesPage />} />

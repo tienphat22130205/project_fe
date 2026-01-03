@@ -5,7 +5,17 @@ import { MdAttachMoney } from 'react-icons/md';
 import { searchTours, formatPrice } from './server/api';
 import type { Tour, SearchParams } from './server/types';
 
-const SearchPage: React.FC = () => {
+type SearchPageProps = {
+  forcedIsInternational?: boolean;
+  bannerTitle?: string;
+  defaultHeading?: string;
+};
+
+const SearchPage: React.FC<SearchPageProps> = ({
+  forcedIsInternational,
+  bannerTitle,
+  defaultHeading,
+}) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [tours, setTours] = useState<Tour[]>([]);
@@ -73,7 +83,11 @@ const SearchPage: React.FC = () => {
         // Add type filters
         if (category) params.category = category;
         if (difficulty) params.difficulty = difficulty;
-        if (isInternational !== null) params.isInternational = isInternational === 'true';
+        if (typeof forcedIsInternational === 'boolean') {
+          params.isInternational = forcedIsInternational;
+        } else if (isInternational !== null) {
+          params.isInternational = isInternational === 'true';
+        }
         if (featured !== null) params.featured = featured === 'true';
         
         // Add sorting
@@ -85,7 +99,12 @@ const SearchPage: React.FC = () => {
         const response = await searchTours(params);
         console.log('Search response:', response);
         
-        setTours(response.data.tours);
+        const nextTours =
+          typeof forcedIsInternational === 'boolean'
+            ? response.data.tours.filter((tour) => tour.isInternational === forcedIsInternational)
+            : response.data.tours;
+
+        setTours(nextTours);
         setTotalResults(response.data.total);
         setTotalPages(response.data.totalPages);
       } catch (error) {
@@ -98,8 +117,35 @@ const SearchPage: React.FC = () => {
     };
 
     loadTours();
-  }, [keyword, region, province, country, minPrice, maxPrice, minDuration, maxDuration, 
-      minRating, category, difficulty, isInternational, featured, sortBy, currentPage]);
+  }, [
+    keyword,
+    region,
+    province,
+    country,
+    minPrice,
+    maxPrice,
+    minDuration,
+    maxDuration,
+    minRating,
+    category,
+    difficulty,
+    isInternational,
+    featured,
+    sortBy,
+    currentPage,
+    forcedIsInternational,
+  ]);
+
+  const computedHeading =
+    keyword
+      ? `Kết quả tìm kiếm với từ khóa "${keyword}"`
+      : region
+        ? `Tours tại ${region}`
+        : province
+          ? `Tours tại ${province}`
+          : country
+            ? `Tours ${country}`
+            : defaultHeading || 'Tất cả tours';
 
   return (
     <div className="bg-gray-50">
@@ -112,7 +158,7 @@ const SearchPage: React.FC = () => {
       >
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-5xl font-bold text-white">Tìm kiếm</h1>
+            <h1 className="text-5xl font-bold text-white">{bannerTitle || 'Tìm kiếm'}</h1>
         </div>
       </div>
 
@@ -120,11 +166,7 @@ const SearchPage: React.FC = () => {
         {/* Search Info */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            {keyword ? `Kết quả tìm kiếm với từ khóa "${keyword}"` : 
-             region ? `Tours tại ${region}` :
-             province ? `Tours tại ${province}` :
-             country ? `Tours ${country}` :
-             'Tất cả tours'}
+            {computedHeading}
           </h2>
           <div className="flex items-center justify-between">
             <p className="text-gray-600">

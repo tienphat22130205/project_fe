@@ -99,8 +99,12 @@ export const filterToursByType = (
   tours: TourAPI[],
   type: 'domestic' | 'international'
 ): TourAPI[] => {
-  // Giả định: tours có destination chứa "Vietnam" là trong nước
   return tours.filter((tour) => {
+    if (typeof tour.isInternational === 'boolean') {
+      return type === 'domestic' ? !tour.isInternational : tour.isInternational;
+    }
+
+    // Fallback: nếu backend không trả isInternational
     const isDomestic = tour.destination.toLowerCase().includes('vietnam');
     return type === 'domestic' ? isDomestic : !isDomestic;
   });
