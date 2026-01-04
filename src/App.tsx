@@ -22,6 +22,7 @@ import BookingReminder from './components/BookingReminder';
 import PaymentInfo from './features/PaymentInfo';
 import DomesticAreaPage from './app/(main)/[lang]/khu-vuc/trong-nuoc/page.tsx';
 import InternationalAreaPage from './app/(main)/[lang]/khu-vuc/ngoai-nuoc/page.tsx';
+import TourMuaHoaAnhDaoPage from './app/(main)/[lang]/tour-mua-hoa-anh-dao/page';
 
 function App() {
   const location = useLocation();
@@ -49,6 +50,7 @@ function App() {
           <Route path="/dich-vu/combo" element={<ComboPage />} />
           <Route path="/dich-vu/ve-may-bay" element={<FlightTicketPage />} />
           <Route path="/dich-vu/ve-tham-quan" element={<AttractionTicketPage />} />
+          <Route path="/tour-mua-hoa-anh-dao" element={<TourMuaHoaAnhDaoPage />} />
         </Route>
       </Routes>
       <BookingReminder />
