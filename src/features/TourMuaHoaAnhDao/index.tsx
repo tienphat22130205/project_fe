@@ -330,50 +330,50 @@ const TourMuaHoaAnhDao: React.FC = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 p-6 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-4 uppercase">
+                    <div className="flex-1 flex flex-col">
+                      <div className="p-5">
+                        <h3 className="text-lg font-bold text-gray-900 mb-3 uppercase leading-snug">
                           {tour.title}
                         </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div className="space-y-2 text-[15px]">
                           <div className="flex">
-                            <span className="font-semibold text-gray-700 min-w-[120px]">Xuất phát:</span>
-                            <span className="text-gray-600">TP Hồ Chí Minh</span>
+                            <span className="font-semibold text-gray-800 w-40 flex-shrink-0">Xuất phát:</span>
+                            <span className="text-gray-700">TP Hồ Chí Minh</span>
                           </div>
                           <div className="flex">
-                            <span className="font-semibold text-gray-700 min-w-[120px]">Ngày khởi hành:</span>
-                            <span className="text-gray-600">{tour.departure}</span>
+                            <span className="font-semibold text-gray-800 w-40 flex-shrink-0">Ngày khởi hành:</span>
+                            <span className="text-gray-700">{tour.departure}</span>
                           </div>
                           <div className="flex">
-                            <span className="font-semibold text-gray-700 min-w-[120px]">Thời gian:</span>
-                            <span className="text-gray-600">{tour.duration}</span>
+                            <span className="font-semibold text-gray-800 w-40 flex-shrink-0">Thời gian:</span>
+                            <span className="text-gray-700">{tour.duration}</span>
                           </div>
                           <div className="flex">
-                            <span className="font-semibold text-gray-700 min-w-[120px]">Phương tiện:</span>
-                            <span className="text-gray-600 flex items-center gap-1">
-                              <FaPlane className="text-blue-600" />
+                            <span className="font-semibold text-gray-800 w-40 flex-shrink-0">Phương tiện:</span>
+                            <span className="text-gray-700 flex items-center gap-2">
+                              <FaPlane className="text-gray-900" />
                               Đường Hàng Không
                             </span>
                           </div>
                           {tour.airline && (
                             <div className="flex">
-                              <span className="font-semibold text-gray-700 min-w-[120px]">Hãng hàng không:</span>
-                              <span className="text-gray-600">{tour.airline}</span>
+                              <span className="font-semibold text-gray-800 w-40 flex-shrink-0">Hãng hàng không:</span>
+                              <span className="text-gray-700">{tour.airline}</span>
                             </div>
                           )}
                         </div>
                       </div>
 
                       {/* Price and Button */}
-                      <div className="mt-6 flex items-center justify-between border-t pt-4">
+                      <div className="mt-auto px-5 py-4 bg-gray-50 flex items-center justify-between">
                         <div>
-                          <div className="text-sm text-gray-500 mb-1">Giá tour:</div>
+                          <div className="text-sm text-gray-600 mb-0.5">Giá tour:</div>
                           <div className="text-2xl font-bold text-red-600">
                             {tour.price.toLocaleString('vi-VN')} đ
                           </div>
                         </div>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors shadow-md hover:shadow-lg">
                           Xem chi tiết
                         </button>
                       </div>
