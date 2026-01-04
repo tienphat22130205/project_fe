@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaMap, FaCity, FaGlobeAmericas, FaStar, FaSearch, FaFilter } from 'react-icons/fa';
 import { MdAttachMoney } from 'react-icons/md';
@@ -16,6 +16,9 @@ const SearchPage: React.FC<SearchPageProps> = ({
   bannerTitle,
   defaultHeading,
 }) => {
+  const PAGE_SIZE = 12;
+  const forcedResultsCacheRef = useRef<{ key: string; tours: Tour[] } | null>(null);
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [tours, setTours] = useState<Tour[]>([]);
@@ -46,63 +49,151 @@ const SearchPage: React.FC<SearchPageProps> = ({
     window.scrollTo(0, 0);
   }, []);
 
+  const isVietnamTour = (tour: Tour) => {
+    const name = tour.country?.name?.toLowerCase().trim();
+    return name === 'việt nam' || name === 'viet nam' || name === 'vietnam';
+  };
+
   // Load tours based on search parameters
   useEffect(() => {
     const loadTours = async () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Build search params
-        const params: SearchParams = {
-          limit: 12,
-          page: currentPage,
-        };
+
+        const baseParams: SearchParams = {};
         
         // Add search text
         if (keyword) {
-          params.search = keyword;
+          baseParams.search = keyword;
         }
         
         // Add location filters
-        if (region) params.region = region;
-        if (province) params.province = province;
-        if (country) params.country = country;
+        if (region) baseParams.region = region;
+        if (province) baseParams.province = province;
+        if (country) baseParams.country = country;
         
         // Add price filters
-        if (minPrice) params.minPrice = Number(minPrice);
-        if (maxPrice) params.maxPrice = Number(maxPrice);
+        if (minPrice) baseParams.minPrice = Number(minPrice);
+        if (maxPrice) baseParams.maxPrice = Number(maxPrice);
         
         // Add duration filters
-        if (minDuration) params.minDuration = Number(minDuration);
-        if (maxDuration) params.maxDuration = Number(maxDuration);
+        if (minDuration) baseParams.minDuration = Number(minDuration);
+        if (maxDuration) baseParams.maxDuration = Number(maxDuration);
         
         // Add rating filter
-        if (minRating) params.minRating = Number(minRating);
+        if (minRating) baseParams.minRating = Number(minRating);
         
         // Add type filters
-        if (category) params.category = category;
-        if (difficulty) params.difficulty = difficulty;
+        if (category) baseParams.category = category;
+        if (difficulty) baseParams.difficulty = difficulty;
         if (typeof forcedIsInternational === 'boolean') {
-          params.isInternational = forcedIsInternational;
+          baseParams.isInternational = forcedIsInternational;
         } else if (isInternational !== null) {
-          params.isInternational = isInternational === 'true';
+          baseParams.isInternational = isInternational === 'true';
         }
-        if (featured !== null) params.featured = featured === 'true';
+        if (featured !== null) baseParams.featured = featured === 'true';
         
         // Add sorting
         if (sortBy !== 'default') {
-          params.sort = sortBy;
+          baseParams.sort = sortBy;
         }
+
+        const filterForcedTours = (list: Tour[]) =>
+          list.filter((tour) => {
+            if (typeof forcedIsInternational === 'boolean') {
+              // Trong nước: chỉ Việt Nam
+              if (forcedIsInternational === false) {
+                return tour.isInternational === false || isVietnamTour(tour);
+              }
+              // Nước ngoài: chỉ ngoài Việt Nam
+              return tour.isInternational === true && !isVietnamTour(tour);
+            }
+
+            // If user explicitly filters by isInternational in URL, keep behavior consistent.
+            if (isInternational !== null) {
+              const desired = isInternational === 'true';
+              return desired ? tour.isInternational === true : tour.isInternational === false;
+            }
+
+            return true;
+          });
+
+        // For forced domestic/international pages, paginate based on the filtered dataset
+        // so total pages always match what is actually displayed.
+        if (typeof forcedIsInternational === 'boolean') {
+          const cacheKey = JSON.stringify({
+            forcedIsInternational,
+            keyword,
+            region,
+            province,
+            country,
+            minPrice,
+            maxPrice,
+            minDuration,
+            maxDuration,
+            minRating,
+            category,
+            difficulty,
+            featured,
+            sortBy,
+          });
+
+          const fetchAllTours = async () => {
+            const all: Tour[] = [];
+            const pageSize = 100;
+            let page = 1;
+            let total = 1;
+
+            while (page <= total) {
+              const res = await searchTours({ ...baseParams, page, limit: pageSize });
+              all.push(...res.data.tours);
+              total = res.data.totalPages;
+              page += 1;
+              // Safety cap to avoid infinite loops if API returns inconsistent pagination.
+              if (page > 200) break;
+            }
+            return all;
+          };
+
+          const allTours =
+            forcedResultsCacheRef.current?.key === cacheKey
+              ? forcedResultsCacheRef.current.tours
+              : await fetchAllTours();
+
+          if (forcedResultsCacheRef.current?.key !== cacheKey) {
+            forcedResultsCacheRef.current = { key: cacheKey, tours: allTours };
+          }
+
+          const filteredAll = filterForcedTours(allTours);
+          const nextTotalResults = filteredAll.length;
+          const nextTotalPages = Math.max(1, Math.ceil(nextTotalResults / PAGE_SIZE));
+          const safePage = Math.min(currentPage, nextTotalPages);
+          const start = (safePage - 1) * PAGE_SIZE;
+          const end = safePage * PAGE_SIZE;
+
+          if (safePage !== currentPage) {
+            setCurrentPage(safePage);
+          }
+
+          setTours(filteredAll.slice(start, end));
+          setTotalResults(nextTotalResults);
+          setTotalPages(nextTotalPages);
+          return;
+        }
+
+        // Default flow: trust backend pagination.
+        const params: SearchParams = {
+          ...baseParams,
+          limit: PAGE_SIZE,
+          page: currentPage,
+        };
         
         console.log('Search params:', params);
         const response = await searchTours(params);
         console.log('Search response:', response);
-        
-        const nextTours =
-          typeof forcedIsInternational === 'boolean'
-            ? response.data.tours.filter((tour) => tour.isInternational === forcedIsInternational)
-            : response.data.tours;
+
+        const nextTours = filterForcedTours(response.data.tours);
 
         setTours(nextTours);
         setTotalResults(response.data.total);

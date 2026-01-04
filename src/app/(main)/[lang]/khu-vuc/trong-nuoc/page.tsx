@@ -5,8 +5,8 @@ const DomesticAreaPage: React.FC = () => {
   return (
     <SearchPage
       forcedIsInternational={false}
-      bannerTitle="Trong nước"
-      defaultHeading="Tours trong nước"
+      bannerTitle="Tour trong nước"
+      defaultHeading="Tour trong nước"
     />
   );
 };

@@ -20,7 +20,7 @@
     "searchButton": "Tìm kiếm"
   },
   "specialTours": {
-    "title": "CHÚM TOUR SỰ KIỆN ĐẶC BIỆT",
+    "title": "CHÙM TOUR SỰ KIỆN ĐẶC BIỆT",
     "tours": [
       "TOUR ĐÔNG GIÁ THU ĐÔNG",
       "TOUR TẾT NGUYÊN ĐÁN 2026",
@@ -29,7 +29,7 @@
     ]
   },
   "popularTours": {
-    "title": "CHÚM TOUR ƯU ĐÃI",
+    "title": "CHÙM TOUR ƯU ĐÃI",
     "domestic": "Tour trong nước",
     "international": "Tour nước ngoài",
     "tours": {
