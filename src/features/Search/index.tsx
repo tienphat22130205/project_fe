@@ -323,7 +323,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
                       <img
                         src={tour.images[0] || 'https://via.placeholder.com/300x200'}
                         alt={tour.title}
-                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                        className="w-full h-full object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x200/1e88e5/ffffff?text=Tour';
                         }}

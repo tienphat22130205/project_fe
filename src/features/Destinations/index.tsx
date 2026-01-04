@@ -162,7 +162,7 @@ const Destinations: React.FC = () => {
                       <img 
                         src={province.thumbnailImage || province.image}
                         alt={province.name}
-                        className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-40 object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = `https://via.placeholder.com/300x200/1e88e5/ffffff?text=${encodeURIComponent(province.name)}`;
                         }}
@@ -207,7 +207,7 @@ const Destinations: React.FC = () => {
                       <img 
                         src={country.thumbnailImage || country.image}
                         alt={country.name}
-                        className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-40 object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = `https://via.placeholder.com/300x200/1e88e5/ffffff?text=${encodeURIComponent(country.name)}`;
                         }}
