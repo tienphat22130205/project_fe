@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import viTexts from '../../assets/locales/vi.json';
 import { getRegions, getProvincesByRegion, getCountries } from './server/api';
@@ -13,6 +13,42 @@ const Destinations: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Refs for animated underline
+  const tabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const regionTabsRef = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const [regionUnderlineStyle, setRegionUnderlineStyle] = useState({ left: 0, width: 0 });
+
+  // Update underline position for main tabs
+  useEffect(() => {
+    const activeButton = tabsRef.current[activeTab];
+    if (activeButton) {
+      const parentRect = activeButton.parentElement?.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+      if (parentRect) {
+        setUnderlineStyle({
+          left: buttonRect.left - parentRect.left,
+          width: buttonRect.width,
+        });
+      }
+    }
+  }, [activeTab]);
+
+  // Update underline position for region tabs
+  useEffect(() => {
+    const activeButton = regionTabsRef.current[activeRegion];
+    if (activeButton) {
+      const parentRect = activeButton.parentElement?.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+      if (parentRect) {
+        setRegionUnderlineStyle({
+          left: buttonRect.left - parentRect.left,
+          width: buttonRect.width,
+        });
+      }
+    }
+  }, [activeRegion, regions]);
 
   // Fetch regions on component mount
   useEffect(() => {
@@ -97,52 +133,77 @@ const Destinations: React.FC = () => {
         <p className="text-center text-gray-600 mb-8">{viTexts.destinations.description}</p>
         
         {/* Tabs */}
-        <div className="flex justify-center gap-4 mb-6">
-          <button 
-            className={`px-6 py-2 rounded-full font-semibold transition-all focus:outline-none ${
-              activeTab === 'domestic' 
-                ? 'bg-blue-500 text-white shadow-md' 
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setActiveTab('domestic')}
-          >
-            {viTexts.destinations.tabs.domestic}
-          </button>
-          <button 
-            className={`px-6 py-2 rounded-full font-semibold transition-all focus:outline-none ${
-              activeTab === 'international' 
-                ? 'bg-blue-500 text-white shadow-md' 
-                : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setActiveTab('international')}
-          >
-            {viTexts.destinations.tabs.international}
-          </button>
+        <div className="flex justify-center mb-8">
+          <div className="relative inline-flex gap-8">
+            {/* Animated underline */}
+            <span
+              className="absolute bottom-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
+              style={{
+                left: `${underlineStyle.left}px`,
+                width: `${underlineStyle.width}px`,
+              }}
+            />
+            
+            <button 
+              ref={(el) => { tabsRef.current['domestic'] = el; }}
+              className={`relative px-2 py-3 text-lg font-semibold transition-all duration-300 focus:outline-none ${
+                activeTab === 'domestic' 
+                  ? 'text-blue-600' 
+                  : 'text-gray-700 hover:text-gray-900'
+              }`}
+              onClick={() => setActiveTab('domestic')}
+            >
+              {viTexts.destinations.tabs.domestic}
+            </button>
+            <button 
+              ref={(el) => { tabsRef.current['international'] = el; }}
+              className={`relative px-2 py-3 text-lg font-semibold transition-all duration-300 focus:outline-none ${
+                activeTab === 'international' 
+                  ? 'text-blue-600' 
+                  : 'text-gray-700 hover:text-gray-900'
+              }`}
+              onClick={() => setActiveTab('international')}
+            >
+              {viTexts.destinations.tabs.international}
+            </button>
+          </div>
         </div>
 
         {activeTab === 'domestic' && (
           <>
             {/* Region filters */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {loading && regions.length === 0 ? (
-                <p className="text-gray-500">Đang tải danh sách miền...</p>
-              ) : error ? (
-                <p className="text-red-500">{error}</p>
-              ) : (
-                regions.map((region) => (
-                  <button
-                    key={region._id}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none ${
-                      activeRegion === region.slug 
-                        ? 'bg-orange-500 text-white shadow-md' 
-                        : 'bg-white text-gray-700 hover:bg-orange-50'
-                    }`}
-                    onClick={() => setActiveRegion(region.slug)}
-                  >
-                    {region.name} ({region.tourCount})
-                  </button>
-                ))
-              )}
+            <div className="flex justify-center mb-8">
+              <div className="relative inline-flex flex-wrap justify-center gap-6">
+                {/* Animated underline for regions */}
+                <span
+                  className="absolute bottom-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
+                  style={{
+                    left: `${regionUnderlineStyle.left}px`,
+                    width: `${regionUnderlineStyle.width}px`,
+                  }}
+                />
+                
+                {loading && regions.length === 0 ? (
+                  <p className="text-gray-500 px-4 py-2">Đang tải danh sách miền...</p>
+                ) : error ? (
+                  <p className="text-red-500 px-4 py-2">{error}</p>
+                ) : (
+                  regions.map((region) => (
+                    <button
+                      key={region._id}
+                      ref={(el) => { regionTabsRef.current[region.slug] = el; }}
+                      className={`relative px-2 py-2 text-base font-semibold transition-all duration-300 focus:outline-none ${
+                        activeRegion === region.slug 
+                          ? 'text-gray-900' 
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                      onClick={() => setActiveRegion(region.slug)}
+                    >
+                      {region.name} ({region.tourCount})
+                    </button>
+                  ))
+                )}
+              </div>
             </div>
 
             {/* Provinces Grid */}

@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuant
         )}
         <button 
           onClick={handleBooking}
-          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-bold text-lg transition-colors"
+          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-lg transition-colors"
         >
           Đặt tour
         </button>
