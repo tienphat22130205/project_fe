@@ -1,6 +1,7 @@
 import HeroBanner from '../../../features/HeroBanner';
 import SpecialTours from '../../../features/SpecialTours';
 import PopularTours from '../../../features/PopularTours';
+import PromoBanners from '../../../features/PromoBanners';
 import Destinations from '../../../features/Destinations';
 
 export default function HomePage() {
@@ -9,6 +10,7 @@ export default function HomePage() {
       <HeroBanner />
       <SpecialTours />
       <PopularTours />
+      <PromoBanners />
       <Destinations />
     </>
   );

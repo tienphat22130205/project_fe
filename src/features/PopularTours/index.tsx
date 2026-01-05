@@ -23,12 +23,12 @@ const PopularTours: React.FC = () => {
         if (response.status === 'success' && response.data.tours) {
           // Filter tours domestic
           const domestic = filterToursByType(response.data.tours, 'domestic');
-          const domesticDisplay = domestic.slice(0, 5).map(convertTourToDisplay);
+          const domesticDisplay = domestic.slice(0, 4).map(convertTourToDisplay);
           setDomesticTours(domesticDisplay);
           
           // Filter tours international
           const international = filterToursByType(response.data.tours, 'international');
-          const internationalDisplay = international.slice(0, 5).map(convertTourToDisplay);
+          const internationalDisplay = international.slice(0, 4).map(convertTourToDisplay);
           setInternationalTours(internationalDisplay);
         }
       } catch (err) {
@@ -36,8 +36,8 @@ const PopularTours: React.FC = () => {
         setError('Không thể tải dữ liệu tours. Vui lòng thử lại sau.');
         
         // Fallback về dữ liệu local nếu API lỗi
-        const localDomestic = viTexts.popularTours.tours.domestic.slice(0, 5);
-        const localInternational = viTexts.popularTours.tours.international.slice(0, 5);
+        const localDomestic = viTexts.popularTours.tours.domestic.slice(0, 4);
+        const localInternational = viTexts.popularTours.tours.international.slice(0, 4);
         setDomesticTours(localDomestic as TourDisplay[]);
         setInternationalTours(localInternational as TourDisplay[]);
       } finally {
@@ -224,7 +224,7 @@ const PopularTours: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/khu-vuc/trong-nuoc')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="px-8 py-2.5 border-2 border-blue-600 text-blue-600 rounded-full font-medium hover:bg-blue-600 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Xem thêm
                 </button>
@@ -240,8 +240,8 @@ const PopularTours: React.FC = () => {
                 {internationalTours.length > 0 ? (
                   internationalTours.map((tour, index) => renderTourCard(tour, index))
                 ) : (
-                  // Hiển thị 5 placeholder cards
-                  Array.from({ length: 5 }).map((_, index) => renderPlaceholderCard(index))
+                  // Hiển thị 4 placeholder cards
+                  Array.from({ length: 4 }).map((_, index) => renderPlaceholderCard(index))
                 )}
               </div>
 
@@ -249,7 +249,7 @@ const PopularTours: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate('/khu-vuc/ngoai-nuoc')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="px-8 py-2.5 border-2 border-blue-600 text-blue-600 rounded-full font-medium hover:bg-blue-600 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Xem thêm
                 </button>
