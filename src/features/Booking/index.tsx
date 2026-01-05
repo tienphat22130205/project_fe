@@ -48,6 +48,7 @@ const BookingPage: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [paymentRate, setPaymentRate] = useState('100');
   const [promoCode, setPromoCode] = useState('');
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
@@ -208,7 +209,31 @@ const BookingPage: React.FC = () => {
 
     const servicesTotal = services.reduce((sum, service) => sum + (service.price * service.quantity), 0);
 
+    const subtotal = tourTotal + servicesTotal;
+    const finalTotal = Math.max(0, subtotal - voucherDiscount); // Không cho tổng tiền âm
+
+    return finalTotal;
+  };
+
+  const calculateSubtotal = () => {
+    if (!tourData) return 0;
+
+    const departure = getCurrentDeparture();
+    if (!departure) return 0;
+
+    const tourTotal =
+      departure.pricing.adult * numberOfAdults +
+      departure.pricing.child * numberOfChildren +
+      departure.pricing.infant * numberOfInfants;
+
+    const servicesTotal = services.reduce((sum, service) => sum + (service.price * service.quantity), 0);
+
     return tourTotal + servicesTotal;
+  };
+
+  const handleVoucherApplied = (discountAmount: number, voucherCode: string) => {
+    setVoucherDiscount(discountAmount);
+    setPromoCode(voucherCode);
   };
 
   const handleServiceQuantityChange = (id: string, delta: number) => {
@@ -668,6 +693,8 @@ const BookingPage: React.FC = () => {
               onSubmit={handleSubmit}
               onCancel={handleCancelBooking}
               submitting={submitting}
+              totalAmount={calculateSubtotal()}
+              onVoucherApplied={handleVoucherApplied}
             />
           </div>
 
@@ -679,6 +706,7 @@ const BookingPage: React.FC = () => {
             timeLeft={timeLeft}
             formatTime={formatTime}
             paymentRate={paymentRate}
+            voucherDiscount={voucherDiscount}
           />
         </div>
       </div>

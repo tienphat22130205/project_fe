@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from './components/ScrollToTop';
 import RootLayout from './app/(main)/[lang]/layout';
 import HomePage from './app/(main)/[lang]/page';
 import TravelPage from './app/(main)/[lang]/du-lich/page';
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <Routes location={location}>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
