@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaCopy, FaUniversity, FaClock } from 'react-icons/fa';
+import BookingStepper from '../../components/BookingStepper';
 
 const PaymentInfo: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -61,6 +62,9 @@ const PaymentInfo: React.FC = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4 max-w-5xl">
+        {/* Progress Steps */}
+        <BookingStepper currentStep={3} />
+        
         <h1 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
           <FaUniversity className="text-blue-600" />
           Thông Tin Chuyển Khoản

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FaCheckCircle } from 'react-icons/fa';
 import BookingForm from './components/BookingForm';
 import AdditionalServices from './components/AdditionalServices';
 import PaymentSection from './components/PaymentSection';
@@ -9,6 +8,7 @@ import { fetchTourDetail, createBooking, initiatePayment, fetchAdditionalService
 import type { TourAPI, Passenger, AdditionalService, PaymentRequest, BookingRequest } from './server/types';
 import { useToast } from '../../hooks/useToast';
 import Toast from '../../components/Toast';
+import BookingStepper from '../../components/BookingStepper';
 
 const BookingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -48,6 +48,7 @@ const BookingPage: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [paymentRate, setPaymentRate] = useState('100');
   const [promoCode, setPromoCode] = useState('');
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
@@ -208,7 +209,31 @@ const BookingPage: React.FC = () => {
 
     const servicesTotal = services.reduce((sum, service) => sum + (service.price * service.quantity), 0);
 
+    const subtotal = tourTotal + servicesTotal;
+    const finalTotal = Math.max(0, subtotal - voucherDiscount); // Không cho tổng tiền âm
+
+    return finalTotal;
+  };
+
+  const calculateSubtotal = () => {
+    if (!tourData) return 0;
+
+    const departure = getCurrentDeparture();
+    if (!departure) return 0;
+
+    const tourTotal =
+      departure.pricing.adult * numberOfAdults +
+      departure.pricing.child * numberOfChildren +
+      departure.pricing.infant * numberOfInfants;
+
+    const servicesTotal = services.reduce((sum, service) => sum + (service.price * service.quantity), 0);
+
     return tourTotal + servicesTotal;
+  };
+
+  const handleVoucherApplied = (discountAmount: number, voucherCode: string) => {
+    setVoucherDiscount(discountAmount);
+    setPromoCode(voucherCode);
   };
 
   const handleServiceQuantityChange = (id: string, delta: number) => {
@@ -548,34 +573,7 @@ const BookingPage: React.FC = () => {
     <div className="bg-gray-50 min-h-screen">
       <div className="container mx-auto px-4 py-6">
         {/* Progress Steps */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex items-center justify-between max-w-4xl mx-auto">
-            <div className="flex flex-col items-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white mb-2">
-                <FaCheckCircle size={20} />
-              </div>
-              <span className="text-sm font-medium">Chọn tour</span>
-            </div>
-
-            <div className="flex-1 h-1 bg-green-500 mx-2" />
-
-            <div className="flex flex-col items-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white mb-2">
-                <span className="font-bold">2</span>
-              </div>
-              <span className="text-sm font-medium text-red-500">Điền thông tin</span>
-            </div>
-
-            <div className="flex-1 h-1 bg-gray-300 mx-2" />
-
-            <div className="flex flex-col items-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 mb-2">
-                <span className="font-bold">3</span>
-              </div>
-              <span className="text-sm font-medium text-gray-500">Thanh toán</span>
-            </div>
-          </div>
-        </div>
+        <BookingStepper currentStep={2} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content */}
@@ -668,6 +666,8 @@ const BookingPage: React.FC = () => {
               onSubmit={handleSubmit}
               onCancel={handleCancelBooking}
               submitting={submitting}
+              totalAmount={calculateSubtotal()}
+              onVoucherApplied={handleVoucherApplied}
             />
           </div>
 
@@ -679,6 +679,7 @@ const BookingPage: React.FC = () => {
             timeLeft={timeLeft}
             formatTime={formatTime}
             paymentRate={paymentRate}
+            voucherDiscount={voucherDiscount}
           />
         </div>
       </div>

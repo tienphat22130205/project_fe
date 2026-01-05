@@ -105,13 +105,13 @@ const ComboPage = () => {
                     {combos.map((combo) => (
                         <div
                             key={combo.id}
-                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-400 hover:border-blue-500 group"
+                            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
                         >
                             <div className="relative h-48 overflow-hidden">
                                 <img
                                     src={combo.image}
                                     alt={combo.title}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                    className="w-full h-full object-cover"
                                 />
                                 <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     Giá tốt
@@ -122,7 +122,7 @@ const ComboPage = () => {
                                     <FaMapMarkerAlt className="text-gray-400 text-sm" />
                                     <span className="text-sm text-gray-600">{combo.location}</span>
                                 </div>
-                                <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition">
+                                <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
                                     {combo.title}
                                 </h3>
                                 <div className="flex items-center gap-4 mb-3">
@@ -138,7 +138,7 @@ const ComboPage = () => {
                                 <div className="flex items-baseline justify-between pt-3 border-t border-gray-100">
                                     <div>
                                         <span className="text-xs text-gray-500">Giá từ</span>
-                                        <div className="text-2xl font-bold text-blue-600">
+                                        <div className="text-2xl font-bold text-red-600">
                                             {combo.price}đ
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@ const ComboPage = () => {
                         ].map((item, i) => {
                             const IconComponent = item.icon;
                             return (
-                                <div key={i} className="text-center p-6 rounded-xl bg-white hover:bg-blue-50 transition border-2 border-gray-400 hover:border-blue-500">
+                                <div key={i} className="text-center p-6 rounded-xl bg-white">
                                     <div className="flex justify-center mb-4">
                                         <IconComponent className="text-4xl text-blue-600" />
                                     </div>

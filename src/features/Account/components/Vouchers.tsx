@@ -1,20 +1,75 @@
-import React from 'react';
-import { FaTicketAlt, FaCalendarAlt, FaPercentage } from 'react-icons/fa';
-
-interface Voucher {
-  id: string;
-  code: string;
-  title: string;
-  description: string;
-  discount: string;
-  minOrder: number;
-  expiryDate: string;
-  isUsed: boolean;
-}
+import React, { useState, useEffect } from 'react';
+import { FaTicketAlt, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
+import { fetchMyVouchers } from '../../Vouchers/server';
+import type { Voucher } from '../../Vouchers/server';
+import { useAuth } from '../../../hooks';
 
 const Vouchers: React.FC = () => {
-  // Mock data - replace with real API call
-  const vouchers: Voucher[] = [];
+  const [vouchers, setVouchers] = useState<Voucher[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const loadVouchers = async () => {
+      try {
+        if (!isAuthenticated()) {
+          setError('Vui lòng đăng nhập để xem voucher');
+          setLoading(false);
+          return;
+        }
+
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          setError('Vui lòng đăng nhập để xem voucher');
+          setLoading(false);
+          return;
+        }
+
+        const data = await fetchMyVouchers(token);
+        setVouchers(data);
+      } catch (err) {
+        setError('Không thể tải danh sách voucher');
+        console.error('Error loading vouchers:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVouchers();
+  }, [isAuthenticated]);
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="flex justify-center items-center py-20">
+          <FaSpinner className="text-4xl text-blue-600 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-8">
+        <div className="text-center py-20">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
+  };
+
+  const formatDiscount = (voucher: Voucher) => {
+    if (voucher.discountType === 'percentage') {
+      return `Giảm ${voucher.discountValue}%`;
+    }
+    return `Giảm ${voucher.discountValue.toLocaleString('vi-VN')}đ`;
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-8">
@@ -35,52 +90,73 @@ const Vouchers: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {vouchers.map((voucher) => (
-            <div
-              key={voucher.id}
-              className={`border-2 rounded-lg p-4 ${
-                voucher.isUsed
-                  ? 'border-gray-200 bg-gray-50 opacity-60'
-                  : 'border-orange-400 bg-gradient-to-r from-orange-50 to-red-50'
-              }`}
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                    <FaPercentage className="text-white text-2xl" />
-                  </div>
-                </div>
-                
-                <div className="flex-1">
-                  <h3 className="font-bold text-gray-900 mb-1">{voucher.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{voucher.description}</p>
-                  
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-3 py-1 bg-white border border-dashed border-orange-400 rounded text-orange-600 font-mono font-bold">
-                      {voucher.code}
-                    </span>
-                  </div>
+          {vouchers.map((voucher) => {
+            const isExpired = new Date(voucher.endDate) < new Date();
+            const isInactive = !voucher.isActive || isExpired || voucher.isUsed;
 
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <FaCalendarAlt className="text-gray-400" />
-                    <span>HSD: {voucher.expiryDate}</span>
-                  </div>
-
-                  {voucher.isUsed && (
-                    <div className="mt-2">
-                      <span className="text-sm text-red-600 font-semibold">Đã sử dụng</span>
+            return (
+              <div
+                key={voucher._id}
+                className={`border rounded-lg p-5 ${
+                  isInactive
+                    ? 'border-gray-300 bg-gray-50 opacity-70'
+                    : 'border-blue-200 bg-white hover:shadow-md transition-shadow'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 bg-blue-500 rounded flex items-center justify-center">
+                      <FaTicketAlt className="text-white text-xl" />
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
+                  
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-800 mb-1">{voucher.name || voucher.description}</h3>
+                    
+                    <div className="mb-3">
+                      <span className="inline-block px-2 py-1 bg-blue-50 border border-blue-300 rounded text-blue-700 font-mono text-sm font-semibold">
+                        {voucher.code}
+                      </span>
+                    </div>
 
-              {!voucher.isUsed && (
-                <button className="w-full mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
-                  Sử dụng ngay
-                </button>
-              )}
-            </div>
-          ))}
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <span className="font-medium text-blue-600">{formatDiscount(voucher)}</span>
+                      </div>
+                      
+                      <div>Đơn tối thiểu: <span className="font-medium">{voucher.minOrderValue.toLocaleString('vi-VN')}đ</span></div>
+                      
+                      {voucher.maxDiscountAmount && (
+                        <div>Giảm tối đa: <span className="font-medium">{voucher.maxDiscountAmount.toLocaleString('vi-VN')}đ</span></div>
+                      )}
+
+                      <div className="flex items-center gap-1 pt-1">
+                        <FaCalendarAlt className="text-gray-400 text-xs" />
+                        <span>HSD: {formatDate(voucher.endDate)}</span>
+                      </div>
+                    </div>
+
+                    {voucher.isUsed && (
+                      <div className="mt-2">
+                        <span className="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded">Đã sử dụng</span>
+                      </div>
+                    )}
+                    {isExpired && !voucher.isUsed && (
+                      <div className="mt-2">
+                        <span className="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded">Đã hết hạn</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {!isInactive && (
+                  <button className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium">
+                    Sử dụng ngay
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

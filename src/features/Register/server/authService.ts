@@ -55,12 +55,6 @@ class AuthService {
   /**
    * Lưu thông tin xác thực
    */
-  private saveAuthData(data: AuthResponse): void {
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    localStorage.setItem('user', JSON.stringify(data.user));
-  }
-
   /**
    * Lấy thông tin user hiện tại
    */

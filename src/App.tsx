@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from './components/ScrollToTop';
 import RootLayout from './app/(main)/[lang]/layout';
 import HomePage from './app/(main)/[lang]/page';
 import TravelPage from './app/(main)/[lang]/du-lich/page';
@@ -9,6 +10,7 @@ import CarRentalPage from './app/(main)/[lang]/thue-xe/page';
 import StudyAbroadPage from './app/(main)/[lang]/du-hoc/page';
 import WorkAbroadPage from './app/(main)/[lang]/viec-lam-ngoai-nuoc/page';
 import CustomTourPage from './app/(main)/[lang]/tour-theo-yeu-cau/page';
+import ProvinceDetailPage from './app/(main)/[lang]/du-lich/[provinceSlug]/page';
 import ComboPage from "./features/DichVu/combo.tsx";
 import FlightTicketPage from "./features/DichVu/vemaybay.tsx";
 import AttractionTicketPage from "./features/DichVu/vethamquan.tsx";
@@ -19,23 +21,29 @@ import AccountPage from './app/(main)/[lang]/account/page';
 import BookingSuccess from './features/BookingSuccess';
 import BookingReminder from './components/BookingReminder';
 import PaymentInfo from './features/PaymentInfo';
+import DomesticAreaPage from './app/(main)/[lang]/khu-vuc/trong-nuoc/page.tsx';
+import InternationalAreaPage from './app/(main)/[lang]/khu-vuc/ngoai-nuoc/page.tsx';
 
 function App() {
   const location = useLocation();
 
   return (
     <>
+      <ScrollToTop />
       <Routes location={location}>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/khu-vuc/trong-nuoc" element={<DomesticAreaPage />} />
+          <Route path="/khu-vuc/ngoai-nuoc" element={<InternationalAreaPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/travel" element={<TravelPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/car-rental" element={<CarRentalPage />} />
+          <Route path="/thue-xe" element={<CarRentalPage />} />
           <Route path="/study-abroad" element={<StudyAbroadPage />} />
           <Route path="/work-abroad" element={<WorkAbroadPage />} />
           <Route path="/custom-tour" element={<CustomTourPage />} />
+          <Route path="/du-lich/:provinceSlug" element={<ProvinceDetailPage />} />
           <Route path="/tours/:id" element={<TourDetailPage />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/payment-info" element={<PaymentInfo />} />

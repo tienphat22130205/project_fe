@@ -1,4 +1,4 @@
-import { HeroBanner, SpecialTours, PopularTours, Destinations, TourCategories } from '@/features';
+import { HeroBanner, SpecialTours, PopularTours, Destinations, TourCategories, PromoBanners } from '@/features';
 
 export default function HomePage() {
   return (
@@ -7,6 +7,7 @@ export default function HomePage() {
       <TourCategories />
       <SpecialTours />
       <PopularTours />
+      <PromoBanners />
       <Destinations />
     </>
   );

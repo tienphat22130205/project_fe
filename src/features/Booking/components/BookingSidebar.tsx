@@ -29,11 +29,13 @@ interface BookingSidebarProps {
   timeLeft: number;
   formatTime: (seconds: number) => string;
   paymentRate: string;
+  voucherDiscount?: number;
 }
 
-const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, total, timeLeft, formatTime, paymentRate }) => {
+const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, total, timeLeft, formatTime, paymentRate, voucherDiscount = 0 }) => {
   const selectedServices = services.filter(s => s.quantity > 0);
   const rate = parseInt(paymentRate) / 100;
+  const subtotal = total + voucherDiscount; // Tính ngược lại subtotal
   const amountToPay = total * rate;
 
   return (
@@ -122,18 +124,20 @@ const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, tot
 
         <div className="border-t mt-4 pt-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-700">Tổng cộng:</span>
-            <span className="text-2xl font-bold text-gray-800">
-              {total.toLocaleString('vi-VN')} đ
+            <span className="text-gray-700">Tạm tính:</span>
+            <span className="text-lg font-semibold text-gray-800">
+              {subtotal.toLocaleString('vi-VN')} đ
             </span>
           </div>
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-gray-600">Giảm giá:</span>
-            <span className="text-gray-700">0</span>
-          </div>
-          <div className="flex justify-between items-center text-sm mt-1">
-            <span className="text-gray-600">Thành tiền:</span>
-            <span className="text-xl font-bold text-gray-800">
+          {voucherDiscount > 0 && (
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-green-600">Giảm giá voucher:</span>
+              <span className="text-green-600 font-semibold">-{voucherDiscount.toLocaleString('vi-VN')} đ</span>
+            </div>
+          )}
+          <div className="flex justify-between items-center pt-2 border-t">
+            <span className="text-gray-800 font-bold">Tổng cộng:</span>
+            <span className="text-2xl font-bold text-orange-600">
               {total.toLocaleString('vi-VN')} đ
             </span>
           </div>

@@ -28,6 +28,7 @@ export interface TourAPI {
   isActive: boolean;
   featured: boolean;
   category: string;
+  isInternational?: boolean;
   includes: string[];
   excludes: string[];
   createdAt: string;

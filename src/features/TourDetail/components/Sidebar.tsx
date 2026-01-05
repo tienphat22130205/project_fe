@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPhone, FaEnvelope, FaCheck, FaStar } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { authService } from '../../Login/server';
 
 interface SidebarProps {
   price: number;
@@ -14,6 +16,12 @@ const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuant
   const navigate = useNavigate();
 
   const handleBooking = () => {
+    const user = authService.getCurrentUser();
+    if (!user) {
+      toast.error('Bạn cần đăng nhập tài khoản để đặt tour');
+      return;
+    }
+    
     if (tourId) {
       navigate(`/booking?tourId=${tourId}`);
     }
@@ -41,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ price, tourCode, rating, ratingsQuant
         )}
         <button 
           onClick={handleBooking}
-          className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-bold text-lg transition-colors"
+          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-bold text-lg transition-colors"
         >
           Đặt tour
         </button>
