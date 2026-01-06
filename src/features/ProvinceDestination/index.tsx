@@ -167,7 +167,7 @@ const ProvinceDestination: React.FC<ProvinceDestinationProps> = ({ provinceSlug 
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {tours.map((tour) => (
-                <div key={tour._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+                <div key={tour._id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
                   <div className="relative h-48">
                     <img
                       src={tour.images[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&q=80'}
@@ -181,32 +181,41 @@ const ProvinceDestination: React.FC<ProvinceDestinationProps> = ({ provinceSlug 
                     )}
                   </div>
                   
-                  <div className="p-4">
-                    <h3 className="text-sm font-bold text-gray-800 mb-3 h-10 overflow-hidden" 
-                        style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  <div className="p-4 flex flex-col flex-1">
+                    <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-2 uppercase">
                       {tour.title}
                     </h3>
                     
-                    <div className="space-y-2 text-xs text-gray-600 mb-3">
-                      <div className="flex items-center gap-2">
-                        <FaMapMarkerAlt className="text-blue-600 flex-shrink-0" />
-                        <span>{tour.destination}</span>
+                    <div className="space-y-2 text-sm text-gray-600 mb-4 flex-1">
+                      <div className="flex items-start gap-2">
+                        <FaMapMarkerAlt className="text-gray-600 flex-shrink-0 mt-0.5" />
+                        <span className="font-medium text-gray-700 min-w-[80px]">Xuất phát:</span>
+                        <span className="line-clamp-1">{tour.province?.name || tour.region?.name || 'TP.HCM'}</span>
                       </div>
                       {tour.duration && (
-                        <div className="flex items-center gap-2">
-                          <FaClock className="text-blue-600 flex-shrink-0" />
+                        <div className="flex items-start gap-2">
+                          <FaClock className="text-gray-600 flex-shrink-0 mt-0.5" />
+                          <span className="font-medium text-gray-700 min-w-[80px]">Thời gian:</span>
                           <span>{tour.duration} ngày</span>
                         </div>
                       )}
+                      <div className="flex items-start gap-2">
+                        <FaMapMarkerAlt className="text-gray-600 flex-shrink-0 mt-0.5" />
+                        <span className="font-medium text-gray-700 min-w-[80px]">Điểm đến:</span>
+                        <span className="line-clamp-1">{tour.destination}</span>
+                      </div>
                     </div>
                     
-                    <div className="border-t pt-3 flex items-center justify-between">
-                      <div className="text-red-600 font-bold text-lg">
-                        {tour.price.toLocaleString('vi-VN')}đ
+                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-500">Giá tour:</span>
+                        <span className="text-xl font-bold text-red-600">
+                          {tour.price.toLocaleString('vi-VN')} VNĐ
+                        </span>
                       </div>
                       <Link
                         to={`/tours/${tour._id}`}
-                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm cursor-pointer"
+                        className="bg-brand hover:bg-blue-800 text-white px-5 py-2.5 rounded-full font-semibold transition-all focus:outline-none hover:shadow-lg text-sm"
                       >
                         Xem chi tiết
                       </Link>

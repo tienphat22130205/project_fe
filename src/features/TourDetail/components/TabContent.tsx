@@ -57,7 +57,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+            <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
               Tóm tắt thông tin về chuyến đi
             </h2>
             <div className="space-y-2 text-gray-900">
@@ -78,7 +78,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
           {tourData.policies && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+              <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
                 Chính sách khuyến mãi
               </h2>
               <ul className="space-y-2 text-gray-900">
@@ -91,7 +91,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
           )}
 
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+            <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
               Tour này có gì hấp dẫn
             </h2>
             <ul className="space-y-2 text-gray-900">
@@ -105,7 +105,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
       {activeTab === 'schedule' && (
         <div className="space-y-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 border-l-4 border-blue-600 pl-4">
+          <h2 className="text-2xl font-bold mb-6 border-l-4 border-blue-600 pl-4" style={{ color: 'rgb(0, 105, 173)' }}>
             Lịch khởi hành
           </h2>
 
@@ -282,7 +282,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
       {activeTab === 'itinerary' && (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+          <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
             Hành trình du lịch
           </h2>
 
@@ -317,7 +317,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
       {activeTab === 'pricing' && (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+          <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
             Chính sách giá
           </h2>
 
@@ -365,7 +365,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
       {activeTab === 'cancellation' && tourData.policies && (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+          <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
             Chính sách hủy / phạt
           </h2>
 
@@ -407,7 +407,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab, tourData }) => {
 
       {activeTab === 'info' && (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 border-l-4 border-blue-600 pl-3">
+          <h2 className="text-2xl font-bold mb-4 border-l-4 border-blue-600 pl-3" style={{ color: 'rgb(0, 105, 173)' }}>
             Thông tin khác
           </h2>
 
