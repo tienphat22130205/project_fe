@@ -1,4 +1,10 @@
-import { HeroBanner, SpecialTours, PopularTours, Destinations, TourCategories, PromoBanners } from '@/features';
+import HeroBanner from '../../../features/HeroBanner';
+import SpecialTours from '../../../features/SpecialTours';
+import PopularTours from '../../../features/PopularTours';
+import PromoBanners from '../../../features/PromoBanners';
+import Destinations from '../../../features/Destinations';
+import TourCategories from '../../../features/TourCategories';
+import ChatWidget from '../../../components/ChatWidget';
 
 export default function HomePage() {
   return (
@@ -9,6 +15,7 @@ export default function HomePage() {
       <PopularTours />
       <PromoBanners />
       <Destinations />
+      <ChatWidget />
     </>
   );
 }
