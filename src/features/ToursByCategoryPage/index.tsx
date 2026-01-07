@@ -148,7 +148,15 @@ const ToursByCategoryPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Banner */}
+      <div className="relative h-96 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522383225653-ed111181a951?w=1920&h=400&fit=crop')" }}>
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div className="relative container mx-auto px-4 h-full flex items-center">
+          <h1 className="text-5xl font-bold text-white">Tour Mùa Hoa Anh Đào</h1>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
@@ -227,23 +235,21 @@ const ToursByCategoryPage = () => {
               </div>
 
               {/* Date Range and Price Filter */}
-              <div className="bg-gray-50 rounded-2xl p-6 shadow">
+              <div className="bg-white rounded-2xl p-6 shadow">
                 <h3 className="text-base font-bold mb-4 text-gray-800">Ngày khởi hành</h3>
-                <div className="space-y-3">
+                <div className="flex items-center justify-between gap-2">
                   <input
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    placeholder="DD/MM/YYYY"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-[45%] px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
                   />
-                  <div className="text-center text-gray-500">-</div>
+                  <span className="text-gray-500 text-sm">-</span>
                   <input
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    placeholder="DD/MM/YYYY"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-[45%] px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs"
                   />
                 </div>
 
@@ -316,9 +322,6 @@ const ToursByCategoryPage = () => {
                         alt={tour.name}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3 bg-blue-600 text-white px-3 py-1 text-xs font-semibold rounded">
-                        Ngắm hoa anh đào
-                      </div>
                     </div>
 
                     {/* Tour Info */}
@@ -338,7 +341,7 @@ const ToursByCategoryPage = () => {
                       </div>
 
                       <div className="pt-3 border-t border-gray-200">
-                        <p className="text-xl font-bold text-blue-600">
+                        <p className="text-xl font-bold text-orange-600">
                           {formatPrice(tour.price)}
                         </p>
                       </div>
