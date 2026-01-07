@@ -3,6 +3,7 @@ import SpecialTours from '../../../features/SpecialTours';
 import PopularTours from '../../../features/PopularTours';
 import PromoBanners from '../../../features/PromoBanners';
 import Destinations from '../../../features/Destinations';
+import ChatWidget from '../../../components/ChatWidget';
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <PopularTours />
       <PromoBanners />
       <Destinations />
+      <ChatWidget />
     </>
   );
 }
