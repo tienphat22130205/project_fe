@@ -4,6 +4,9 @@ export { default as HeroBanner } from './HeroBanner';
 export { default as SpecialTours } from './SpecialTours';
 export { default as PopularTours } from './PopularTours';
 export { default as Destinations } from './Destinations';
+export { default as TourCategories } from './TourCategories';
+export { default as PromoBanners } from './PromoBanners';
+export { default as CarRental } from './CarRental';
 
 export { default as DuHocMain } from "./DuHoc/duhoc";
 
