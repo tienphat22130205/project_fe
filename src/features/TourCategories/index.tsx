@@ -14,21 +14,21 @@ const TourCategories = () => {
       title: 'Tour Tết Nguyên Đán 2026',
       image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=300&fit=crop',
       bgColor: 'bg-red-50',
-      link: '/vi/tours/tet-nguyen-dan'
+      link: '/vi/tours/mua-hoa-anh-dao'
     },
     {
       id: 3,
       title: 'Tour Tết Dương Lịch 2026',
       image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&h=300&fit=crop',
       bgColor: 'bg-yellow-50',
-      link: '/vi/tours/tet-duong-lich'
+      link: '/vi/tours/mua-hoa-anh-dao'
     },
     {
       id: 4,
       title: 'Tour Việt Kiều',
       image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
       bgColor: 'bg-green-50',
-      link: '/vi/tours/viet-kieu'
+      link: '/vi/tours/mua-hoa-anh-dao'
     }
   ];
 
