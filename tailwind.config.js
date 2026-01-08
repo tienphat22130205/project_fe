@@ -9,6 +9,16 @@ export default {
       colors: {
         primary: '#ff6b35',
         secondary: '#004e92',
+        brand: '#0069ad',
+      },
+      fontFamily: {
+        'heading': ['Tahoma', 'Arial', 'sans-serif'],
+        'body': ['Tahoma', 'Arial', 'sans-serif'],
+        'sans': ['Tahoma', 'Arial', 'sans-serif'],
+      },
+      fontWeight: {
+        'normal': '400',
+        'bold': '700',
       },
     },
   },

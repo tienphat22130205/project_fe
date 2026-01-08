@@ -112,7 +112,7 @@ const PopularTours: React.FC = () => {
           </div>
           <button 
             onClick={() => navigate(`/tours/${tour.id}`)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="bg-brand hover:bg-blue-800 text-white px-6 py-2.5 rounded-full font-semibold transition-all focus:outline-none hover:shadow-lg"
           >
             Xem chi tiết
           </button>

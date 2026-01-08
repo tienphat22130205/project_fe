@@ -91,9 +91,9 @@ const TourDetail: React.FC = () => {
         {/* Image Gallery */}
         <ImageGallery images={tourData.images} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             {/* Tabs */}
             <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
