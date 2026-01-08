@@ -7,6 +7,6 @@ export { default as Destinations } from './Destinations';
 
 export { default as DuHocMain } from "./DuHoc/duhoc";
 
-export { default as Combo } from './DichVu/combo.tsx'
-export { default as VeMayBay } from './DichVu/vemaybay.tsx'
-export { default as VeThamQuan } from './DichVu/vethamquan.tsx'
+export { default as Combo } from './DichVu/Combo'
+export { default as VeMayBay } from './DichVu/VeMaybay'
+export { default as VeThamQuan } from './DichVu/VeThamQuan'
