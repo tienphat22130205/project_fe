@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { FaCommentDots } from 'react-icons/fa';
 import type { ChatMessage } from './types';
 
@@ -6,6 +7,12 @@ type Props = {
 };
 
 export default function ChatMessages({ messages }: Props) {
+  const endRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages.length]);
+
   return (
     <div className="h-[420px] overflow-y-auto p-4">
       {messages.map((m) => (
@@ -31,6 +38,8 @@ export default function ChatMessages({ messages }: Props) {
           )}
         </div>
       ))}
+
+      <div ref={endRef} />
     </div>
   );
 }
