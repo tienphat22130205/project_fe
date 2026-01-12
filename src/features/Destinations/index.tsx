@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import viTexts from '../../assets/locales/vi.json';
-import { getRegions, getProvincesByRegion, getCountries } from '../Destinations/server/api';
-import type { Region, Province, Country } from '../Destinations/server/types';
+import { getRegions, getProvincesByRegion, getCountries } from './server/api';
+import type { Region, Province, Country } from './server/types';
 
 const Destinations: React.FC = () => {
   const navigate = useNavigate();

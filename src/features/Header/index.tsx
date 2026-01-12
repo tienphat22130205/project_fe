@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { FaPhone, FaSearch, FaEnvelope, FaGlobe, FaChevronDown, FaMapMarkerAlt, FaList } from 'react-icons/fa';
 import { MdFlight } from 'react-icons/md';
 import Login from '../Login';
@@ -22,7 +22,6 @@ const Header: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   
   const travelTimeoutRef = useRef<number | null>(null);
   const servicesTimeoutRef = useRef<number | null>(null);
@@ -229,9 +228,7 @@ const Header: React.FC = () => {
             >
               <button
                 onClick={() => setShowTravelMenu(!showTravelMenu)}
-                className={`flex items-center gap-1 transition-colors font-medium cursor-pointer focus:outline-none ${
-                  location.pathname === '/travel' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
-                }`}
+                className="flex items-center gap-1 text-brand hover:text-blue-700 transition-colors font-bold cursor-pointer focus:outline-none"
               >
                 Du lịch
                 <FaChevronDown className="text-xs" />
@@ -296,7 +293,7 @@ const Header: React.FC = () => {
                                         <Link 
                                           to={`/du-lich/${province.slug}`}
                                           onClick={(e) => handleLinkClick(e, `/du-lich/${province.slug}`)}
-                                          className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base"
+                                          className="text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block py-1 text-base font-semibold"
                                         >
                                           {province.name}
                                         </Link>
@@ -329,7 +326,7 @@ const Header: React.FC = () => {
                                               <Link 
                                                 to={`/du-lich/${countrySlug}`}
                                                 onClick={(e) => handleLinkClick(e, `/du-lich/${countrySlug}`)}
-                                                className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block"
+                                                className="text-base text-gray-700 hover:text-blue-600 transition-colors focus:outline-none block font-semibold"
                                               >
                                                 {country}
                                               </Link>
@@ -380,7 +377,7 @@ const Header: React.FC = () => {
             >
               <button
                 onClick={() => setShowServicesMenu(!showServicesMenu)}
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-700 transition-colors font-medium cursor-pointer focus:outline-none"
+                className="flex items-center gap-1 text-brand hover:text-blue-700 transition-colors font-bold cursor-pointer focus:outline-none"
               >
                 Dịch vụ
                 <FaChevronDown className="text-xs" />
@@ -406,27 +403,21 @@ const Header: React.FC = () => {
             <Link 
               to="/thue-xe" 
               onClick={(e) => handleLinkClick(e, '/thue-xe')} 
-              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
-                location.pathname === '/thue-xe' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
-              }`}
+              className="text-brand transition-colors font-bold cursor-pointer focus:outline-none hover:text-blue-700"
             >
               Thuê xe
             </Link>
             <Link 
               to="/study-abroad" 
               onClick={(e) => handleLinkClick(e, '/study-abroad')} 
-              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
-                location.pathname === '/study-abroad' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
-              }`}
+              className="text-brand transition-colors font-bold cursor-pointer focus:outline-none hover:text-blue-700"
             >
               Du học
             </Link>
             <Link 
               to="/work-abroad" 
               onClick={(e) => handleLinkClick(e, '/work-abroad')} 
-              className={`transition-colors font-medium cursor-pointer focus:outline-none ${
-                location.pathname === '/work-abroad' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-700'
-              }`}
+              className="text-brand transition-colors font-bold cursor-pointer focus:outline-none hover:text-blue-700"
             >
               Việc làm ngoài nước
             </Link>
