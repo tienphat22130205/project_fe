@@ -97,28 +97,28 @@ const WorkAbroad = () => {
 
           <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mt-12">
             <div className="bg-gray-50 rounded-lg p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl">
+              <div className="w-8 h-8 mx-auto mb-3 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
                 <FaShip />
               </div>
-              <p className="font-semibold text-gray-800">Costa Cruise</p>
+              <p className="font-semibold text-gray-800 text-sm">Costa Cruise</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl">
+              <div className="w-8 h-8 mx-auto mb-3 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
                 <FaShip />
               </div>
-              <p className="font-semibold text-gray-800">Royal Caribbean</p>
+              <p className="font-semibold text-gray-800 text-sm">Royal Caribbean</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl">
+              <div className="w-8 h-8 mx-auto mb-3 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
                 <FaShip />
               </div>
-              <p className="font-semibold text-gray-800">Carnival Cruise</p>
+              <p className="font-semibold text-gray-800 text-sm">Carnival Cruise</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6 text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl">
+              <div className="w-8 h-8 mx-auto mb-3 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
                 <FaShip />
               </div>
-              <p className="font-semibold text-gray-800">MSC Cruise</p>
+              <p className="font-semibold text-gray-800 text-sm">MSC Cruise</p>
             </div>
           </div>
         </div>
