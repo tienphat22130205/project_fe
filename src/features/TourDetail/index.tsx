@@ -69,9 +69,9 @@ const TourDetail: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-6">
-        {/* Breadcrumb */}
-        <div className="text-base text-gray-600 mb-4 flex items-center gap-2">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        {/* Breadcrumb - Hidden on small mobile */}
+        <div className="hidden sm:flex text-sm md:text-base text-gray-600 mb-3 sm:mb-4 items-center gap-2 flex-wrap">
           <a href="/" className="hover:text-blue-600 cursor-pointer transition-colors">
             Trang chủ
           </a>
@@ -80,18 +80,18 @@ const TourDetail: React.FC = () => {
             Chùm tour theo thể loại
           </a>
           <span className="text-gray-400">/</span>
-          <span className="text-gray-900 font-semibold">{tourData.title}</span>
+          <span className="text-gray-900 font-semibold truncate max-w-[200px]">{tourData.title}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 uppercase">
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 uppercase leading-tight">
           {tourData.title}
         </h1>
 
         {/* Image Gallery */}
         <ImageGallery images={tourData.images} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Tabs */}

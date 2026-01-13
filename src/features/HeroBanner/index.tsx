@@ -166,7 +166,7 @@ const HeroBanner: React.FC = () => {
   const nightCount = getDaysBetween();
 
   return (
-    <section className="relative w-full min-h-[66vh] py-12 md:py-20 lg:py-24 flex items-center overflow-visible">
+    <section className="relative w-full min-h-[50vh] md:min-h-[66vh] py-8 md:py-20 lg:py-24 flex items-center overflow-visible">
       {/* Slide Images */}
       {slides.map((slide, index) => (
         <div
@@ -181,32 +181,32 @@ const HeroBanner: React.FC = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
 
-      {/* Previous Button */}
+      {/* Previous Button - Hidden on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
+        className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
         aria-label="Previous slide"
       >
         <FaChevronLeft className="text-2xl" />
       </button>
 
-      {/* Next Button */}
+      {/* Next Button - Hidden on mobile */}
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
+        className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all focus:outline-none"
         aria-label="Next slide"
       >
         <FaChevronRight className="text-2xl" />
       </button>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+      {/* Slide Indicators - Hidden on mobile */}
+      <div className="hidden md:flex absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-30 gap-2">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all focus:outline-none ${
-              index === currentSlide ? 'bg-white w-8' : 'bg-white/50'
+            className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all focus:outline-none ${
+              index === currentSlide ? 'bg-white w-6 md:w-8' : 'bg-white/50'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -214,11 +214,11 @@ const HeroBanner: React.FC = () => {
       </div>
       
       <div className="relative container mx-auto px-4 z-20">
-        <div className="max-w-6xl mx-auto ml-0 md:ml-8 lg:ml-16">
-          <div className="mb-8">
+        <div className="max-w-6xl mx-auto md:ml-8 lg:ml-16">
+          <div className="mb-4 md:mb-8 text-center md:text-left">
             {/* Main Heading - Simple and Elegant */}
             <h1 
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-white text-left leading-tight mb-4"
+              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2 md:mb-4"
               style={{ 
                 fontFamily: 'Montserrat, Poppins, sans-serif',
                 letterSpacing: '0.02em',
@@ -230,19 +230,19 @@ const HeroBanner: React.FC = () => {
             
             {/* Subtitle - Clean and Readable */}
             <p 
-              className="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-3 flex items-center gap-3"
+              className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed mb-2 md:mb-3 flex items-center justify-center md:justify-start gap-2"
               style={{ 
                 fontFamily: 'Quicksand, sans-serif',
                 textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
               }}
             >
-              <FaPlane className="text-white" />
-              Đồng hành cùng bạn trên mọi chuyến
+              <FaPlane className="text-white flex-shrink-0" />
+              <span>Đồng hành cùng bạn trên mọi chuyến</span>
             </p>
           </div>
           
           <p 
-            className="text-white/95 text-base md:text-lg font-normal mb-6 flex items-center gap-2"
+            className="hidden md:flex text-white/95 text-base md:text-lg font-normal mb-6 items-center gap-2"
             style={{ 
               fontFamily: 'Inter, sans-serif',
               textShadow: '1px 1px 4px rgba(0,0,0,0.7)'
@@ -252,16 +252,16 @@ const HeroBanner: React.FC = () => {
             Combo khách sạn - vé máy bay - đưa đón sân bay giá tốt nhất
           </p>
           
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-6">
             {/* Search Input Row */}
-            <div className="mb-4 relative">
-              <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
+            <div className="mb-3 sm:mb-4 relative">
+              <FaSearch className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-gray-400 text-base sm:text-xl" />
               <input 
                 type="text" 
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 placeholder={viTexts.hero.searchPlaceholder}
-                className="w-full pl-14 pr-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full pl-10 sm:pl-14 pr-3 sm:pr-6 py-2.5 sm:py-4 text-sm sm:text-lg border-2 border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     handleSearch();
@@ -271,35 +271,27 @@ const HeroBanner: React.FC = () => {
             </div>
 
             {/* Date and Guest Selection Row */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-end">
               {/* Date Picker - Combined */}
               <div className="md:col-span-7 relative">
-                <div className="grid grid-cols-7 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   {/* Departure Date */}
                   <button 
                     onClick={() => {
                       setShowDatePicker(true);
                       setSelectingDepart(true);
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-blue-500 transition-all text-left focus:outline-none
+                    className={`border-2 rounded-lg sm:rounded-xl p-2 sm:p-3 hover:border-blue-500 transition-all text-left focus:outline-none
                       ${selectingDepart && showDatePicker ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}`}
                   >
-                    <div className="text-xs text-gray-500 mb-1">{departFormatted.day || 'Chọn ngày'}</div>
-                    <div className="flex items-center gap-2">
-                      <FaCalendarAlt className="text-gray-400" />
-                      <span className="font-semibold">
-                        {departDate ? `${departFormatted.date}-${departFormatted.month}-${departFormatted.year}` : 'Chọn ngày đi'}
+                    <div className="text-[10px] sm:text-xs text-gray-500 mb-0.5 sm:mb-1">{departFormatted.day || 'Chọn ngày'}</div>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <FaCalendarAlt className="text-gray-400 text-xs sm:text-base" />
+                      <span className="font-semibold text-xs sm:text-base truncate">
+                        {departDate ? `${departFormatted.date}/${departFormatted.month}` : 'Ngày đi'}
                       </span>
                     </div>
                   </button>
-
-                  {/* Night Counter */}
-                  <div className="col-span-1 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-sm font-semibold">{nightCount || 0}</div>
-                      <div className="text-xs text-gray-400">🌙</div>
-                    </div>
-                  </div>
 
                   {/* Return Date */}
                   <button 
@@ -309,16 +301,16 @@ const HeroBanner: React.FC = () => {
                         setSelectingDepart(false);
                       }
                     }}
-                    className={`col-span-3 border-2 rounded-xl p-3 hover:border-blue-500 transition-all text-left focus:outline-none
+                    className={`border-2 rounded-lg sm:rounded-xl p-2 sm:p-3 hover:border-blue-500 transition-all text-left focus:outline-none
                       ${!selectingDepart && showDatePicker ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'}
                       ${!departDate ? 'opacity-50 cursor-not-allowed' : ''}`}
                     disabled={!departDate}
                   >
-                    <div className="text-xs text-gray-500 mb-1">{returnFormatted.day || 'Chọn ngày'}</div>
-                    <div className="flex items-center gap-2">
-                      <FaCalendarAlt className="text-gray-400" />
-                      <span className="font-semibold">
-                        {returnDate ? `${returnFormatted.date}-${returnFormatted.month}-${returnFormatted.year}` : 'Chọn ngày về'}
+                    <div className="text-[10px] sm:text-xs text-gray-500 mb-0.5 sm:mb-1">{returnFormatted.day || 'Chọn ngày'}</div>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <FaCalendarAlt className="text-gray-400 text-xs sm:text-base" />
+                      <span className="font-semibold text-xs sm:text-base truncate">
+                        {returnDate ? `${returnFormatted.date}/${returnFormatted.month}` : 'Ngày về'}
                       </span>
                     </div>
                   </button>
@@ -326,15 +318,15 @@ const HeroBanner: React.FC = () => {
 
                 {/* Calendar Popup */}
                 {showDatePicker && (
-                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl p-6 z-[9999] w-full md:w-[700px]">
+                  <div className="fixed sm:absolute inset-4 sm:inset-auto sm:top-full sm:left-0 sm:mt-2 bg-white rounded-xl shadow-2xl p-4 sm:p-6 z-[9999] sm:w-full md:w-[700px] overflow-auto max-h-[80vh] sm:max-h-none">
                     <div className="mb-4 text-center">
                       <p className="text-sm text-gray-600">
                         {selectingDepart ? '🛫 Chọn ngày đi' : '🛬 Chọn ngày về'}
                       </p>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4">
                       {renderCalendar(0)}
-                      {renderCalendar(1)}
+                      <div className="hidden sm:block">{renderCalendar(1)}</div>
                     </div>
                     <div className="mt-4 flex justify-between items-center pt-4 border-t">
                       <button 
@@ -367,35 +359,35 @@ const HeroBanner: React.FC = () => {
               <div className="md:col-span-3 relative">
                 <button 
                   onClick={() => setShowGuestPicker(!showGuestPicker)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-left hover:border-blue-500 transition-all focus:outline-none"
+                  className="w-full px-3 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl text-left hover:border-blue-500 transition-all focus:outline-none"
                 >
-                  <div className="text-xs text-gray-500 mb-1">1 Phòng</div>
-                  <div className="flex items-center gap-2">
-                    <FaUser className="text-gray-400" />
-                    <span className="font-semibold">{adults} người lớn, {children} trẻ em</span>
+                  <div className="text-[10px] sm:text-xs text-gray-500 mb-0.5 sm:mb-1">1 Phòng</div>
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <FaUser className="text-gray-400 text-xs sm:text-base" />
+                    <span className="font-semibold text-xs sm:text-base">{adults} người lớn, {children} trẻ em</span>
                   </div>
                 </button>
                 
                 {showGuestPicker && (
-                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl p-6 z-[9999] w-full md:w-80">
+                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-2xl p-4 sm:p-6 z-[9999] w-full md:w-80">
                     <div className="space-y-4">
                       {/* Adults */}
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-semibold">Người Lớn</div>
-                          <div className="text-sm text-gray-500">Từ 12 tuổi</div>
+                          <div className="font-semibold text-sm sm:text-base">Người Lớn</div>
+                          <div className="text-xs sm:text-sm text-gray-500">Từ 12 tuổi</div>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3">
                           <button 
                             onClick={() => setAdults(Math.max(1, adults - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none text-sm"
                           >
                             −
                           </button>
-                          <span className="w-8 text-center font-semibold">{adults}</span>
+                          <span className="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">{adults}</span>
                           <button 
                             onClick={() => setAdults(adults + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none text-sm"
                           >
                             +
                           </button>
@@ -405,20 +397,20 @@ const HeroBanner: React.FC = () => {
                       {/* Children */}
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-semibold">Trẻ em</div>
-                          <div className="text-sm text-gray-500">Từ 0 - 16 tuổi</div>
+                          <div className="font-semibold text-sm sm:text-base">Trẻ em</div>
+                          <div className="text-xs sm:text-sm text-gray-500">Từ 0 - 16 tuổi</div>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3">
                           <button 
                             onClick={() => setChildren(Math.max(0, children - 1))}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none text-sm"
                           >
                             −
                           </button>
-                          <span className="w-8 text-center font-semibold">{children}</span>
+                          <span className="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">{children}</span>
                           <button 
                             onClick={() => setChildren(children + 1)}
-                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none"
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center focus:outline-none text-sm"
                           >
                             +
                           </button>
@@ -433,9 +425,9 @@ const HeroBanner: React.FC = () => {
               <div className="md:col-span-2">
                 <button 
                   onClick={handleSearch}
-                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none"
+                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-bold text-sm sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 focus:outline-none"
                 >
-                  <FaSearch className="text-xl" /> Tìm
+                  <FaSearch className="text-base sm:text-xl" /> Tìm
                 </button>
               </div>
             </div>

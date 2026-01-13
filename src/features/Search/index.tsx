@@ -242,36 +242,36 @@ const SearchPage: React.FC<SearchPageProps> = ({
     <div className="bg-gray-50">
       {/* Banner */}
       <div 
-        className="relative h-64 bg-cover bg-center"
+        className="relative h-40 sm:h-52 md:h-64 bg-cover bg-center"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920')",
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-5xl font-bold text-white">{bannerTitle || 'Tìm kiếm'}</h1>
+        <div className="absolute inset-0 flex items-center justify-center px-4">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white text-center">{bannerTitle || 'Tìm kiếm'}</h1>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         {/* Search Info */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <div className="mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
             {computedHeading}
           </h2>
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+            <p className="text-gray-600 text-sm sm:text-base">
               Tìm thấy <span className="font-semibold text-blue-600">{totalResults}</span> tours
               {currentPage > 1 && ` - Trang ${currentPage}/${totalPages}`}
             </p>
             
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-3">
-              <span className="text-gray-700 font-medium">Sắp xếp</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-gray-700 font-medium text-sm sm:text-base">Sắp xếp</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               >
                 <option value="default">Mặc định</option>
                 <option value="price">Giá: Thấp đến cao</option>
@@ -285,18 +285,18 @@ const SearchPage: React.FC<SearchPageProps> = ({
         </div>
 
         {/* Tours Section */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-blue-600 mb-4 sm:mb-8">
             TOURS LIÊN QUAN
           </h2>
 
           {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+            <div className="flex items-center justify-center py-12 sm:py-20">
+              <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-blue-600"></div>
             </div>
           ) : error ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-red-600">{error}</p>
+            <div className="text-center py-12 sm:py-20">
+              <p className="text-lg sm:text-xl text-red-600">{error}</p>
               <button 
                 onClick={() => window.location.reload()}
                 className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -311,7 +311,7 @@ const SearchPage: React.FC<SearchPageProps> = ({
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {tours.map((tour) => (
                   <div
                     key={tour._id}

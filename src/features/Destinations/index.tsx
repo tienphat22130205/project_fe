@@ -127,14 +127,14 @@ const Destinations: React.FC = () => {
   };
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-8 sm:py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-3">{viTexts.destinations.title}</h2>
-        <p className="text-center text-gray-600 mb-8">{viTexts.destinations.description}</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-2 sm:mb-3">{viTexts.destinations.title}</h2>
+        <p className="text-center text-gray-600 text-sm sm:text-base mb-6 sm:mb-8">{viTexts.destinations.description}</p>
         
         {/* Tabs */}
-        <div className="flex justify-center mb-8">
-          <div className="relative inline-flex gap-8">
+        <div className="flex justify-center mb-6 sm:mb-8">
+          <div className="relative inline-flex gap-4 sm:gap-8">
             {/* Animated underline */}
             <span
               className="absolute bottom-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
@@ -146,7 +146,7 @@ const Destinations: React.FC = () => {
             
             <button 
               ref={(el) => { tabsRef.current['domestic'] = el; }}
-              className={`relative px-2 py-3 text-lg font-semibold transition-all duration-300 focus:outline-none ${
+              className={`relative px-2 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all duration-300 focus:outline-none ${
                 activeTab === 'domestic' 
                   ? 'text-blue-600' 
                   : 'text-gray-700 hover:text-gray-900'
@@ -157,7 +157,7 @@ const Destinations: React.FC = () => {
             </button>
             <button 
               ref={(el) => { tabsRef.current['international'] = el; }}
-              className={`relative px-2 py-3 text-lg font-semibold transition-all duration-300 focus:outline-none ${
+              className={`relative px-2 py-2 sm:py-3 text-base sm:text-lg font-semibold transition-all duration-300 focus:outline-none ${
                 activeTab === 'international' 
                   ? 'text-blue-600' 
                   : 'text-gray-700 hover:text-gray-900'
@@ -172,8 +172,8 @@ const Destinations: React.FC = () => {
         {activeTab === 'domestic' && (
           <>
             {/* Region filters */}
-            <div className="flex justify-center mb-8">
-              <div className="relative inline-flex flex-wrap justify-center gap-6">
+            <div className="flex justify-center mb-6 sm:mb-8 overflow-x-auto pb-2">
+              <div className="relative inline-flex flex-wrap justify-center gap-3 sm:gap-6">
                 {/* Animated underline for regions */}
                 <span
                   className="absolute bottom-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
@@ -192,7 +192,7 @@ const Destinations: React.FC = () => {
                     <button
                       key={region._id}
                       ref={(el) => { regionTabsRef.current[region.slug] = el; }}
-                      className={`relative px-2 py-2 text-base font-semibold transition-all duration-300 focus:outline-none ${
+                      className={`relative px-2 py-2 text-sm sm:text-base font-semibold transition-all duration-300 focus:outline-none whitespace-nowrap ${
                         activeRegion === region.slug 
                           ? 'text-gray-900' 
                           : 'text-gray-600 hover:text-gray-900'
@@ -212,7 +212,7 @@ const Destinations: React.FC = () => {
                 <p className="text-gray-500">Đang tải danh sách tỉnh...</p>
               </div>
             ) : provinces.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {provinces.map((province) => (
                   <div 
                     key={province._id} 
@@ -223,15 +223,15 @@ const Destinations: React.FC = () => {
                       <img 
                         src={province.thumbnailImage || province.image}
                         alt={province.name}
-                        className="w-full h-40 object-cover"
+                        className="w-full h-32 sm:h-40 object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = `https://via.placeholder.com/300x200/1e88e5/ffffff?text=${encodeURIComponent(province.name)}`;
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                        <div className="p-3 w-full">
-                          <h3 className="text-white font-bold text-lg">{province.name}</h3>
-                          <p className="text-white/80 text-sm">{province.tourCount} tour</p>
+                        <div className="p-2 sm:p-3 w-full">
+                          <h3 className="text-white font-bold text-sm sm:text-lg">{province.name}</h3>
+                          <p className="text-white/80 text-xs sm:text-sm">{province.tourCount} tour</p>
                         </div>
                       </div>
                     </div>
@@ -257,7 +257,7 @@ const Destinations: React.FC = () => {
                 <p className="text-red-500">{error}</p>
               </div>
             ) : countries.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {countries.map((country) => (
                   <div 
                     key={country._id} 
@@ -268,15 +268,15 @@ const Destinations: React.FC = () => {
                       <img 
                         src={country.thumbnailImage || country.image}
                         alt={country.name}
-                        className="w-full h-40 object-cover"
+                        className="w-full h-32 sm:h-40 object-cover"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = `https://via.placeholder.com/300x200/1e88e5/ffffff?text=${encodeURIComponent(country.name)}`;
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                        <div className="p-3 w-full">
-                          <h3 className="text-white font-bold text-lg">{country.name}</h3>
-                          <p className="text-white/80 text-sm">{country.tourCount} tour</p>
+                        <div className="p-2 sm:p-3 w-full">
+                          <h3 className="text-white font-bold text-sm sm:text-lg">{country.name}</h3>
+                          <p className="text-white/80 text-xs sm:text-sm">{country.tourCount} tour</p>
                         </div>
                       </div>
                     </div>

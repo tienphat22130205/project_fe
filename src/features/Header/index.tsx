@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
-import { FaPhone, FaSearch, FaEnvelope, FaGlobe, FaChevronDown, FaMapMarkerAlt, FaList } from 'react-icons/fa';
+import { FaPhone, FaSearch, FaEnvelope, FaGlobe, FaChevronDown, FaMapMarkerAlt, FaList, FaBars, FaTimes } from 'react-icons/fa';
 import { MdFlight } from 'react-icons/md';
 import Login from '../Login';
 import Register from '../Register';
@@ -15,6 +15,7 @@ const Header: React.FC = () => {
   const [showServicesMenu, setShowServicesMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [activeCategory, setActiveCategory] = useState<'domestic' | 'international' | 'types'>('international');
   const [provincesByRegion, setProvincesByRegion] = useState<Record<string, Province[]>>({});
   const [countries, setCountries] = useState<Country[]>([]);
@@ -32,6 +33,7 @@ const Header: React.FC = () => {
     setShowAccountMenu(false);
     setShowTravelMenu(false);
     setShowServicesMenu(false);
+    setShowMobileMenu(false);
   };
 
   // Handle navigation link click
@@ -152,8 +154,8 @@ const Header: React.FC = () => {
   return (
     <header ref={headerRef} className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        {/* Top Bar */}
-        <div className="flex items-center justify-between py-2 text-sm border-b border-gray-100">
+        {/* Top Bar - Hidden on mobile */}
+        <div className="hidden md:flex items-center justify-between py-2 text-sm border-b border-gray-100">
           <div className="flex items-center gap-4">
             <a href="mailto:info@saigontourist.net" className="flex items-center gap-2 text-gray-600 hover:text-orange-500">
               <FaEnvelope className="text-xs" />
@@ -178,6 +180,15 @@ const Header: React.FC = () => {
 
         {/* Main Header */}
         <div className="flex items-center justify-between py-3">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="lg:hidden p-2 text-gray-600 hover:text-brand focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            {showMobileMenu ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+          </button>
+
           {/* Logo */}
           <div className="flex-shrink-0">
               <Link 
@@ -186,10 +197,10 @@ const Header: React.FC = () => {
                 onClick={() => window.scrollTo(0, 0)}
               >
                 <span 
-                  className="ml-2 text-[2.2rem] font-extrabold tracking-tight flex items-center select-none"
+                  className="ml-2 text-xl sm:text-2xl lg:text-[2.2rem] font-extrabold tracking-tight flex items-center select-none"
                 style={{fontFamily: 'Quicksand, Poppins, Segoe UI, Arial, sans-serif'}}
               >
-                <span className="mr-2 text-yellow-400 text-2xl">✿</span>
+                <span className="mr-1 sm:mr-2 text-yellow-400 text-lg sm:text-xl lg:text-2xl">✿</span>
                 <span className="bg-gradient-to-r from-blue-500 via-green-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-md">
                   EasyTrip
                 </span>
@@ -197,8 +208,8 @@ const Header: React.FC = () => {
             </Link>
           </div>
 
-          {/* Search Box */}
-          <div className="flex-1 max-w-md mx-6">
+          {/* Search Box - Desktop */}
+          <div className="hidden md:block flex-1 max-w-md mx-6">
             <div className="relative">
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
@@ -217,7 +228,7 @@ const Header: React.FC = () => {
               />
             </div>
           </div>
-          
+
           {/* Navigation Menu */}
           <nav className="hidden lg:flex items-center space-x-6">
             {/* Du lịch - with dropdown */}
@@ -445,6 +456,126 @@ const Header: React.FC = () => {
                 }}
               />
             )}
+          </div>
+        </div>
+
+        {/* Mobile Menu - Slide in from left */}
+        <div 
+          className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300 ${showMobileMenu ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        >
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setShowMobileMenu(false)}
+          />
+          
+          {/* Sidebar */}
+          <div 
+            className={`absolute top-0 left-0 h-full w-[280px] bg-white shadow-xl transform transition-transform duration-300 ease-out overflow-y-auto ${showMobileMenu ? 'translate-x-0' : '-translate-x-full'}`}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <span className="text-xl font-bold text-brand">Menu</span>
+              <button
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 text-gray-600 hover:text-brand focus:outline-none"
+              >
+                <FaTimes className="text-xl" />
+              </button>
+            </div>
+
+            {/* Menu Items */}
+            <nav className="py-4">
+              {/* Du lịch */}
+              <div className="border-b border-gray-100">
+                <button
+                  onClick={() => setShowTravelMenu(!showTravelMenu)}
+                  className="w-full flex items-center justify-between px-4 py-3 text-gray-800 hover:bg-gray-50 font-semibold focus:outline-none"
+                >
+                  <span>Du lịch</span>
+                  <FaChevronDown className={`text-xs transition-transform ${showTravelMenu ? 'rotate-180' : ''}`} />
+                </button>
+                {showTravelMenu && (
+                  <div className="bg-gray-50 px-4 py-2">
+                    <Link
+                      to="/khu-vuc/trong-nuoc"
+                      onClick={() => closeAllMenus()}
+                      className="block py-2 px-4 text-gray-600 hover:text-brand"
+                    >
+                      Du lịch trong nước
+                    </Link>
+                    <Link
+                      to="/khu-vuc/ngoai-nuoc"
+                      onClick={() => closeAllMenus()}
+                      className="block py-2 px-4 text-gray-600 hover:text-brand"
+                    >
+                      Du lịch nước ngoài
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Dịch vụ */}
+              <div className="border-b border-gray-100">
+                <button
+                  onClick={() => setShowServicesMenu(!showServicesMenu)}
+                  className="w-full flex items-center justify-between px-4 py-3 text-gray-800 hover:bg-gray-50 font-semibold focus:outline-none"
+                >
+                  <span>Dịch vụ</span>
+                  <FaChevronDown className={`text-xs transition-transform ${showServicesMenu ? 'rotate-180' : ''}`} />
+                </button>
+                {showServicesMenu && (
+                  <div className="bg-gray-50 px-4 py-2">
+                    {servicesMenuData.map((service, idx) => (
+                      <Link
+                        key={idx}
+                        to={service.href}
+                        onClick={() => closeAllMenus()}
+                        className="block py-2 px-4 text-gray-600 hover:text-brand"
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Other links */}
+              <Link 
+                to="/thue-xe" 
+                onClick={() => closeAllMenus()} 
+                className="block px-4 py-3 text-gray-800 hover:bg-gray-50 font-semibold border-b border-gray-100"
+              >
+                Thuê xe
+              </Link>
+              <Link 
+                to="/study-abroad" 
+                onClick={() => closeAllMenus()} 
+                className="block px-4 py-3 text-gray-800 hover:bg-gray-50 font-semibold border-b border-gray-100"
+              >
+                Du học
+              </Link>
+              <Link 
+                to="/work-abroad" 
+                onClick={() => closeAllMenus()} 
+                className="block px-4 py-3 text-gray-800 hover:bg-gray-50 font-semibold border-b border-gray-100"
+              >
+                Việc làm ngoài nước
+              </Link>
+
+              {/* Contact info */}
+              <div className="pt-4 mt-4 border-t border-gray-200 px-4">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-3">Liên hệ</p>
+                <a href="tel:19001808" className="flex items-center gap-3 text-gray-600 py-2 hover:text-brand">
+                  <FaPhone className="text-sm" />
+                  <span>1900 1808</span>
+                </a>
+                <a href="mailto:eazytrip@gmail.com" className="flex items-center gap-3 text-gray-600 py-2 hover:text-brand">
+                  <FaEnvelope className="text-sm" />
+                  <span>eazytrip@gmail.com</span>
+                </a>
+              </div>
+            </nav>
           </div>
         </div>
       </div>

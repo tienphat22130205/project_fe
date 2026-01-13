@@ -34,10 +34,10 @@ const AccountPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <div className="container mx-auto px-4">
-        {/* Breadcrumb */}
-        <div className="mb-6">
+        {/* Breadcrumb - Hidden on mobile */}
+        <div className="hidden sm:block mb-6">
           <nav className="flex items-center gap-2 text-sm text-gray-600">
             <a href="/" className="hover:text-blue-600">Trang chủ</a>
             <span>/</span>
@@ -52,8 +52,18 @@ const AccountPage: React.FC = () => {
           </nav>
         </div>
 
+        {/* Mobile Title */}
+        <div className="sm:hidden mb-4">
+          <h1 className="text-xl font-bold text-gray-900">
+            {activeTab === 'profile' && 'Hồ sơ của tôi'}
+            {activeTab === 'points' && 'iViVuPoint'}
+            {activeTab === 'orders' && 'Đơn hàng của tôi'}
+            {activeTab === 'vouchers' && 'Voucher của tôi'}
+          </h1>
+        </div>
+
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />

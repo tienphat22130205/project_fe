@@ -7,28 +7,28 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Awards and Recognition */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-700 py-4">
+      <div className="bg-gradient-to-r from-blue-900 to-blue-700 py-3 sm:py-4">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-6">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 sm:gap-4">
+            <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6">
               {viTexts.footer.awards.map((award: string, index: number) => (
-                <div key={index} className="flex items-center gap-2 text-white text-sm">
-                  <FaTrophy className="text-yellow-400" />
+                <div key={index} className="flex items-center gap-2 text-white text-xs sm:text-sm">
+                  <FaTrophy className="text-yellow-400 flex-shrink-0" />
                   <span>{award}</span>
                 </div>
               ))}
             </div>
-            <div className="flex items-center gap-2 text-white">
-              <FaEnvelope /> <span>{viTexts.footer.email}</span>
+            <div className="flex items-center gap-2 text-white text-sm">
+              <FaEnvelope /> <span className="text-xs sm:text-sm">{viTexts.footer.email}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Footer */}
-      <div className="py-12">
+      <div className="py-8 sm:py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div>
               <h3 className="text-white font-bold text-lg mb-4">{viTexts.footer.services.title}</h3>
               <ul className="space-y-2">
@@ -77,27 +77,25 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Payment Methods */}
-      <div className="bg-gray-800 py-6">
+      <div className="bg-gray-800 py-4 sm:py-6">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-6">
-            <div className="flex items-center gap-2 text-sm"><FaCreditCard className="text-blue-400" /> Vietcombank</div>
-            <div className="flex items-center gap-2 text-sm"><FaCreditCard className="text-green-400" /> OnePay</div>
-            <div className="flex items-center gap-2 text-sm"><SiVisa className="text-blue-600" /> VISA</div>
-            <div className="flex items-center gap-2 text-sm"><SiMastercard className="text-red-600" /> MasterCard</div>
-            <div className="flex items-center gap-2 text-sm"><FaCreditCard className="text-blue-500" /> AMEX</div>
-            <div className="flex items-center gap-2 text-sm"><FaCreditCard className="text-purple-500" /> JCB</div>
-            <div className="flex items-center gap-2 text-sm"><SiVisa className="text-blue-700" /> Verified by VISA</div>
-            <div className="flex items-center gap-2 text-sm"><SiMastercard className="text-orange-600" /> MasterCard SecureCode</div>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-6">
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><FaCreditCard className="text-blue-400" /> <span className="hidden sm:inline">Vietcombank</span></div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><FaCreditCard className="text-green-400" /> <span className="hidden sm:inline">OnePay</span></div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><SiVisa className="text-blue-600 text-lg sm:text-xl" /></div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><SiMastercard className="text-red-600 text-lg sm:text-xl" /></div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><FaCreditCard className="text-blue-500" /> <span className="hidden sm:inline">AMEX</span></div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm"><FaCreditCard className="text-purple-500" /> <span className="hidden sm:inline">JCB</span></div>
           </div>
         </div>
       </div>
 
       {/* Bottom Footer */}
-      <div className="bg-gray-950 py-8">
+      <div className="bg-gray-950 py-6 sm:py-8">
         <div className="container mx-auto px-4">
-          <div className="text-center space-y-2 text-sm">
-            <p className="font-semibold text-white">{viTexts.footer.company.name}</p>
-            <p>{viTexts.footer.company.address}</p>
+          <div className="text-center space-y-1 sm:space-y-2 text-xs sm:text-sm">
+            <p className="font-semibold text-white text-sm sm:text-base">{viTexts.footer.company.name}</p>
+            <p className="px-4">{viTexts.footer.company.address}</p>
             <p>{viTexts.footer.company.phone}</p>
             <p>{viTexts.footer.company.businessLicense}</p>
             <p>{viTexts.footer.company.tourLicense}</p>

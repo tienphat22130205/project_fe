@@ -33,17 +33,17 @@ const TourCategories = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-8 sm:py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
         {/* Section Title */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-3" style={{ color: 'rgb(0, 123, 193)' }}>
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3" style={{ color: 'rgb(0, 123, 193)' }}>
             CHÙM TOUR SỰ KIỆN ĐẶC BIỆT
           </h2>
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {categories.map((category) => (
             <Link
               key={category.id}
@@ -52,7 +52,7 @@ const TourCategories = () => {
             >
               <div className="text-center">
                 {/* Image Container */}
-                <div className={`${category.bgColor} rounded-2xl overflow-hidden mb-4 transition-transform duration-300 group-hover:scale-105 aspect-square max-w-[200px] mx-auto`}>
+                <div className={`${category.bgColor} rounded-xl sm:rounded-2xl overflow-hidden mb-2 sm:mb-4 transition-transform duration-300 group-hover:scale-105 aspect-square max-w-[150px] sm:max-w-[200px] mx-auto`}>
                   <img 
                     src={category.image}
                     alt={category.title}
@@ -61,7 +61,7 @@ const TourCategories = () => {
                 </div>
                 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-blue-600 group-hover:text-blue-700 transition-colors">
+                <h3 className="text-sm sm:text-base lg:text-lg font-bold text-blue-600 group-hover:text-blue-700 transition-colors">
                   {category.title}
                 </h3>
               </div>
