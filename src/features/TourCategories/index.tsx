@@ -52,11 +52,11 @@ const TourCategories = () => {
             >
               <div className="text-center">
                 {/* Image Container */}
-                <div className={`${category.bgColor} rounded-2xl overflow-hidden mb-4 transition-transform duration-300 group-hover:scale-105`}>
+                <div className={`${category.bgColor} rounded-2xl overflow-hidden mb-4 transition-transform duration-300 group-hover:scale-105 aspect-square max-w-[200px] mx-auto`}>
                   <img 
                     src={category.image}
                     alt={category.title}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 
