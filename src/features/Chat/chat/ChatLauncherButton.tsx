@@ -12,7 +12,7 @@ export default function ChatLauncherButton({ isOpen, hasUnread, unreadCount, onT
     <button
       type="button"
       onClick={onToggle}
-      className="relative flex items-center gap-3 bg-blue-600 text-white rounded-full px-5 py-3 shadow-xl focus:outline-none"
+      className="relative flex items-center gap-3 bg-blue-600 text-white rounded-full px-5 py-3 shadow-xl focus:outline-none hover:opacity-95"
       aria-label={isOpen ? 'Đóng chat' : 'Mở chat'}
     >
       <span className="font-semibold">Chat</span>

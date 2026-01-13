@@ -4,9 +4,40 @@ import type { ChatMessage } from './types';
 
 type Props = {
   messages: ChatMessage[];
+  isTyping?: boolean;
 };
 
-export default function ChatMessages({ messages }: Props) {
+function TypingIndicator() {
+  return (
+    <div className="mb-4">
+      <div className="flex items-start gap-3">
+        <div className="h-8 w-8 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
+          <FaCommentDots className="text-sm" />
+        </div>
+        <div className="max-w-[85%]">
+          <div className="bg-gray-800 rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-6">
+            <span className="inline-flex items-center gap-1">
+              <span
+                className="h-2 w-2 rounded-full bg-white/70 animate-bounce"
+                style={{ animationDelay: '0ms' }}
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-white/70 animate-bounce"
+                style={{ animationDelay: '120ms' }}
+              />
+              <span
+                className="h-2 w-2 rounded-full bg-white/70 animate-bounce"
+                style={{ animationDelay: '240ms' }}
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ChatMessages({ messages, isTyping = false }: Props) {
   const endRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -24,7 +55,7 @@ export default function ChatMessages({ messages }: Props) {
                   <FaCommentDots className="text-sm" />
                 </div>
                 <div className="max-w-[85%]">
-                  <div className="bg-gray-800 rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-6">
+                  <div className="bg-gray-800 rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-6 whitespace-pre-line">
                     {m.text}
                   </div>
                   {m.timeLabel && <div className="text-xs text-white/50 mt-1">{m.timeLabel}</div>}
@@ -33,11 +64,13 @@ export default function ChatMessages({ messages }: Props) {
             </div>
           ) : (
             <div className="max-w-[85%]">
-              <div className="bg-blue-600 rounded-2xl rounded-tr-md px-4 py-3 text-sm leading-6">{m.text}</div>
+              <div className="bg-blue-600 rounded-2xl rounded-tr-md px-4 py-3 text-sm leading-6 whitespace-pre-line">{m.text}</div>
             </div>
           )}
         </div>
       ))}
+
+      {isTyping && <TypingIndicator />}
 
       <div ref={endRef} />
     </div>

@@ -12,6 +12,7 @@ type Props = {
   onInputChange: (value: string) => void;
   onSubmit: () => void;
   onClose: () => void;
+  isTyping?: boolean;
 };
 
 export default function ChatPanel({
@@ -22,6 +23,7 @@ export default function ChatPanel({
   onInputChange,
   onSubmit,
   onClose,
+  isTyping = false,
 }: Props) {
   return (
     <div
@@ -33,8 +35,8 @@ export default function ChatPanel({
       <ChatHeader subtitle={subtitle} onClose={onClose} />
 
       <div className="bg-gray-900 text-white">
-        <ChatMessages messages={messages} />
-        <ChatInput value={input} onChange={onInputChange} onSubmit={onSubmit} />
+        <ChatMessages messages={messages} isTyping={isTyping} />
+        <ChatInput value={input} onChange={onInputChange} onSubmit={onSubmit} disabled={isTyping} />
       </div>
     </div>
   );
