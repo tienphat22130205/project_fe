@@ -9,35 +9,106 @@ interface ProfileEditProps {
 }
 
 const ProfileEdit: React.FC<ProfileEditProps> = ({ formData, onChange, onSave, onCancel }) => (
-    <div className="space-y-0">
-        <InfoRow label="Họ tên" value={formData.fullName} name="fullName" placeholder="Nhập họ tên" isEditing={true} onEdit={() => { }} onChange={onChange} />
-
-        <div className="flex items-start py-5 border-b-2 border-gray-200">
-            <div className="w-48 text-gray-800 font-semibold">Địa chỉ email</div>
-            <div className="flex-1 text-gray-900 py-2 text-gray-500">{formData.email} <span className="italic text-sm">(Không thể sửa)</span></div>
+    <div className="space-y-5">
+        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+                Họ tên <span className="text-red-500">*</span>
+            </label>
+            <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={onChange}
+                placeholder="Nhập họ tên"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+            />
         </div>
 
-        <InfoRow label="Số điện thoại" value={formData.phone} name="phone" placeholder="Nhập số điện thoại" type="tel" isEditing={true} onEdit={() => { }} onChange={onChange} />
-        <InfoRow label="Ngày sinh" value={formData.dateOfBirth} name="dateOfBirth" placeholder="Nhập ngày sinh" type="date" isEditing={true} onEdit={() => { }} onChange={onChange} />
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-300">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <div className="px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-base text-gray-600 break-all">
+                {formData.email}
+            </div>
+            <p className="text-xs text-gray-500 mt-2">Email không thể thay đổi</p>
+        </div>
 
-        <div className="flex items-start py-5 border-b-2 border-gray-200">
-            <div className="w-48 text-gray-800 font-semibold">Giới tính</div>
-            <div className="flex-1">
-                <select name="gender" value={formData.gender} onChange={onChange} className="w-full px-4 py-2.5 border-2 border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={onChange}
+                    placeholder="Nhập số điện thoại"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                />
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ngày sinh</label>
+                <input
+                    type="date"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth}
+                    onChange={onChange}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                />
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Giới tính</label>
+                <select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={onChange}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                >
                     <option value="">Chọn giới tính</option>
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                     <option value="Khác">Khác</option>
                 </select>
             </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Mã số thuế</label>
+                <input
+                    type="text"
+                    name="taxId"
+                    value={formData.taxId}
+                    onChange={onChange}
+                    placeholder="Nhập mã số thuế"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                />
+            </div>
         </div>
 
-        <InfoRow label="Địa chỉ" value={formData.address} name="address" placeholder="Nhập địa chỉ" isEditing={true} onEdit={() => { }} onChange={onChange} />
-        <InfoRow label="Mã số thuế" value={formData.taxId} name="taxId" placeholder="Nhập mã số thuế" isEditing={true} onEdit={() => { }} onChange={onChange} />
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Địa chỉ</label>
+            <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={onChange}
+                placeholder="Nhập địa chỉ"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+            />
+        </div>
 
-        <div className="flex justify-end gap-4 mt-8 pt-6 border-t-2 border-gray-300">
-            <button onClick={onCancel} className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold">Hủy</button>
-            <button onClick={onSave} className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">Lưu thay đổi</button>
+        <div className="flex flex-col sm:flex-row justify-end gap-3 pt-5 border-t border-gray-200">
+            <button 
+                onClick={onCancel} 
+                className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+            >
+                Hủy
+            </button>
+            <button 
+                onClick={onSave} 
+                className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors shadow-sm"
+            >
+                Lưu thay đổi
+            </button>
         </div>
     </div>
 );

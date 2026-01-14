@@ -148,14 +148,14 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
     }
   };
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-lg font-bold text-gray-800 mb-6">Tỷ lệ thanh toán</h2>
+    <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+      <h2 className="text-base sm:text-lg font-bold text-gray-800 mb-4 sm:mb-6">Tỷ lệ thanh toán</h2>
 
       {/* Payment Rate Buttons */}
-      <div className="flex gap-3 mb-6">
+      <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
         <button
           onClick={() => setPaymentRate('100')}
-          className={`px-6 py-2 rounded font-medium ${paymentRate === '100'
+          className={`flex-1 sm:flex-none px-3 sm:px-6 py-2 rounded font-medium text-sm sm:text-base ${paymentRate === '100'
             ? 'bg-blue-600 text-white'
             : 'bg-gray-200 text-gray-700'
             }`}
@@ -164,7 +164,7 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
         </button>
         <button
           onClick={() => setPaymentRate('50')}
-          className={`px-6 py-2 rounded font-medium ${paymentRate === '50'
+          className={`flex-1 sm:flex-none px-3 sm:px-6 py-2 rounded font-medium text-sm sm:text-base ${paymentRate === '50'
             ? 'bg-blue-600 text-white'
             : 'bg-gray-200 text-gray-700'
             }`}
@@ -173,18 +173,18 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
         </button>
       </div>
 
-      <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6 text-sm text-gray-700">
+      <div className="bg-orange-50 border-l-4 border-orange-400 p-3 sm:p-4 mb-4 sm:mb-6 text-xs sm:text-sm text-gray-700">
         Sau khi đặt cọc, quý khách vui lòng hoàn tất thanh toán trong <strong>48h</strong>
-        <ul className="mt-2 ml-4 list-disc text-red-600">
+        <ul className="mt-2 ml-3 sm:ml-4 list-disc text-red-600">
           <li>Chỉ áp dụng cho thành viên easytrip.com</li>
           <li>Chỉ áp dụng cho thanh toán online hoặc đặt cọc</li>
         </ul>
       </div>
 
       {/* Promo Code */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">Mã khuyến mãi</label>
-        <div className="flex gap-2">
+      <div className="mb-4 sm:mb-6">
+        <label className="block text-xs sm:text-sm font-medium mb-2">Mã khuyến mãi</label>
+        <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
             <input
               type="text"
@@ -200,13 +200,13 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
               className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed"
               title="Chọn voucher của tôi"
             >
-              <FaTicketAlt className="text-xl" />
+              <FaTicketAlt className="text-lg sm:text-xl" />
             </button>
           </div>
           {appliedVoucher ? (
             <button 
               onClick={handleRemoveVoucher}
-              className="bg-red-600 text-white px-6 py-2 rounded font-medium hover:bg-red-700"
+              className="bg-red-600 text-white px-4 sm:px-6 py-2 rounded font-medium hover:bg-red-700 text-sm sm:text-base"
             >
               Xóa
             </button>
@@ -214,7 +214,7 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
             <button 
               onClick={handleApplyVoucher}
               disabled={applyingVoucher || !promoCode.trim()}
-              className="bg-blue-600 text-white px-6 py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="bg-blue-600 text-white px-4 sm:px-6 py-2 rounded font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap text-sm sm:text-base"
             >
               {applyingVoucher ? 'Đang xử lý...' : 'ÁP DỤNG'}
             </button>
@@ -288,15 +288,15 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
       </div>
 
       {/* Terms Agreement */}
-      <div className="mt-6 p-4 bg-gray-50 rounded">
-        <label className="flex items-start gap-3 cursor-pointer">
+      <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-50 rounded">
+        <label className="flex items-start gap-2 sm:gap-3 cursor-pointer">
           <input
             type="checkbox"
             checked={agreedToTerms}
             onChange={(e) => setAgreedToTerms(e.target.checked)}
             className="mt-1"
           />
-          <div className="text-sm text-gray-700">
+          <div className="text-xs sm:text-sm text-gray-700">
             Tôi đã đọc và đồng ý{' '}
             <a href="#" className="text-blue-600 hover:underline">
               điều khoản
@@ -304,7 +304,7 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           </div>
         </label>
 
-        <div className="mt-4 text-sm text-gray-700 max-h-40 overflow-y-auto border-t pt-3">
+        <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-700 max-h-32 sm:max-h-40 overflow-y-auto border-t pt-3">
           <h4 className="font-bold mb-2">I. Thông tin điều khoản và điều kiện áp dụng cho Tour trọn gói</h4>
           <p className="mb-2">
             Điều khoản này là sự thoả thuận đồng ý của Quý khách khi sử dụng dịch vụ thanh toán trên trang web{' '}
@@ -319,27 +319,27 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
           </p>
         </div>
 
-        <div className="mt-4 text-sm text-orange-600">
+        <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-orange-600">
           Vui lòng điền thông tin chính xác. Sau khi gửi, bạn không thể thay đổi.
         </div>
       </div>
 
       {/* Submit and Cancel Buttons */}
-      <div className="mt-6 border-t pt-4">
-        <p className="text-sm text-gray-600 mb-4">
+      <div className="mt-4 sm:mt-6 border-t pt-4">
+        <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
           Đơn hàng của bạn sẽ được gửi sau khi bạn đến bước tiếp theo (Bạn có thể chọn phương thức thanh toán ở trang tiếp theo)
         </p>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 bg-white text-red-600 border-2 border-red-600 py-3 rounded-lg font-bold text-lg hover:bg-red-50 transition-colors"
+            className="flex-1 bg-white text-red-600 border-2 border-red-600 py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-lg hover:bg-red-50 transition-colors"
           >
             Hủy đặt tour
           </button>
           <button
             onClick={onSubmit}
             disabled={submitting}
-            className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-blue-600 text-white py-2.5 sm:py-3 rounded-lg font-bold text-sm sm:text-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? 'Đang xử lý...' : 'Thanh toán'}
           </button>

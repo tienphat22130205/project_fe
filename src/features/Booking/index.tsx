@@ -571,13 +571,26 @@ const BookingPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-4 sm:py-6">
         {/* Progress Steps */}
         <BookingStepper currentStep={2} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col lg:flex-row lg:grid lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Sidebar - On mobile, show first as summary */}
+          <div className="lg:order-2 lg:col-span-1">
+            <BookingSidebar
+              tourInfo={tourInfo}
+              services={services}
+              total={calculateTotal()}
+              timeLeft={timeLeft}
+              formatTime={formatTime}
+              paymentRate={paymentRate}
+              voucherDiscount={voucherDiscount}
+            />
+          </div>
+
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:order-1 lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Tour Selection */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">Chọn ngày khởi hành</h2>
@@ -601,7 +614,7 @@ const BookingPage: React.FC = () => {
                 <p className="text-red-500">Tour này hiện chưa có lịch khởi hành</p>
               )}
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Số người lớn</label>
                   <input
@@ -670,17 +683,6 @@ const BookingPage: React.FC = () => {
               onVoucherApplied={handleVoucherApplied}
             />
           </div>
-
-          {/* Sidebar */}
-          <BookingSidebar
-            tourInfo={tourInfo}
-            services={services}
-            total={calculateTotal()}
-            timeLeft={timeLeft}
-            formatTime={formatTime}
-            paymentRate={paymentRate}
-            voucherDiscount={voucherDiscount}
-          />
         </div>
       </div>
 

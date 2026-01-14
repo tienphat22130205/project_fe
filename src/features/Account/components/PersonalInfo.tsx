@@ -78,37 +78,39 @@ const PersonalInfo: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md border-2 border-gray-200 p-8">
+    <div className="bg-white rounded-lg shadow">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 pb-6 border-b-2 border-gray-300">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Thông tin cá nhân</h1>
-          <p className="text-gray-600 mt-1">Lưu thông tin của Quý khách để đặt dịch vụ nhanh hơn</p>
-        </div>
-        <div className="w-20 h-20 rounded-full bg-gray-200 overflow-hidden border-2 border-gray-300">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-6 border-b border-gray-200">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 overflow-hidden border-4 border-white shadow-md flex-shrink-0">
           {user?.avatar ? (
             <img src={user.avatar} alt={user.fullName} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400 text-2xl font-bold">
+            <div className="w-full h-full flex items-center justify-center text-blue-600 text-2xl sm:text-3xl font-bold">
               {formData.fullName?.charAt(0)?.toUpperCase()}
             </div>
           )}
         </div>
+        <div className="flex-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{formData.fullName || 'Thông tin cá nhân'}</h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Quản lý thông tin để bảo mật tài khoản</p>
+        </div>
       </div>
 
-      {isLoading && <div className="text-center py-4 text-blue-600">Đang xử lý...</div>}
+      {isLoading && <div className="text-center py-8 text-blue-600">Đang xử lý...</div>}
 
       {!isLoading && (
-        isEditing ? (
-          <ProfileEdit
-            formData={formData}
-            onChange={handleInputChange}
-            onSave={handleSave}
-            onCancel={() => setIsEditing(false)}
-          />
-        ) : (
-          <ProfileView user={user} onEdit={() => setIsEditing(true)} />
-        )
+        <div className="p-4 sm:p-6">
+          {isEditing ? (
+            <ProfileEdit
+              formData={formData}
+              onChange={handleInputChange}
+              onSave={handleSave}
+              onCancel={() => setIsEditing(false)}
+            />
+          ) : (
+            <ProfileView user={user} onEdit={() => setIsEditing(true)} />
+          )}
+        </div>
       )}
     </div>
   );

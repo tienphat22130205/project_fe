@@ -39,29 +39,29 @@ const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, tot
   const amountToPay = total * rate;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {/* Countdown Timer */}
-      <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
-        <div className="flex items-center gap-2 mb-2">
-          <FaClock className="text-gray-600" size={16} />
-          <div className="text-sm text-gray-700 font-medium">Thời gian giữ chỗ còn lại:</div>
+      <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4 border border-gray-200">
+        <div className="flex items-center gap-2 mb-1 sm:mb-2">
+          <FaClock className="text-gray-600" size={14} />
+          <div className="text-xs sm:text-sm text-gray-700 font-medium">Thời gian giữ chỗ còn lại:</div>
         </div>
-        <div className={`text-2xl font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-orange-500'}`}>
+        <div className={`text-xl sm:text-2xl font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-orange-500'}`}>
           {formatTime(timeLeft)}
         </div>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
           Vui lòng hoàn tất đặt tour trước khi hết thời gian
         </p>
       </div>
 
       {/* Tour Info */}
-      <div className="bg-white rounded-lg shadow-sm p-4">
-        <h3 className="font-bold text-gray-800 mb-4">Thông tin thanh toán</h3>
+      <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4">
+        <h3 className="font-bold text-gray-800 mb-3 sm:mb-4 text-sm sm:text-base">Thông tin thanh toán</h3>
 
-        <div className="border-b pb-4 mb-4">
-          <h4 className="font-semibold text-blue-600 text-sm mb-3">{tourInfo.title}</h4>
+        <div className="border-b pb-3 sm:pb-4 mb-3 sm:mb-4">
+          <h4 className="font-semibold text-blue-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">{tourInfo.title}</h4>
 
-          <div className="space-y-2 text-sm">
+          <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
             <div className="flex justify-between">
               <span className="text-gray-600">Mã tour:</span>
               <span className="font-medium text-gray-900">{tourInfo.code}</span>
@@ -82,7 +82,7 @@ const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, tot
         </div>
 
         {/* Pricing Details */}
-        <div className="space-y-3 text-sm">
+        <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
           <div className="flex justify-between">
             <span className="text-gray-600">Người lớn:</span>
             <div className="text-right">
@@ -109,11 +109,11 @@ const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, tot
 
         {/* Services */}
         {selectedServices.length > 0 && (
-          <div className="border-t mt-4 pt-4">
-            <h5 className="font-semibold text-gray-800 text-sm mb-2">Dịch vụ cộng thêm</h5>
-            <div className="space-y-2 text-sm">
+          <div className="border-t mt-3 sm:mt-4 pt-3 sm:pt-4">
+            <h5 className="font-semibold text-gray-800 text-xs sm:text-sm mb-2">Dịch vụ cộng thêm</h5>
+            <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
               {selectedServices.map(service => (
-                <div key={service._id} className="flex justify-between text-xs mb-1">
+                <div key={service._id} className="flex justify-between text-[10px] sm:text-xs mb-1">
                   <span className="text-gray-600">{service.name} (x{service.quantity}):</span>
                   <span className="font-medium text-gray-900">{(service.price * service.quantity).toLocaleString('vi-VN')} đ</span>
                 </div>
@@ -122,43 +122,43 @@ const BookingSidebar: React.FC<BookingSidebarProps> = ({ tourInfo, services, tot
           </div>
         )}
 
-        <div className="border-t mt-4 pt-4">
+        <div className="border-t mt-3 sm:mt-4 pt-3 sm:pt-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-700">Tạm tính:</span>
-            <span className="text-lg font-semibold text-gray-800">
+            <span className="text-gray-700 text-xs sm:text-sm">Tạm tính:</span>
+            <span className="text-base sm:text-lg font-semibold text-gray-800">
               {subtotal.toLocaleString('vi-VN')} đ
             </span>
           </div>
           {voucherDiscount > 0 && (
             <div className="flex justify-between items-center mb-2">
-              <span className="text-green-600">Giảm giá voucher:</span>
-              <span className="text-green-600 font-semibold">-{voucherDiscount.toLocaleString('vi-VN')} đ</span>
+              <span className="text-green-600 text-xs sm:text-sm">Giảm giá voucher:</span>
+              <span className="text-green-600 font-semibold text-sm">-{voucherDiscount.toLocaleString('vi-VN')} đ</span>
             </div>
           )}
           <div className="flex justify-between items-center pt-2 border-t">
-            <span className="text-gray-800 font-bold">Tổng cộng:</span>
-            <span className="text-2xl font-bold text-orange-600">
+            <span className="text-gray-800 font-bold text-sm">Tổng cộng:</span>
+            <span className="text-xl sm:text-2xl font-bold text-orange-600">
               {total.toLocaleString('vi-VN')} đ
             </span>
           </div>
         </div>
 
-        <div className="border-t mt-4 pt-4">
-          <div className="bg-blue-50 rounded p-3 border border-blue-100">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-gray-700 font-medium">Phương thức:</span>
-              <span className="font-bold text-blue-600">Thanh toán {paymentRate}%</span>
+        <div className="border-t mt-3 sm:mt-4 pt-3 sm:pt-4">
+          <div className="bg-blue-50 rounded p-2 sm:p-3 border border-blue-100">
+            <div className="flex justify-between items-center mb-1 sm:mb-2">
+              <span className="text-gray-700 font-medium text-xs sm:text-sm">Phương thức:</span>
+              <span className="font-bold text-blue-600 text-xs sm:text-sm">Thanh toán {paymentRate}%</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-700 font-bold">Cần thanh toán:</span>
-              <span className="text-2xl font-bold text-red-600">
+              <span className="text-gray-700 font-bold text-xs sm:text-sm">Cần thanh toán:</span>
+              <span className="text-lg sm:text-2xl font-bold text-red-600">
                 {amountToPay.toLocaleString('vi-VN')} đ
               </span>
             </div>
             {rate < 1 && (
               <div className="flex justify-between items-center mt-2 pt-2 border-t border-blue-200">
-                <span className="text-gray-600 text-xs">Còn lại:</span>
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-gray-600 text-[10px] sm:text-xs">Còn lại:</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {(total - amountToPay).toLocaleString('vi-VN')} đ
                 </span>
               </div>

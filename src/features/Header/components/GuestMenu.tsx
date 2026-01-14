@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaTimes } from 'react-icons/fa';
 
 interface GuestMenuProps {
   showMenu: boolean;
@@ -29,28 +29,78 @@ export const GuestMenu: React.FC<GuestMenuProps> = ({
         <span className="hidden sm:inline text-sm font-medium">Tài khoản</span>
       </button>
 
-      {/* Account Dropdown */}
+      {/* Account Menu */}
       {showMenu && (
-        <div 
-          className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-[100]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button 
-            onClick={onShowRegister}
-            className="w-full px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-600 transition-all mb-2 focus:outline-none"
+        <>
+          {/* Desktop Dropdown */}
+          <div 
+            className="hidden sm:block absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-[100]"
+            onClick={(e) => e.stopPropagation()}
           >
-            Đăng ký
-          </button>
-          <div className="px-4 py-2 text-sm text-gray-600 border-t border-gray-100">
-            <span>Quý khách đã có tài khoản?</span>
             <button 
-              onClick={onShowLogin}
-              className="text-blue-500 hover:text-blue-600 font-medium ml-1 focus:outline-none"
+              onClick={onShowRegister}
+              className="w-full px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-600 transition-all mb-2 focus:outline-none"
             >
-              Đăng nhập ngay
+              Đăng ký
             </button>
+            <div className="px-4 py-2 text-sm text-gray-600 border-t border-gray-100">
+              <span>Quý khách đã có tài khoản?</span>
+              <button 
+                onClick={onShowLogin}
+                className="text-blue-500 hover:text-blue-600 font-medium ml-1 focus:outline-none"
+              >
+                Đăng nhập ngay
+              </button>
+            </div>
           </div>
-        </div>
+
+          {/* Mobile Slide-in Panel */}
+          <div className="sm:hidden fixed inset-0 z-50">
+            {/* Overlay */}
+            <div 
+              className="absolute inset-0 bg-black/50"
+              onClick={onToggleMenu}
+            />
+            
+            {/* Sidebar from right */}
+            <div className="absolute top-0 right-0 h-full w-[280px] bg-white shadow-xl overflow-y-auto animate-slide-in-right">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                <span className="text-lg font-bold text-brand">Tài khoản</span>
+                <button
+                  onClick={onToggleMenu}
+                  className="p-2 text-gray-600 hover:text-brand focus:outline-none"
+                >
+                  <FaTimes className="text-xl" />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-4">
+                <div className="text-center mb-6">
+                  <div className="bg-blue-100 text-blue-600 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                    <FaUser className="text-3xl" />
+                  </div>
+                  <p className="text-gray-600">Đăng nhập để trải nghiệm tốt hơn</p>
+                </div>
+
+                <button 
+                  onClick={onShowRegister}
+                  className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all mb-3 focus:outline-none"
+                >
+                  Đăng ký tài khoản
+                </button>
+                
+                <button 
+                  onClick={onShowLogin}
+                  className="w-full py-3 border-2 border-blue-500 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all focus:outline-none"
+                >
+                  Đăng nhập
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

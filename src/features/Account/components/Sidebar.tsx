@@ -15,22 +15,24 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4">
-      <nav className="space-y-2">
-        {menuItems.map((item) => {
+    <div className="bg-white rounded-lg shadow border border-gray-200">
+      {/* Mobile: Horizontal scroll tabs */}
+      <nav className="flex lg:flex-col overflow-x-auto lg:overflow-visible">
+        {menuItems.map((item, index) => {
           const Icon = item.icon;
+          const isActive = activeTab === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left ${
-                activeTab === item.id
-                  ? 'bg-blue-50 text-blue-600 font-semibold'
-                  : 'text-gray-700 hover:bg-gray-50'
-              }`}
+              className={`flex-shrink-0 flex items-center gap-3 px-4 py-3 transition-colors text-left whitespace-nowrap border-b-2 lg:border-b-0 lg:border-l-4 ${
+                isActive
+                  ? 'border-blue-600 bg-blue-50 text-blue-600 font-semibold'
+                  : 'border-transparent text-gray-700 hover:bg-gray-50'
+              } ${index === menuItems.length - 1 ? '' : 'lg:border-b lg:border-gray-200'}`}
             >
-              <Icon className="text-lg" />
-              <span>{item.label}</span>
+              <Icon className="text-lg flex-shrink-0" />
+              <span className="text-sm sm:text-base">{item.label}</span>
             </button>
           );
         })}

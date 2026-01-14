@@ -182,9 +182,9 @@ const PopularTours: React.FC = () => {
   );
 
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-8 sm:py-12 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-blue-700 mb-10 uppercase">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-700 mb-6 sm:mb-10 uppercase">
           {viTexts.popularTours.title}
         </h2>
         
@@ -206,10 +206,10 @@ const PopularTours: React.FC = () => {
 
         {/* Two Column Layout */}
         {!loading && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {/* Tour trong nước */}
             <div>
-              <h3 className="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-3">
+              <h3 className="text-xl sm:text-2xl font-bold text-blue-700 mb-4 sm:mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-3">
                 <span>Tour trong nước</span>
               </h3>
               <div className="space-y-4">
@@ -233,7 +233,7 @@ const PopularTours: React.FC = () => {
 
             {/* Tour nước ngoài */}
             <div>
-              <h3 className="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-3">
+              <h3 className="text-xl sm:text-2xl font-bold text-blue-700 mb-4 sm:mb-6 flex items-center gap-2 border-l-4 border-blue-600 pl-3">
                 <span>Tour nước ngoài</span>
               </h3>
               <div className="space-y-4">

@@ -17,12 +17,12 @@ const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, setActiveTab }
 
   return (
     <div className="bg-white rounded-lg shadow-sm mb-4 overflow-x-auto">
-      <div className="flex border-b">
+      <div className="flex border-b min-w-max md:min-w-0">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-4 text-lg font-bold whitespace-nowrap transition-colors ${
+            className={`px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4 text-xs sm:text-sm md:text-lg font-bold whitespace-nowrap transition-colors ${
               activeTab === tab.id
                 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                 : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
