@@ -4,7 +4,7 @@ type Props = {
   items: WhyChooseItem[];
 };
 
-export default function WhyChooseCombo({ items }: Props) {
+export default function ComboFeatures({ items }: Props) {
   return (
     <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-6">

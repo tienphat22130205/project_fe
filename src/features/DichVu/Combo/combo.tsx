@@ -1,6 +1,6 @@
 import ComboHero from './Hero';
 import ComboList from './ComboList';
-import WhyChooseCombo from './WhyChoose';
+import ComboFeatures from './Features';
 import { comboCategories, comboItems, comboWhyChooseItems } from './data';
 
 export default function ComboPage() {
@@ -8,7 +8,7 @@ export default function ComboPage() {
 		<main className="bg-white min-h-screen">
 			<ComboHero categories={comboCategories} />
 			<ComboList combos={comboItems} />
-			<WhyChooseCombo items={comboWhyChooseItems} />
+			<ComboFeatures items={comboWhyChooseItems} />
 		</main>
 	);
 }

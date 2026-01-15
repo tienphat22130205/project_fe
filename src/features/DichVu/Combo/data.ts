@@ -50,7 +50,7 @@ export const comboItems: ComboItem[] = [
     price: '6.990.000',
     rating: 4.6,
     reviews: 128,
-    image: '/back1.jpg',
+    image: '/HaLong.jpg',
   },
   {
     id: 2,
@@ -59,7 +59,7 @@ export const comboItems: ComboItem[] = [
     price: '8.500.000',
     rating: 4.8,
     reviews: 95,
-    image: '/back2.jpg',
+    image: '/DaNang.jpg',
   },
   {
     id: 3,
@@ -68,7 +68,7 @@ export const comboItems: ComboItem[] = [
     price: '5.990.000',
     rating: 4.7,
     reviews: 156,
-    image: '/back3.jpg',
+    image: '/NhaTrang.jpg',
   },
   {
     id: 4,
@@ -77,7 +77,7 @@ export const comboItems: ComboItem[] = [
     price: '12.990.000',
     rating: 4.9,
     reviews: 203,
-    image: '/back4.jpg',
+    image: '/PhuQuoc.jpg',
   },
   {
     id: 5,
@@ -86,7 +86,7 @@ export const comboItems: ComboItem[] = [
     price: '4.990.000',
     rating: 4.5,
     reviews: 87,
-    image: '/back5.jpg',
+    image: '/DaLat.jpg',
   },
   {
     id: 6,
@@ -95,7 +95,7 @@ export const comboItems: ComboItem[] = [
     price: '5.500.000',
     rating: 4.6,
     reviews: 112,
-    image: '/back6.jpg',
+    image: '/SaPa.jpg',
   },
 ];
 
