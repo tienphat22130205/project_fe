@@ -83,20 +83,17 @@ const Orders: React.FC = () => {
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-4 sm:p-6 border-b border-gray-200">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Đơn hàng của tôi</h2>
-        <p className="text-sm text-gray-600 mt-1">Quản lý đơn hàng và theo dõi trạng thái</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Đơn hàng của tôi</h1>
       </div>
 
       {orders.length === 0 ? (
-        <div className="text-center py-16 px-4">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FaShoppingBag className="text-4xl text-gray-400" />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Chưa có đơn hàng nào</h3>
-          <p className="text-sm text-gray-600 mb-6">Khám phá và đặt tour du lịch ngay hôm nay</p>
+        <div className="text-center py-12 sm:py-16 px-4">
+          <FaShoppingBag className="text-5xl sm:text-6xl text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Chưa có đơn hàng nào</h3>
+          <p className="text-sm sm:text-base text-gray-600 mb-6">Hãy khám phá và đặt tour du lịch của bạn</p>
           <button
             onClick={() => (window.location.href = '/tours')}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
           >
             Khám phá tours
           </button>
@@ -107,11 +104,11 @@ const Orders: React.FC = () => {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all"
+                className="border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
               >
                 <div className="flex flex-col sm:flex-row gap-4 p-4">
                   {/* Tour Image */}
-                  <div className="w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                  <div className="w-full sm:w-32 h-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden">
                     <img
                       src={order.image}
                       alt={order.tourName}
@@ -121,13 +118,13 @@ const Orders: React.FC = () => {
 
                   {/* Order Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-1 line-clamp-2">{order.tourName}</h3>
-                        <p className="text-xs sm:text-sm text-gray-600">Mã: {order.tourCode}</p>
+                        <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-1">{order.tourName}</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Mã tour: {order.tourCode}</p>
                       </div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${getStatusColor(
+                        className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${getStatusColor(
                           order.status
                         )}`}
                       >
@@ -135,30 +132,30 @@ const Orders: React.FC = () => {
                       </span>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 mb-3 text-sm text-gray-700">
-                      <div className="flex items-center gap-2">
-                        <FaCalendarAlt className="text-gray-400" />
-                        <span>{order.date}</span>
+                    <div className="space-y-2 mb-3">
+                      <div className="flex items-center gap-2 text-gray-700">
+                        <FaCalendarAlt className="text-gray-400 text-sm" />
+                        <span className="text-xs sm:text-sm">{order.date}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <FaMapMarkerAlt className="text-gray-400" />
-                        <span className="line-clamp-1">{order.location}</span>
+                      <div className="flex items-center gap-2 text-gray-700">
+                        <FaMapMarkerAlt className="text-gray-400 text-sm" />
+                        <span className="text-xs sm:text-sm">{order.location}</span>
                       </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-gray-100">
                       <div>
-                        <span className="text-sm text-gray-600">Tổng tiền: </span>
+                        <span className="text-xs sm:text-sm text-gray-600">Tổng tiền: </span>
                         <span className="text-lg sm:text-xl font-bold text-red-600">
                           {order.price.toLocaleString('vi-VN')} đ
                         </span>
                       </div>
                       <div className="flex gap-2 w-full sm:w-auto">
-                        <button className="flex-1 sm:flex-none px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium">
+                        <button className="flex-1 sm:flex-none px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm sm:text-base">
                           Chi tiết
                         </button>
                         {order.status === 'completed' && (
-                          <button className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                          <button className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base">
                             Đánh giá
                           </button>
                         )}
