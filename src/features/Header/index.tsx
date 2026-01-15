@@ -24,7 +24,6 @@ const Header: React.FC = () => {
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showHeader, setShowHeader] = useState(true);
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   
@@ -32,7 +31,6 @@ const Header: React.FC = () => {
   const servicesTimeoutRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
-  const lastScrollY = useRef(0);
 
   // Close all menus helper
   const closeAllMenus = () => {
@@ -77,27 +75,10 @@ const Header: React.FC = () => {
   // Handle scroll for sticky header animation
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      setIsScrolled(currentScrollY > 10);
-      
-      if (currentScrollY < 10) {
-        // Ở đầu trang, luôn hiện header
-        setShowHeader(true);
-      } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scroll xuống, ẩn header
-        setShowHeader(false);
-      } else if (currentScrollY < lastScrollY.current) {
-        // Scroll lên, hiện header
-        setShowHeader(true);
-      }
-      
-      lastScrollY.current = currentScrollY;
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 10);
     };
 
-    // Trigger immediately to check initial state
-    handleScroll();
-    
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -228,12 +209,10 @@ const Header: React.FC = () => {
   return (
     <header 
       ref={headerRef} 
-      className={`bg-white fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+      className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
         isScrolled 
           ? 'shadow-lg py-2' 
           : 'shadow-md py-0'
-      } ${
-        showHeader ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
       <div className="container mx-auto px-4">
