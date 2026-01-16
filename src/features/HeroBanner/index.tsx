@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import viTexts from '../../assets/locales/vi.json';
 import { FaSearch, FaCalendarAlt, FaUser, FaChevronLeft, FaChevronRight, FaPlane, FaStar } from 'react-icons/fa';
+import { fetchTourSuggestions } from './server/api';
 
 const HeroBanner: React.FC = () => {
   // Slide carousel state
@@ -43,23 +44,12 @@ const HeroBanner: React.FC = () => {
 
   // Search suggestions with debounce
   useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (searchKeyword.trim().length < 2) {
-        setSearchSuggestions([]);
-        return;
-      }
-      try {
-        const response = await fetch(`http://localhost:5000/api/tours?search=${encodeURIComponent(searchKeyword)}&limit=5`);
-        if (!response.ok) return;
-        const data = await response.json();
-        const suggestions = data.data.tours.map((tour: { title: string }) => tour.title);
-        setSearchSuggestions(suggestions);
-      } catch (error) {
-        console.error('Error fetching suggestions:', error);
-        setSearchSuggestions([]);
-      }
+    const getSuggestions = async () => {
+      const suggestions = await fetchTourSuggestions(searchKeyword);
+      setSearchSuggestions(suggestions);
     };
-    const debounceTimer = setTimeout(fetchSuggestions, 300);
+
+    const debounceTimer = setTimeout(getSuggestions, 300);
     return () => clearTimeout(debounceTimer);
   }, [searchKeyword]);
 
@@ -91,13 +81,6 @@ const HeroBanner: React.FC = () => {
       month: (date.getMonth() + 1).toString().padStart(2, '0'),
       year: date.getFullYear()
     };
-  };
-
-  const getDaysBetween = () => {
-    if (!departDate || !returnDate) return 0;
-    const diffTime = Math.abs(returnDate.getTime() - departDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
   };
 
   const handleDateClick = (currentDate: Date) => {
@@ -199,7 +182,6 @@ const HeroBanner: React.FC = () => {
 
   const departFormatted = formatDate(departDate);
   const returnFormatted = formatDate(returnDate);
-  const nightCount = getDaysBetween();
 
   return (
     <section className="relative w-full min-h-[50vh] md:min-h-[66vh] py-8 md:py-20 lg:py-24 flex items-center overflow-visible">

@@ -1,0 +1,44 @@
+{
+  "welcome": "Chào mừng đến với EasyTrip!",
+  "search": {
+    "placeholder": "Tìm tour",
+    "noResults": "Không tìm thấy kết quả nào."
+  },
+  "header": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "services": "Dịch vụ",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập",
+    "register": "Đăng ký"
+  },
+  "footer": {
+    "terms": "Điều khoản sử dụng",
+    "privacy": "Chính sách bảo mật",
+    "followUs": "Theo dõi chúng tôi"
+  },
+  "booking": {
+    "success": "Đặt tour thành công!",
+    "error": "Có lỗi xảy ra, vui lòng thử lại."
+  },
+  "user": {
+    "profile": "Hồ sơ của tôi",
+    "logout": "Đăng xuất"
+  },
+  "modal": {
+    "login": {
+      "title": "Đăng nhập",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Đăng nhập",
+      "forgotPassword": "Quên mật khẩu?"
+    },
+    "register": {
+      "title": "Đăng ký",
+      "name": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Đăng ký"
+    }
+  }
+}
