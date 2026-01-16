@@ -1,4 +1,5 @@
 import type { BenefitItem } from './data';
+import { veMayBayStyles } from './styles';
 
 type Props = {
   items: BenefitItem[];
@@ -6,19 +7,19 @@ type Props = {
 
 export default function VeMayBayBenefits({ items }: Props) {
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Ưu điểm khi đặt vé qua chúng tôi</h2>
-        <div className="grid md:grid-cols-4 gap-6">
+    <section className={veMayBayStyles.benefits.section}>
+      <div className={veMayBayStyles.container}>
+        <h2 className={veMayBayStyles.benefits.title}>Ưu điểm khi đặt vé qua chúng tôi</h2>
+        <div className={veMayBayStyles.benefits.grid}>
           {items.map((item, i) => {
             const IconComponent = item.icon;
             return (
-              <div key={i} className="text-center p-6 rounded-xl bg-white">
-                <div className="flex justify-center mb-4">
-                  <IconComponent className="text-4xl text-blue-600" />
+              <div key={i} className={veMayBayStyles.benefits.card}>
+                <div className={veMayBayStyles.benefits.iconWrap}>
+                  <IconComponent className={veMayBayStyles.benefits.icon} />
                 </div>
-                <h3 className="font-bold text-lg text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+                <h3 className={veMayBayStyles.benefits.itemTitle}>{item.title}</h3>
+                <p className={veMayBayStyles.benefits.itemDesc}>{item.desc}</p>
               </div>
             );
           })}

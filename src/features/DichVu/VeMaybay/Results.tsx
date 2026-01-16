@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaPlane, FaClock, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import type { Flight } from './data';
 import { formatPrice } from './utils';
+import { veMayBayStyles } from './styles';
 
 type Props = {
   flights: Flight[];
@@ -18,7 +19,6 @@ export default function VeMayBayResults({ flights }: Props) {
 
   const handleConfirmBooking = () => {
     if (selectedFlight) {
-      // Xử lý đặt vé tại đây - có thể điều hướng đến trang booking hoặc hiển thị form
       alert(`Đã chọn chuyến bay ${selectedFlight.flightNo}`);
       setShowModal(false);
     }
@@ -30,19 +30,19 @@ export default function VeMayBayResults({ flights }: Props) {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20 mt-12">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Kết quả tìm kiếm</h2>
-        <p className="text-gray-600">Tìm thấy {flights.length} chuyến bay phù hợp</p>
+    <section className={veMayBayStyles.results.section}>
+      <div className={veMayBayStyles.results.headingWrap}>
+        <h2 className={veMayBayStyles.results.title}>Kết quả tìm kiếm</h2>
+        <p className={veMayBayStyles.results.subtitle}>Tìm thấy {flights.length} chuyến bay phù hợp</p>
       </div>
 
-      <div className="space-y-4">
+      <div className={veMayBayStyles.results.list}>
         {flights.map((flight) => (
           <div
             key={flight.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6"
+            className={veMayBayStyles.results.card}
           >
-            <div className="grid md:grid-cols-12 gap-4 items-center">
+            <div className={veMayBayStyles.results.cardGrid}>
               <div className="md:col-span-3">
                 <div className="font-bold text-gray-900 mb-1">{flight.airline}</div>
                 <div className="text-sm text-gray-600">{flight.flightNo}</div>
@@ -76,15 +76,15 @@ export default function VeMayBayResults({ flights }: Props) {
               <div className="md:col-span-4 text-right">
                 <div className="mb-2">
                   <span className="text-xs text-gray-500">Từ</span>
-                  <div className="text-2xl font-bold text-red-600">{formatPrice(flight.price)}đ</div>
+                  <div className={veMayBayStyles.results.price}>{formatPrice(flight.price)}đ</div>
                 </div>
-                <div className="text-sm text-blue-600 mb-3 flex items-center justify-end gap-1">
+                <div className={veMayBayStyles.results.seats}>
                   <FaCheckCircle />
                   {flight.seats}
                 </div>
                 <button 
                   onClick={() => handleSelectFlight(flight)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+                  className={veMayBayStyles.results.choose}
                 >
                   Chọn chuyến bay
                 </button>
@@ -94,21 +94,20 @@ export default function VeMayBayResults({ flights }: Props) {
         ))}
       </div>
 
-      {/* Modal xác nhận chọn chuyến bay */}
       {showModal && selectedFlight && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
-            <div className="flex justify-between items-start mb-6">
+        <div className={veMayBayStyles.modal.overlay}>
+          <div className={veMayBayStyles.modal.panel}>
+            <div className={veMayBayStyles.modal.header}>
               <h3 className="text-2xl font-bold text-gray-900">Xác nhận chuyến bay</h3>
               <button
                 onClick={handleCloseModal}
-                className="text-gray-400 hover:text-gray-600 transition"
+                className={veMayBayStyles.modal.close}
               >
                 <FaTimes size={24} />
               </button>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6">
+            <div className={veMayBayStyles.modal.infoBox}>
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-sm text-gray-600 mb-1">Hãng bay</div>
@@ -153,7 +152,7 @@ export default function VeMayBayResults({ flights }: Props) {
               </div>
             </div>
 
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div className={veMayBayStyles.modal.warningBox}>
               <h4 className="font-semibold text-gray-900 mb-2">Lưu ý quan trọng:</h4>
               <ul className="text-sm text-gray-700 space-y-1">
                 <li>• Vui lòng kiểm tra kỹ thông tin chuyến bay trước khi xác nhận</li>
@@ -162,16 +161,16 @@ export default function VeMayBayResults({ flights }: Props) {
               </ul>
             </div>
 
-            <div className="flex gap-3">
+            <div className={veMayBayStyles.modal.actions}>
               <button
                 onClick={handleCloseModal}
-                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition"
+                className={veMayBayStyles.modal.cancel}
               >
                 Hủy
               </button>
               <button
                 onClick={handleConfirmBooking}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition"
+                className={veMayBayStyles.modal.confirm}
               >
                 Xác nhận đặt vé
               </button>

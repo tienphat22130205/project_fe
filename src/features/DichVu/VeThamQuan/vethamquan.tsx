@@ -5,6 +5,7 @@ import TicketsGrid from './TicketsGrid';
 import PopularDestinations from './PopularDestinations';
 import OnlineBenefits from './Benefits';
 import { categories, onlineBenefits, popularLocations, tickets } from './data';
+import { veThamQuanStyles } from './styles';
 
 const AttractionTicketPage = () => {
 	const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +20,7 @@ const AttractionTicketPage = () => {
 	});
 
 	return (
-		<main className="bg-white min-h-screen">
+		<main className={veThamQuanStyles.page.root}>
 			<VeThamQuanHero searchQuery={searchQuery} onSearchQueryChange={setSearchQuery} />
 			<CategoryFilter
 				categories={categories}

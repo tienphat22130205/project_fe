@@ -1,41 +1,41 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { FaUserFriends, FaFileAlt, FaGraduationCap } from 'react-icons/fa';
+import { duHocStyles } from './styles';
 
 const FeatureCard: React.FC<{ title: string; desc: string; icon?: React.ReactNode }> = ({title, desc, icon}) => (
-    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition transform hover:-translate-y-1 border-2 border-slate-400">
-        <div className="text-blue-600 text-2xl mb-3">{icon}</div>
-        <h3 className="font-semibold text-lg text-slate-800">{title}</h3>
-        <p className="mt-2 text-slate-600">{desc}</p>
+    <div className={`${duHocStyles.cards.featureCard.base} ${duHocStyles.cards.featureCard.hover}`}>
+        <div className={duHocStyles.cards.featureCard.icon}>{icon}</div>
+        <h3 className={duHocStyles.cards.featureCard.title}>{title}</h3>
+        <p className={duHocStyles.cards.featureCard.desc}>{desc}</p>
     </div>
 );
 
 const StatCard: React.FC<{ num: string; label: string }> = ({num, label}) => (
-    <div className="bg-white p-6 rounded-xl shadow text-center border-2 border-slate-400">
-        <div className="text-3xl font-bold text-blue-600">{num}</div>
-        <div className="mt-2 text-slate-600">{label}</div>
+    <div className={duHocStyles.cards.statCard.base}>
+        <div className={duHocStyles.cards.statCard.num}>{num}</div>
+        <div className={duHocStyles.cards.statCard.label}>{label}</div>
     </div>
 );
 
 const ProgramCard: React.FC<{ title: string; brief: string; href?: string; image?: string }> = ({title, brief, href = '#', image}) => (
-    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition border-2 border-slate-400">
+    <div className={`${duHocStyles.cards.programCard.base} ${duHocStyles.cards.programCard.hover}`}>
         {image && (
-            <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-4" />
+            <img src={image} alt={title} className={duHocStyles.cards.programCard.image} />
         )}
-        <h4 className="font-semibold text-lg text-slate-800">{title}</h4>
-        <p className="mt-2 text-slate-600">{brief}</p>
+        <h4 className={duHocStyles.cards.programCard.title}>{title}</h4>
+        <p className={duHocStyles.cards.programCard.desc}>{brief}</p>
         <div className="mt-4">
-            <Link to={href} className="inline-block text-blue-600 font-semibold">Xem chi tiết →</Link>
+            <Link to={href} className={duHocStyles.cards.programCard.link}>Xem chi tiết →</Link>
         </div>
     </div>
 );
 
-// Gallery nhỏ sử dụng ảnh trong public/
 const Gallery: React.FC<{ images: string[] }> = ({images}) => (
-    <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div className={duHocStyles.cards.galleryGrid}>
         {images.map((src, i) => (
-            <div key={i} className="overflow-hidden rounded-lg bg-white shadow-sm border-2 border-slate-400">
-                <img src={src} alt={`gallery-${i}`} className="w-full h-24 sm:h-32 object-cover transform hover:scale-105 transition" />
+            <div key={i} className={duHocStyles.cards.galleryItem.wrap}>
+                <img src={src} alt={`gallery-${i}`} className={duHocStyles.cards.galleryItem.image} />
             </div>
         ))}
     </div>
@@ -45,10 +45,13 @@ const Cards: React.FC = () => {
     const galleryImages = ['/back9.jpg', '/back6.jpg', '/back7.jpg', '/back8.jpg'];
 
     return (
-        <section id="programs" className="max-w-7xl mx-auto px-6 py-12">
-            <div className="grid md:grid-cols-3 gap-6">
-                <FeatureCard title="Tư vấn 1:1" desc="Lộ trình cá nhân theo ngành, điểm mạnh và mục tiêu của bạn."
-                             icon={<FaUserFriends className="text-2xl" aria-hidden="true"/>}/>
+        <section id="programs" className={duHocStyles.cards.section}>
+            <div className={duHocStyles.cards.grid3}>
+                <FeatureCard
+                    title="Tư vấn 1:1"
+                    desc="Lộ trình cá nhân theo ngành, điểm mạnh và mục tiêu của bạn."
+                    icon={<FaUserFriends className="text-2xl" aria-hidden="true"/>}
+                />
                 <FeatureCard title="Hỗ trợ hồ sơ & visa"
                              desc="Chuẩn hoá hồ sơ, luyện phỏng vấn, nộp visa và theo dõi tiến trình."
                              icon={<FaFileAlt className="text-2xl" aria-hidden="true"/>}/>
@@ -56,19 +59,17 @@ const Cards: React.FC = () => {
                              icon={<FaGraduationCap className="text-2xl" aria-hidden="true"/>}/>
             </div>
 
-            <div className="mt-10 grid sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <div className={duHocStyles.cards.statsGrid}>
                 <StatCard num="120+" label="Trường đối tác"/>
                 <StatCard num="98%" label="Tỉ lệ thành công"/>
                 <StatCard num="10" label="Năm kinh nghiệm"/>
                 <StatCard num="5000+" label="Học sinh/khách hàng"/>
             </div>
-
-            {/* gallery ảnh nhỏ */}
             <Gallery images={galleryImages} />
 
             <div className="mt-12">
-                <h3 className="text-2xl font-semibold text-slate-800">Chương trình nổi bật</h3>
-                <div className="mt-6 grid md:grid-cols-3 gap-6">
+                <h3 className={duHocStyles.cards.featuredTitle}>Chương trình nổi bật</h3>
+                <div className={duHocStyles.cards.featuredGrid}>
                     <ProgramCard title="Bậc đại học" brief="Chương trình cử nhân, hỗ trợ tìm học bổng và nộp hồ sơ."
                                  href="/du-hoc/dai-hoc" image="/back5.jpg" />
                     <ProgramCard title="Sau đại học" brief="Thạc sĩ/tiến sĩ: tư vấn trường, research, và tài chính."

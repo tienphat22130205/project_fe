@@ -1,4 +1,5 @@
 import type { WhyChooseItem } from './data';
+import { comboStyles } from './styles';
 
 type Props = {
   items: WhyChooseItem[];
@@ -6,19 +7,19 @@ type Props = {
 
 export default function ComboFeatures({ items }: Props) {
   return (
-    <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Vì sao nên chọn combo du lịch?</h2>
-        <div className="grid md:grid-cols-4 gap-6">
+    <section className={comboStyles.features.section}>
+      <div className={comboStyles.container}>
+        <h2 className={comboStyles.features.title}>Vì sao nên chọn combo du lịch?</h2>
+        <div className={comboStyles.features.grid}>
           {items.map((item, i) => {
             const IconComponent = item.icon;
             return (
-              <div key={i} className="text-center p-6 rounded-xl bg-white">
-                <div className="flex justify-center mb-4">
-                  <IconComponent className="text-4xl text-blue-600" />
+              <div key={i} className={comboStyles.features.item}>
+                <div className={comboStyles.features.iconWrap}>
+                  <IconComponent className={comboStyles.features.icon} />
                 </div>
-                <h3 className="font-bold text-lg text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+                <h3 className={comboStyles.features.itemTitle}>{item.title}</h3>
+                <p className={comboStyles.features.itemDesc}>{item.desc}</p>
               </div>
             );
           })}

@@ -1,4 +1,5 @@
 import { FaCommentDots, FaTimes } from 'react-icons/fa';
+import { chatStyles } from './styles';
 
 type Props = {
   subtitle: string;
@@ -7,23 +8,23 @@ type Props = {
 
 export default function ChatHeader({ subtitle, onClose }: Props) {
   return (
-    <div className="bg-blue-600 text-white px-4 py-3">
-      <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center shadow-sm">
-          <FaCommentDots className="text-lg" />
+    <div className={chatStyles.header.root}>
+      <div className={chatStyles.header.row}>
+        <div className={chatStyles.header.iconWrap}>
+          <FaCommentDots className={chatStyles.header.icon} />
         </div>
 
-        <div className="min-w-0 flex-1">
-          <div className="font-semibold leading-5 truncate">Tư vấn tour du lịch</div>
-          <div className="text-white/80 text-sm leading-4 truncate">{subtitle}</div>
+        <div className={chatStyles.header.textWrap}>
+          <div className={chatStyles.header.title}>Tư vấn tour du lịch</div>
+          <div className={chatStyles.header.subtitle}>{subtitle}</div>
         </div>
         <button
           type="button"
-          className="p-2 rounded-md hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+          className={chatStyles.header.close}
           aria-label="Đóng"
           onClick={onClose}
         >
-          <FaTimes className="text-base" />
+          <FaTimes className={chatStyles.header.closeIcon} />
         </button>
       </div>
     </div>

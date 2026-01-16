@@ -1,15 +1,16 @@
 import React from 'react';
 import Hero from './Hero';
 import Cards from './Cards';
-import CTA from './CTA';
+import Contact from './Contact';
+import { duHocStyles } from './styles';
 
 const DuHoc: React.FC = () => {
     return (
-        <main className="bg-white min-h-screen">
+        <main className={duHocStyles.page.root}>
             <Hero/>
             <Cards/>
-            <CTA/>
-            <section className="max-w-7xl mx-auto px-6 py-12 text-center text-slate-600">
+            <Contact/>
+            <section className={duHocStyles.page.footer}>
                 <p>© {new Date().getFullYear()} EasyTrip - Dịch vụ tư vấn du học. Mọi thông tin chỉ mang tính chất tham
                     khảo.</p>
             </section>

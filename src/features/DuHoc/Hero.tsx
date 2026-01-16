@@ -1,58 +1,59 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {FaBook, FaGraduationCap, FaGlobe} from 'react-icons/fa';
+import { duHocStyles } from './styles';
 
 const Hero: React.FC = () => {
     return (
-        <section className="bg-white">
-            <div className="max-w-7xl mx-auto px-6 py-16 md:py-28">
-                <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg">
+        <section className={duHocStyles.hero.section}>
+            <div className={duHocStyles.hero.container}>
+                <div className={duHocStyles.hero.panel}>
 
                     <div
-                        className="absolute inset-0 bg-cover bg-center brightness-[0.65]"
+                        className={duHocStyles.hero.backdrop}
                         style={{
                             backgroundImage: "url('/back5.jpg')",
                         }}
                         aria-hidden="true"
                     />
 
-                    <div className="relative p-8 md:p-16">
+                    <div className={duHocStyles.hero.content}>
                         <div className="max-w-3xl">
-                            <h1 className="text-3xl md:text-5xl text-white font-extrabold leading-tight drop-shadow-lg [text-shadow:2px_2px_4px_rgba(0,0,0,0.8)]">
+                            <h1 className={duHocStyles.hero.title}>
                                 Du học — Mở ra cơ hội toàn cầu
                             </h1>
 
-                            <p className="mt-4 text-lg md:text-xl text-white">
+                            <p className={duHocStyles.hero.subtitle}>
                                 Tư vấn 1:1, hỗ trợ hồ sơ & visa, săn học bổng phù hợp với năng lực của bạn.
                             </p>
 
-                            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                            <div className={duHocStyles.hero.actions}>
                                 <Link
                                     to="#contact"
-                                    className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    className={duHocStyles.hero.actionButton}
                                 >
                                     Đăng ký tư vấn
                                 </Link>
 
                                 <a
                                     href="#programs"
-                                    className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    className={duHocStyles.hero.actionButton}
                                 >
                                     Xem chương trình
                                 </a>
                             </div>
 
-                            <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-200">
-                                <div className="flex items-center gap-2">
-                                    <FaBook className="text-xl text-white" aria-hidden="true"/>
+                            <div className={duHocStyles.hero.meta}>
+                                <div className={duHocStyles.hero.metaItem}>
+                                    <FaBook className={duHocStyles.hero.metaIcon} aria-hidden="true"/>
                                     <span>120+ trường đối tác</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <FaGraduationCap className="text-xl text-white" aria-hidden="true"/>
+                                <div className={duHocStyles.hero.metaItem}>
+                                    <FaGraduationCap className={duHocStyles.hero.metaIcon} aria-hidden="true"/>
                                     <span>10 năm tư vấn</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <FaGlobe className="text-xl text-white" aria-hidden="true"/>
+                                <div className={duHocStyles.hero.metaItem}>
+                                    <FaGlobe className={duHocStyles.hero.metaIcon} aria-hidden="true"/>
                                     <span>Hỗ trợ toàn cầu</span>
                                 </div>
                             </div>

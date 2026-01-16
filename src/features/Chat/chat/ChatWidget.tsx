@@ -4,6 +4,7 @@ import ChatPanel from './ChatPanel';
 import type { ChatMessage, QuickReply } from './types';
 import { createChatId } from './utils';
 import { mockTours, formatVnd, type Tour } from './danhSachTour';
+import { chatStyles } from './styles';
 
 function formatTimeLabel(date = new Date()) {
   try {
@@ -67,7 +68,7 @@ function extractLeadInfo(messages: ChatMessage[], userText: string): LeadInfo {
   const peopleMatch = t.match(/(\d{1,2})\s*(người|khách|pax)\b/);
 
   const dateLikeMatch = conversationText.match(
-    /(\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b|\b(tháng)\s*\d{1,2}\b|\b(tết|cuối\s*tuần|cuối\s*tháng|đầu\s*tháng)\b)/i,
+    /(\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b|\b(tháng)\s*\d{1,2}\b|\b(tết|cuối tuần|cuối\s*tháng|đầu\s*tháng)\b)/i,
   );
 
   const budgetMatch = t.match(
@@ -97,7 +98,7 @@ function extractLeadInfo(messages: ChatMessage[], userText: string): LeadInfo {
 
   const destination = KNOWN_DESTINATIONS.find((d) => pickFirstMatch(conversationText, d.patterns))?.key;
 
-  const departFromMatch = conversationText.match(/(?:từ|bay từ|khởi hành từ)\s+([\p{L}\s]{2,40})/iu);
+  const departFromMatch = conversationText.match(/(?:từ|bay từ|khởi hành từ)\s+([A-Za-zÀ-ỹ\s]{2,25})/i);
   const departFrom = departFromMatch?.[1]?.trim();
 
   const isGreeting = /(xin chào|chào|hello|hi)\b/i.test(userText);
@@ -167,7 +168,7 @@ function filterTours(info: LeadInfo, fallbackText?: string): Tour[] {
 }
 
 function buildSalesSuggestion(info: LeadInfo) {
-  const where = info.destination ? `Đi ${info.destination}` : 'Đi đâu';
+  const where = info.destination ? `đi ${info.destination}` : 'đi đâu';
   const when = info.dateText ? `thời gian: ${info.dateText}` : 'thời gian dự kiến';
   const pax = info.people ? `${info.people} khách` : 'số khách';
   const budget = info.budgetText ? `ngân sách: ${info.budgetText}` : 'ngân sách dự kiến';
@@ -231,7 +232,7 @@ function getBotReply(messages: ChatMessage[], userText: string): ChatMessage {
       text:
         'Về thanh toán: hiện hệ thống chỉ mô phỏng trên giao diện, không thu/không lưu thông tin.\n' +
         'Thông thường bạn có thể đặt cọc để giữ chỗ, phần còn lại thanh toán trước ngày khởi hành (tuỳ tour).\n' +
-        'Bạn đang quan tâm tour nào (điểm đến + ngày đi) để mình hướng dẫn chi tiết ạ?',
+        'Bạn đang quan tâm tour nào (điểm đến + ngày đi) để mình hướng dẫn chi tiết ạ? ',
       timeLabel: formatTimeLabel(),
     };
   }
@@ -499,7 +500,7 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+    <div className={chatStyles.widget.root}>
       {isOpen && (
         <ChatPanel
           panelRef={panelRef}

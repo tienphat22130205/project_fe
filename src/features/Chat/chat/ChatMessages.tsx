@@ -3,6 +3,7 @@ import { FaCommentDots } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import type { ChatMessage } from './types';
 import { formatVnd } from './danhSachTour';
+import { chatStyles } from './styles';
 
 type Props = {
   messages: ChatMessage[];
@@ -12,24 +13,24 @@ type Props = {
 
 function TypingIndicator() {
   return (
-    <div className="mb-4">
-      <div className="flex items-start gap-3">
-        <div className="h-8 w-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
-          <FaCommentDots className="text-sm" />
+    <div className={chatStyles.messages.typing.wrap}>
+      <div className={chatStyles.messages.assistant.wrap}>
+        <div className={chatStyles.messages.assistant.avatar}>
+          <FaCommentDots className={chatStyles.messages.assistant.avatarIcon} />
         </div>
-        <div className="max-w-[85%]">
-          <div className="bg-gray-100 text-gray-900 border-2 border-white shadow-sm rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-6">
-            <span className="inline-flex items-center gap-1">
+        <div className={chatStyles.messages.assistant.maxWidth}>
+          <div className={chatStyles.messages.assistant.bubble}>
+            <span className={chatStyles.messages.typing.dots}>
               <span
-                className="h-2 w-2 rounded-full bg-gray-400 animate-bounce"
+                className={chatStyles.messages.typing.dot}
                 style={{ animationDelay: '0ms' }}
               />
               <span
-                className="h-2 w-2 rounded-full bg-gray-400 animate-bounce"
+                className={chatStyles.messages.typing.dot}
                 style={{ animationDelay: '120ms' }}
               />
               <span
-                className="h-2 w-2 rounded-full bg-gray-400 animate-bounce"
+                className={chatStyles.messages.typing.dot}
                 style={{ animationDelay: '240ms' }}
               />
             </span>
@@ -48,52 +49,55 @@ export default function ChatMessages({ messages, isTyping = false, onQuickReply 
   }, [messages.length]);
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-gray-50">
+    <div className={chatStyles.messages.list}>
       {messages.map((m) => (
-        <div key={m.id} className={m.role === 'assistant' ? 'mb-4' : 'mb-4 flex justify-end'}>
+        <div
+          key={m.id}
+          className={m.role === 'assistant' ? chatStyles.messages.row.base : chatStyles.messages.row.user}
+        >
           {m.role === 'assistant' ? (
             <div>
-              <div className="flex items-start gap-3">
-                <div className="h-8 w-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
-                  <FaCommentDots className="text-sm" />
+              <div className={chatStyles.messages.assistant.wrap}>
+                <div className={chatStyles.messages.assistant.avatar}>
+                  <FaCommentDots className={chatStyles.messages.assistant.avatarIcon} />
                 </div>
-                <div className="max-w-[85%]">
-                  <div className="bg-gray-100 text-gray-900 border-2 border-white shadow-sm rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-6 whitespace-pre-line">
+                <div className={chatStyles.messages.assistant.maxWidth}>
+                  <div className={`${chatStyles.messages.assistant.bubble} ${chatStyles.messages.assistant.bubblePre}`}>
                     {m.text}
                   </div>
 
                   {m.tours && m.tours.length > 0 && (
-                    <div className="mt-3 grid gap-3">
+                    <div className={chatStyles.messages.tours.grid}>
                       {m.tours.map((t) => (
                         <div
                           key={t.id}
-                          className="rounded-xl overflow-hidden border border-gray-200 bg-white"
+                          className={chatStyles.messages.tours.card}
                         >
-                          <div className="p-3">
-                            <div className="font-semibold text-sm leading-5 line-clamp-2">{t.title}</div>
-                            <div className="mt-1 flex items-center justify-between text-xs text-gray-600">
+                          <div className={chatStyles.messages.tours.body}>
+                            <div className={chatStyles.messages.tours.title}>{t.title}</div>
+                            <div className={chatStyles.messages.tours.metaRow}>
                               <span>{t.destination}</span>
                               <span>{t.durationText}</span>
                             </div>
-                            <div className="mt-2 flex items-center justify-between">
-                              <div className="text-sm font-semibold text-blue-700">Từ {formatVnd(t.priceFromVnd)}</div>
+                            <div className={chatStyles.messages.tours.priceRow}>
+                              <div className={chatStyles.messages.tours.price}>Từ {formatVnd(t.priceFromVnd)}</div>
                               {t.promoText && (
-                                <div className="text-[11px] px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
+                                <div className={chatStyles.messages.tours.promo}>
                                   {t.promoText}
                                 </div>
                               )}
                             </div>
-                            <div className="mt-3 flex gap-2">
+                            <div className={chatStyles.messages.tours.actions}>
                               <Link
                                 to={`/tours/${t.id}`}
-                                className="flex-1 text-center text-xs font-medium px-3 py-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50"
+                                className={chatStyles.messages.tours.link}
                               >
                                 Xem chi tiết
                               </Link>
                               <button
                                 type="button"
                                 onClick={() => onQuickReply?.(`Mình muốn đặt tour ${t.title}`)}
-                                className="flex-1 text-xs font-medium px-3 py-2 rounded-lg bg-blue-600 text-white hover:opacity-95"
+                                className={chatStyles.messages.tours.button}
                               >
                                 Đặt tour
                               </button>
@@ -105,13 +109,13 @@ export default function ChatMessages({ messages, isTyping = false, onQuickReply 
                   )}
 
                   {m.quickReplies && m.quickReplies.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className={chatStyles.messages.quickReplies.wrap}>
                       {m.quickReplies.map((q) => (
                         <button
                           key={q.id}
                           type="button"
                           onClick={() => onQuickReply?.(q.sendText)}
-                          className="text-xs px-3 py-2 rounded-full bg-gray-100 text-gray-800 border border-gray-200 hover:bg-blue-50 hover:border-blue-200"
+                          className={chatStyles.messages.quickReplies.item}
                         >
                           {q.label}
                         </button>
@@ -119,13 +123,13 @@ export default function ChatMessages({ messages, isTyping = false, onQuickReply 
                     </div>
                   )}
 
-                  {m.timeLabel && <div className="text-xs text-gray-500 mt-1">{m.timeLabel}</div>}
+                  {m.timeLabel && <div className={chatStyles.messages.time}>{m.timeLabel}</div>}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="max-w-[85%]">
-              <div className="bg-blue-600 text-white border-2 border-white shadow-sm rounded-2xl rounded-tr-md px-4 py-3 text-sm leading-6 whitespace-pre-line">{m.text}</div>
+            <div className={chatStyles.messages.user.maxWidth}>
+              <div className={chatStyles.messages.user.bubble}>{m.text}</div>
             </div>
           )}
         </div>

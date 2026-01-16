@@ -1,9 +1,9 @@
 export type Tour = {
   id: string;
   title: string;
-  destination: string; // ví dụ: "Đà Nẵng", "Phú Quốc"
+  destination: string;
   region: 'trong_nuoc' | 'ngoai_nuoc';
-  durationText: string; // ví dụ: "3N2Đ"
+  durationText: string;
   days: number;
   nights: number;
   priceFromVnd: number;
