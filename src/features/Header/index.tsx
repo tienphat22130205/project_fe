@@ -21,12 +21,16 @@ const Header: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
   
   const travelTimeoutRef = useRef<number | null>(null);
   const servicesTimeoutRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   // Close all menus helper
   const closeAllMenus = () => {
@@ -49,6 +53,9 @@ const Header: React.FC = () => {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         closeAllMenus();
       }
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,6 +71,42 @@ const Header: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showLoginModal, showRegisterModal]);
+
+  // Handle scroll for sticky header animation
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Search suggestions effect with debounce
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (searchKeyword.trim().length < 2) {
+        setSearchSuggestions([]);
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/tours?search=${encodeURIComponent(searchKeyword)}&limit=5`);
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        const suggestions = data.data.tours.map((tour: { title: string }) => tour.title);
+        setSearchSuggestions(suggestions);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSearchSuggestions([]);
+      }
+    };
+
+    const debounceTimer = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(debounceTimer);
+  }, [searchKeyword]);
 
   // Fetch dữ liệu du lịch từ API
   useEffect(() => {
@@ -133,6 +176,18 @@ const Header: React.FC = () => {
     }, 300) as unknown as number;
   };
 
+  // Handle search submission
+  const handleSearchSubmit = (keyword?: string) => {
+    const searchTerm = keyword || searchKeyword;
+    if (searchTerm.trim()) {
+      const params = new URLSearchParams();
+      params.append('keyword', searchTerm);
+      navigate(`/search?${params.toString()}`);
+      setShowSuggestions(false);
+      setSearchKeyword(searchTerm);
+    }
+  };
+
   // Data cho menu Dịch vụ
   const servicesMenuData = [
     { title: 'Combo Free & Easy', href:'/dich-vu/combo' },
@@ -152,10 +207,19 @@ const Header: React.FC = () => {
   const countriesData = countries;
 
   return (
-    <header ref={headerRef} className="bg-white shadow-md sticky top-0 z-50">
+    <header 
+      ref={headerRef} 
+      className={`bg-white sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'shadow-lg py-2' 
+          : 'shadow-md py-0'
+      }`}
+    >
       <div className="container mx-auto px-4">
-        {/* Top Bar - Hidden on mobile */}
-        <div className="hidden md:flex items-center justify-between py-2 text-sm border-b border-gray-100">
+        {/* Top Bar - Hidden on mobile and when scrolled */}
+        <div className={`hidden md:flex items-center justify-between text-sm border-b border-gray-100 transition-all duration-300 overflow-hidden ${
+          isScrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-20 py-2 opacity-100'
+        }`}>
           <div className="flex items-center gap-4">
             <a href="mailto:info@saigontourist.net" className="flex items-center gap-2 text-gray-600 hover:text-orange-500">
               <FaEnvelope className="text-xs" />
@@ -179,7 +243,9 @@ const Header: React.FC = () => {
         </div>
 
         {/* Main Header */}
-        <div className="flex items-center justify-between py-3">
+        <div className={`flex items-center justify-between transition-all duration-300 ${
+          isScrolled ? 'py-2' : 'py-3'
+        }`}>
           {/* Mobile Menu Button */}
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -197,35 +263,59 @@ const Header: React.FC = () => {
                 onClick={() => window.scrollTo(0, 0)}
               >
                 <span 
-                  className="ml-2 text-xl sm:text-2xl lg:text-[2.2rem] font-extrabold tracking-tight flex items-center select-none"
-                style={{fontFamily: 'Quicksand, Poppins, Segoe UI, Arial, sans-serif'}}
-              >
-                <span className="mr-1 sm:mr-2 text-yellow-400 text-lg sm:text-xl lg:text-2xl">✿</span>
-                <span className="bg-gradient-to-r from-blue-500 via-green-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-md">
-                  EasyTrip
+                  className={`ml-2 font-extrabold tracking-tight flex items-center select-none transition-all duration-300 ${
+                    isScrolled 
+                      ? 'text-xl sm:text-2xl lg:text-3xl' 
+                      : 'text-2xl sm:text-3xl lg:text-[3rem]'
+                  }`}
+                  style={{fontFamily: 'Quicksand, Poppins, Segoe UI, Arial, sans-serif'}}
+                >
+                  <span className={`mr-1 sm:mr-2 text-yellow-400 transition-all duration-300 ${
+                    isScrolled ? 'text-base sm:text-lg lg:text-xl' : 'text-lg sm:text-xl lg:text-2xl'
+                  }`}>✿</span>
+                  <span className="bg-gradient-to-r from-blue-500 via-green-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-md">
+                    EasyTrip
+                  </span>
                 </span>
-              </span>
             </Link>
           </div>
 
           {/* Search Box - Desktop */}
           <div className="hidden md:block flex-1 max-w-md mx-6">
-            <div className="relative">
+            <div className="relative" ref={searchRef}>
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
+                onChange={(e) => {
+                  setSearchKeyword(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
                 placeholder="Tìm tour"
-                className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    const params = new URLSearchParams();
-                    if (searchKeyword) params.append('keyword', searchKeyword);
-                    navigate(`/search?${params.toString()}`);
+                    handleSearchSubmit();
                   }
                 }}
               />
+              
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSearchSubmit(suggestion)}
+                      className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                    >
+                      <FaSearch className="text-gray-400 text-sm flex-shrink-0" />
+                      <span className="text-gray-700 text-sm line-clamp-1">{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import viTexts from '../../assets/locales/vi.json';
 import { FaSearch, FaCalendarAlt, FaUser, FaChevronLeft, FaChevronRight, FaPlane, FaStar } from 'react-icons/fa';
@@ -18,6 +18,9 @@ const HeroBanner: React.FC = () => {
   const [returnDate, setReturnDate] = useState<Date | null>(null);
   const [selectingDepart, setSelectingDepart] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   // Auto slide every 5 seconds
   useEffect(() => {
@@ -26,6 +29,39 @@ const HeroBanner: React.FC = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  // Click outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Search suggestions with debounce
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (searchKeyword.trim().length < 2) {
+        setSearchSuggestions([]);
+        return;
+      }
+      try {
+        const response = await fetch(`http://localhost:5000/api/tours?search=${encodeURIComponent(searchKeyword)}&limit=5`);
+        if (!response.ok) return;
+        const data = await response.json();
+        const suggestions = data.data.tours.map((tour: { title: string }) => tour.title);
+        setSearchSuggestions(suggestions);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSearchSuggestions([]);
+      }
+    };
+    const debounceTimer = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(debounceTimer);
+  }, [searchKeyword]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -254,20 +290,47 @@ const HeroBanner: React.FC = () => {
           
           <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-6">
             {/* Search Input Row */}
-            <div className="mb-3 sm:mb-4 relative">
-              <FaSearch className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-gray-400 text-base sm:text-xl" />
+            <div className="mb-3 sm:mb-4 relative" ref={searchRef}>
+              <FaSearch className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-gray-400 text-base sm:text-xl z-10" />
               <input 
                 type="text" 
                 value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
+                onChange={(e) => {
+                  setSearchKeyword(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
                 placeholder={viTexts.hero.searchPlaceholder}
-                className="w-full pl-10 sm:pl-14 pr-3 sm:pr-6 py-2.5 sm:py-4 text-sm sm:text-lg border-2 border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full pl-10 sm:pl-14 pr-3 sm:pr-6 py-2.5 sm:py-4 text-sm sm:text-lg border-2 border-gray-200 rounded-lg sm:rounded-xl focus:outline-none transition-all"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     handleSearch();
+                    setShowSuggestions(false);
                   }
                 }}
               />
+              
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setSearchKeyword(suggestion);
+                        setShowSuggestions(false);
+                        const params = new URLSearchParams();
+                        params.append('keyword', suggestion);
+                        navigate(`/search?${params.toString()}`);
+                      }}
+                      className="w-full text-left px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                    >
+                      <FaSearch className="text-gray-400 text-sm flex-shrink-0" />
+                      <span className="text-gray-700 text-sm line-clamp-1">{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Date and Guest Selection Row */}

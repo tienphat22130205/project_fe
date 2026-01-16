@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'react-toastify/dist/ReactToastify.css';
 import ScrollToTop from './components/ScrollToTop';
 import RootLayout from './app/(main)/[lang]/layout';
@@ -29,7 +30,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
       <ScrollToTop />
       <Routes location={location}>
         <Route element={<RootLayout />}>
@@ -87,7 +88,7 @@ function App() {
         draggable
         pauseOnHover
         theme="light" aria-label={undefined}      />
-    </>
+    </GoogleOAuthProvider>
   );
 }
 
